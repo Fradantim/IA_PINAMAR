@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
 
 @Entity
 //@DiscriminatorValue("empleado")
@@ -18,11 +19,22 @@ public class Empleado extends Persona {
 	@Column
 	private Date fechaAlta;
 	
+	@ManyToOne
+	private TipoEmpleado tipoEmpleado;
 	
-	public Empleado() {	}
+	@Column
+	private Float sueldoBasicoCostoHora;	
 
-	public Empleado(Date fechaAlta) {
+	public Empleado() {	}
+	
+	public Empleado(TipoEmpleado tipoEmpleado, Float sueldoBasicoCostoHora) {
+		this(new Date(), tipoEmpleado, sueldoBasicoCostoHora);
+	}
+	
+	public Empleado(Date fechaAlta, TipoEmpleado tipoEmpleado, Float sueldoBasicoCostoHora) {
 		this.fechaAlta = fechaAlta;
+		this.tipoEmpleado = tipoEmpleado;
+		this.sueldoBasicoCostoHora=sueldoBasicoCostoHora;
 	}
 
 	public Integer getLegajo() {
@@ -39,5 +51,13 @@ public class Empleado extends Persona {
 
 	public void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta = fechaAlta;
+	}
+	
+	public Float getSueldoBasicoCostoHora() {
+		return sueldoBasicoCostoHora;
+	}
+
+	public void setSueldoBasicoCostoHora(Float sueldoBasicoCostoHora) {
+		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
 	}
 }
