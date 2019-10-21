@@ -26,7 +26,9 @@ public class PersonaControllerImpl implements PersonaController{
 	private static final List<PersonaDTO> personas = Arrays.asList(
 			new PersonaDTO(1, "Franco"),
 			new PersonaDTO(2, "Juan"),
-			new PersonaDTO(3, "Ezequiel"));
+			new PersonaDTO(3, "Ezequiel"),
+			new PersonaDTO(4, "Licha"),
+			new PersonaDTO(5, "Ale"));
 	
 	@Autowired
 	private PersonaService personaService;
