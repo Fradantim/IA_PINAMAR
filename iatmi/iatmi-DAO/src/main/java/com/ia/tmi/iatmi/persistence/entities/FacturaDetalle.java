@@ -13,7 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity(name ="Items_Factura")
-public class DetalleFactura {
+public class FacturaDetalle {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -63,7 +63,7 @@ public class DetalleFactura {
 		this.montoParcial = montoParcial;
 	}
 
-	public DetalleFactura() {
+	public FacturaDetalle() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
