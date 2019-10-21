@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
-import com.ia.tmi.iatmi.persistence.repository.Persona;
+import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
 
 @Service

@@ -1,4 +1,4 @@
-package com.ia.tmi.iatmi.persistence.repository;
+package com.ia.tmi.iatmi.persistence.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
