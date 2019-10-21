@@ -10,13 +10,17 @@ import org.springframework.stereotype.Service;
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
+import com.ia.tmi.iatmi.persistence.entities.Socio;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
 
 @Service
 public class PersonaControllerImpl implements PersonaController{
 	
-	public Persona transform(PersonaDTO persona) {
-		return new Persona(persona.getId(),persona.getNombre());
+	public Socio transform(PersonaDTO persona) {
+		Socio socio = new Socio();
+		socio.setId(persona.getId());
+		socio.setNombre(persona.getNombre());
+		return socio;
 	}
 	
 	public PersonaDTO transform(Persona persona) {
