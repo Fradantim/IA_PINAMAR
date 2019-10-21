@@ -8,7 +8,7 @@ import javax.persistence.Id;
 public class Persona {
 	
 	@Id
-	private Integer id;
+	private Integer id; 
 	
 	@Column
 	private String nombre;
