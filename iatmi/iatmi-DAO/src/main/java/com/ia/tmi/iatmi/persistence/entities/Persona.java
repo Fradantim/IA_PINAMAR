@@ -43,10 +43,18 @@ public abstract class Persona {
 
 	public Persona() { }
 	
-	public Persona(Integer id, String nombre) {
-		this.id = id;
+	
+	public Persona(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento) {
+		super();
 		this.nombre = nombre;
+		this.apellido = apellido;
+		this.dni = dni;
+		this.email = email;
+		this.sexo = sexo;
+		this.fechaNacimiento = fechaNacimiento;
+		this.fechaAlta = new Date();
 	}
+
 
 	public Integer getId() {
 		return id;
