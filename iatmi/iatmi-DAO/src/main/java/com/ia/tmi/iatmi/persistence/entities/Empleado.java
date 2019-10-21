@@ -16,9 +16,6 @@ public class Empleado extends Persona {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer legajo;
 	
-	@Column
-	private Date fechaAlta;
-	
 	@ManyToOne
 	private TipoEmpleado tipoEmpleado;
 	
@@ -27,14 +24,12 @@ public class Empleado extends Persona {
 
 	public Empleado() {	}
 	
-	public Empleado(TipoEmpleado tipoEmpleado, Float sueldoBasicoCostoHora) {
-		this(new Date(), tipoEmpleado, sueldoBasicoCostoHora);
-	}
-	
-	public Empleado(Date fechaAlta, TipoEmpleado tipoEmpleado, Float sueldoBasicoCostoHora) {
-		this.fechaAlta = fechaAlta;
+	public Empleado(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento,
+			Integer legajo, TipoEmpleado tipoEmpleado, Float sueldoBasicoCostoHora) {
+		super(nombre, apellido, dni, email, sexo, fechaNacimiento);
+		this.legajo = legajo;
 		this.tipoEmpleado = tipoEmpleado;
-		this.sueldoBasicoCostoHora=sueldoBasicoCostoHora;
+		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
 	}
 
 	public Integer getLegajo() {
@@ -43,14 +38,6 @@ public class Empleado extends Persona {
 
 	public void setLegajo(Integer legajo) {
 		this.legajo = legajo;
-	}
-
-	public Date getFechaAlta() {
-		return fechaAlta;
-	}
-
-	public void setFechaAlta(Date fechaAlta) {
-		this.fechaAlta = fechaAlta;
 	}
 	
 	public Float getSueldoBasicoCostoHora() {

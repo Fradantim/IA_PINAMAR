@@ -14,15 +14,22 @@ public class Socio extends Persona {
 	@Column
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int nroSocio;
-	
-	@Column
-	private Date fechaAltaSocio;
-	
+		
 	@Column
 	private Date habilitadoDesde;
 	
 	@Column
 	private Date habilitadoHasta;
+	
+	public Socio() {}
+	
+	public Socio(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento,
+			int nroSocio, Date habilitadoDesde, Date habilitadoHasta) {
+		super(nombre, apellido, dni, email, sexo, fechaNacimiento);
+		this.nroSocio = nroSocio;
+		this.habilitadoDesde = habilitadoDesde;
+		this.habilitadoHasta = habilitadoHasta;
+	}
 
 	public int getNroSocio() {
 		return nroSocio;
@@ -30,14 +37,6 @@ public class Socio extends Persona {
 
 	public void setNroSocio(int nroSocio) {
 		this.nroSocio = nroSocio;
-	}
-
-	public Date getFechaAltaSocio() {
-		return fechaAltaSocio;
-	}
-
-	public void setFechaAltaSocio(Date fechaAltaSocio) {
-		this.fechaAltaSocio = fechaAltaSocio;
 	}
 
 	public Date getHabilitadoDesde() {
@@ -55,6 +54,7 @@ public class Socio extends Persona {
 	public void setHabilitadoHasta(Date habilitadoHasta) {
 		this.habilitadoHasta = habilitadoHasta;
 	}
+	
 	
 	
 }
