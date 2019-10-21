@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
@@ -13,7 +13,7 @@ import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.entities.Socio;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
 
-@Service
+@Controller
 public class PersonaControllerImpl implements PersonaController{
 	
 	public Socio transform(PersonaDTO persona) {
