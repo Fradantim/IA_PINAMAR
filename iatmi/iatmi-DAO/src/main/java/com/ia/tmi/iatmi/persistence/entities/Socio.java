@@ -8,16 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 @Entity
-//@DiscriminatorValue("socio")
+// @DiscriminatorValue("socio")
 public class Socio extends Persona {
 
 	@Column
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int nroSocio;
-		
+	
 	@Column
 	private Date habilitadoDesde;
-	
+
 	@Column
 	private Date habilitadoHasta;
 	
@@ -54,7 +54,12 @@ public class Socio extends Persona {
 	public void setHabilitadoHasta(Date habilitadoHasta) {
 		this.habilitadoHasta = habilitadoHasta;
 	}
-	
-	
-	
+
+	public Socio(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento,
+			Date habilitadoDesde, Date habilitadoHasta) {
+		super(nombre, apellido, dni, email, sexo, fechaNacimiento);
+		this.habilitadoDesde = habilitadoDesde;
+		this.habilitadoHasta = habilitadoHasta;
+	}
+
 }

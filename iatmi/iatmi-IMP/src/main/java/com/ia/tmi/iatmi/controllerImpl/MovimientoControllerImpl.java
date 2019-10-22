@@ -38,7 +38,7 @@ public class MovimientoControllerImpl implements MovimientoController{
 
 	@Override
 	public List<MovimientoDTO> findBySocio(Integer idSocio) {
-		Socio socio = socService.findById(idSocio).get();
+		Socio socio = socService.findByID(idSocio);
 		return movTransformer.transform(movService.findBySocio(socio));
 	}
 
