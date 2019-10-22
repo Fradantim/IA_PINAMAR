@@ -1,17 +1,10 @@
 package com.ia.tmi.iatmi;
 
-import java.time.ZoneId;
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.ia.tmi.iatmi.persistence.entities.Empleado;
-import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
-import com.ia.tmi.iatmi.persistence.entities.TipoEmpleado;
-import com.ia.tmi.iatmi.persistence.service.EmpleadoService;
 import com.ia.tmi.iatmi.persistence.service.SocioService;
 
 
@@ -20,10 +13,6 @@ public class ConsoleApplication implements CommandLineRunner{
 
 	@Autowired
 	private SocioService socioService;
-	
-	@Autowired
-	private EmpleadoService empleadoService;
-	
 	
 	@Override
 	public void run(String... args) throws Exception {

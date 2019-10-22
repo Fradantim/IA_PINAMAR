@@ -21,7 +21,7 @@ public class Clase {
 	private String nombre;
 	
 	@ManyToMany
-	private Set<Empleado> profesores;
+	private Set<Persona> profesores;
 
 	public Clase(String nombre) {
 		this.nombre = nombre;
@@ -29,12 +29,12 @@ public class Clase {
 	
 	public Clase() { }
 	
-	public void addProfesor(Empleado profesor) {
-		if(profesores == null) profesores = new HashSet<Empleado>();
+	public void addProfesor(Persona profesor) {
+		if(profesores == null) profesores = new HashSet<Persona>();
 		profesores.add(profesor);
 	}
 	
-	public void removeProfesor(Empleado profesor) {
+	public void removeProfesor(Persona profesor) {
 		if(profesores != null)
 			profesores.remove(profesor);
 	}
@@ -55,11 +55,11 @@ public class Clase {
 		this.nombre = nombre;
 	}
 
-	public Set<Empleado> getProfesores() {
+	public Set<Persona> getProfesores() {
 		return profesores;
 	}
 
-	public void setProfesores(Set<Empleado> profesores) {
+	public void setProfesores(Set<Persona> profesores) {
 		this.profesores = profesores;
 	}
 }

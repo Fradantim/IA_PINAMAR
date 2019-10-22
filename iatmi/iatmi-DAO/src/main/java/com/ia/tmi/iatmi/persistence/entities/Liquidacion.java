@@ -32,9 +32,9 @@ public class Liquidacion {
 	private Float montoNeto;
 	
 	@ManyToOne
-	private Empleado empleado;
+	private Persona empleado;
 	
-	public Liquidacion(Empleado empleado) {
+	public Liquidacion(Persona empleado) {
 		this.empleado = empleado;
 		fecha = new Date();
 		montoNeto = 0F;

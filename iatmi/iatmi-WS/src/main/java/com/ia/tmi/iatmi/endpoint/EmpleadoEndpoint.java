@@ -18,7 +18,7 @@ public class EmpleadoEndpoint {
 
 private static final String PATH="/api/empleados";
 	
-	@Autowired
+	//@Autowired
 	private EmpleadoController empleadoController;
 	
 	@GetMapping(PATH+"All")
