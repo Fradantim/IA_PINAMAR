@@ -9,9 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Pase {
-
-	
+public class Pase {	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
@@ -21,17 +19,17 @@ public class Pase {
 	private TipoPase tipoPase;
 	
 	@Column(nullable = false, scale = 2)
-	private float precio;
+	private Float precio;
 	
 	@Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
 	private Estado estado;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -43,11 +41,11 @@ public class Pase {
 		this.tipoPase = tipoPase;
 	}
 
-	public float getPrecio() {
+	public Float getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(float precio) {
+	public void setPrecio(Float precio) {
 		this.precio = precio;
 	}
 

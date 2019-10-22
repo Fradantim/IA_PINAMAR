@@ -1,23 +1,22 @@
 package com.ia.tmi.iatmi.advice;
 
-import java.util.NoSuchElementException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.ia.tmi.iatmi.exception.TokenInvalidoException;
 import com.ia.tmi.iatmi.wsModel.WSReturn;
 
 @ControllerAdvice
-class NoSuchElementAdvice {
+class TokenInvalidoAdvice {
 
   @SuppressWarnings("rawtypes")
   @ResponseBody
-  @ExceptionHandler(NoSuchElementException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-	public WSReturn employeeNotFoundHandler(NoSuchElementException ex) {
+  @ExceptionHandler(TokenInvalidoException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public WSReturn employeeNotFoundHandler(TokenInvalidoException ex) {
     return WSReturn.ERROR(ex.getMessage());
   }
 }

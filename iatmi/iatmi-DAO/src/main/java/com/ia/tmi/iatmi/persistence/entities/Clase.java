@@ -23,9 +23,8 @@ public class Clase {
 	@ManyToMany
 	private Set<Empleado> profesores;
 
-	public Clase(String nombre, Set<Empleado> profesores) {
+	public Clase(String nombre) {
 		this.nombre = nombre;
-		this.profesores = profesores;
 	}
 	
 	public Clase() { }
@@ -38,5 +37,29 @@ public class Clase {
 	public void removeProfesor(Empleado profesor) {
 		if(profesores != null)
 			profesores.remove(profesor);
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Set<Empleado> getProfesores() {
+		return profesores;
+	}
+
+	public void setProfesores(Set<Empleado> profesores) {
+		this.profesores = profesores;
 	}
 }

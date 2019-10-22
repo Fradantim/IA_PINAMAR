@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ia.tmi.iatmi.controller.MovimientoController;
+import com.ia.tmi.iatmi.dto.MedioDePagoDTO;
 import com.ia.tmi.iatmi.dto.MovimientoDTO;
 
 @RestController
@@ -33,9 +35,9 @@ public class MovimientoEndpoint{
 	
 	@PostMapping(PATH)
 	public void pagar(
-			@RequestParam(required = true) Integer idFactura,
-			@RequestParam(required = true) Integer idMedioDePago
+			@RequestBody(required = true) MovimientoDTO factura,
+			@RequestBody(required = true) MedioDePagoDTO medioDePago
 			){
-		movimientoController.pagarFactura(idFactura,idMedioDePago);
+		movimientoController.pagarFactura(factura.getId(),medioDePago.getId());
 	}
 }
