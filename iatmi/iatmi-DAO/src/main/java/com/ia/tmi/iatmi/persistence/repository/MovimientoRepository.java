@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.ia.tmi.iatmi.persistence.entities.Movimiento;
-import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
+import com.ia.tmi.iatmi.persistence.entities.Persona;
 
 @Repository
 public interface MovimientoRepository extends JpaRepository<Movimiento, Integer> {
 	
-	public List<Movimiento> findBySocio (Habilitacion socio);
+	public List<Movimiento> findByPersona (Persona socio);
 }

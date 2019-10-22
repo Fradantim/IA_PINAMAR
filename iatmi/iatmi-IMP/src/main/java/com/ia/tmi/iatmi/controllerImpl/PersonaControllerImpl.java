@@ -7,49 +7,19 @@ import org.springframework.stereotype.Controller;
 
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
-import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
+import com.ia.tmi.iatmi.transformers.PersonaTransformer;
 
 @Controller
 public class PersonaControllerImpl implements PersonaController{
 	
-	public Habilitacion transform(PersonaDTO persona) {
-//		Socio socio = new Socio();
-//		socio.setId(persona.getId());
-//		socio.setNombre(persona.getNombre());
-		return null;
-	}
-	
-//	public PersonaDTO transform(Persona persona) {
-//		return new PersonaDTO(persona.getId(),persona.getNombre());
-//	}
-	
-//	private static final List<PersonaDTO> personas = Arrays.asList(
-//			new PersonaDTO(1, "Franco"),
-//			new PersonaDTO(2, "Juan"),
-//			new PersonaDTO(3, "Ezequiel"),
-//			new PersonaDTO(4, "Licha"),
-//			new PersonaDTO(5, "Ale"));
-//	
-//	@Autowired
+	@Autowired
 	private PersonaService personaService;
 	
+	@Autowired
+	private PersonaTransformer personaTransformer;
 	
 	public List<PersonaDTO> findAll(){
-//		List<Persona> personasEncontradas = personaService.findAll();
-//		if(personasEncontradas.size()==0) {
-//			for(PersonaDTO persona : personas) {
-//				personaService.save(transform(persona));
-//			}
-//			personasEncontradas = personaService.findAll();
-//		}
-//		
-//		List<PersonaDTO> personas = new ArrayList<PersonaDTO>();
-//		
-//		for(Persona persona : personasEncontradas) {
-//			personas.add(transform(persona));
-//		}
-		
-		return null;
+		return personaTransformer.transform(personaService.findAll());
 	}
 }

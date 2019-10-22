@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ia.tmi.iatmi.controller.MedioDePagoController;
@@ -21,9 +20,8 @@ public class MedioDePagoEndpoint extends Endpoint{
 	
 	@GetMapping(PATH)
 	public WSReturn<List<MedioDePagoDTO>> getAll(
-			@RequestHeader(required = false) String token
 			){
-		evaluarToken(token);
+		//evaluarToken(token);
 		return new WSReturn<List<MedioDePagoDTO>>("Busqueda exitosa", mdpController.findAll());
 	}
 }

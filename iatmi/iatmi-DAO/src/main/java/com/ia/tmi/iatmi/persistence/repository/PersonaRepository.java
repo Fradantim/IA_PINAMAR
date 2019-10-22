@@ -1,11 +1,11 @@
 package com.ia.tmi.iatmi.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.stereotype.Repository;
 
 import com.ia.tmi.iatmi.persistence.entities.Persona;
 
-@NoRepositoryBean
-public interface PersonaRepository<T extends Persona> extends JpaRepository<T, Integer> {
+@Repository
+public interface PersonaRepository extends JpaRepository<Persona, Integer> {
 
 }

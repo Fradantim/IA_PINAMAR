@@ -9,7 +9,7 @@ import javax.persistence.Id;
 @Entity
 public class RolPersona {
 	
-	//TODO HACER CARGA DE ROLES
+	//TODO BORRAR ENTIDAD, HORA ESTA EN ENUM
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

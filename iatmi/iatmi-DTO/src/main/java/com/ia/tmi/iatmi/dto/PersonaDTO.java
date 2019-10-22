@@ -3,7 +3,7 @@ package com.ia.tmi.iatmi.dto;
 import java.util.Date;
 
 
-public abstract class PersonaDTO {
+public class PersonaDTO {
 
 	private Integer id; 
 	

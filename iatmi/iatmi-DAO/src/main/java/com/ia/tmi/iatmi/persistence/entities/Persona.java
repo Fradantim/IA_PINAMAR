@@ -1,15 +1,24 @@
 package com.ia.tmi.iatmi.persistence.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Persona {
+	
+	public enum RolPersona { SOCIO, EMPLEADO; }
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -38,7 +47,16 @@ public class Persona {
 	
 	@Column
 	private Float sueldoBasicoCostoHora;
+	
+	@ManyToOne
+	private Habilitacion habilitacion;
 
+	@ElementCollection(targetClass=RolPersona.class)
+	@Enumerated(EnumType.STRING)
+	@CollectionTable(name="PERSONA_ROL")
+	@Column
+	private Set<RolPersona> roles;
+	
 	public Persona() { }
 	
 	public Persona(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento) {
@@ -56,6 +74,22 @@ public class Persona {
 		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
 	}
 
+	public void addRol(RolPersona rol) {
+		if(roles==null) roles = new HashSet<Persona.RolPersona>();
+		roles.add(rol);
+	}
+	
+	public void removeRol(RolPersona rol) {
+		if(roles!=null) 
+			roles.remove(rol);
+	}
+	
+	public Boolean hasRol(RolPersona rol) {
+		if(roles!=null) 
+			roles.contains(rol);
+		return false;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -126,5 +160,21 @@ public class Persona {
 
 	public void setSueldoBasicoCostoHora(Float sueldoBasicoCostoHora) {
 		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
+	}
+
+	public Habilitacion getHabilitacion() {
+		return habilitacion;
+	}
+
+	public void setHabilitacion(Habilitacion habilitacion) {
+		this.habilitacion = habilitacion;
+	}
+
+	public Set<RolPersona> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<RolPersona> roles) {
+		this.roles = roles;
 	}
 }

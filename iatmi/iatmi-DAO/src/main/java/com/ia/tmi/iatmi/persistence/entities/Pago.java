@@ -16,7 +16,7 @@ public class Pago extends Movimiento{
 	private MedioDePago medioDePago;
 	
 	public Pago(Factura factura, MedioDePago medioDePago) {
-		super(factura.getSocio(), -factura.getMontoTotal());
+		super(factura.getPersona(), -factura.getMontoTotal());
 		this.factura=factura;
 		this.medioDePago = medioDePago;
 	}

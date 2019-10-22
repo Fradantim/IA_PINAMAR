@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Fichero {
@@ -23,14 +24,24 @@ public class Fichero {
 	@Column
 	private Date fechaEgreso;
 	
-	@Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
-	private Estado estado;
+	@ManyToOne
+	@Enumerated(EnumType.STRING)
+	private RolPersona rol;
 	
-	public Fichero() {
-		super();
-		// TODO Auto-generated constructor stub
+	@Column
+	private Boolean activo;
+	
+	@ManyToOne
+	private Persona persona;
+	
+	public Fichero(Persona persona, RolPersona rol) {
+		this.persona=persona;
+		this.fechaIngreso=new Date();
+		this.rol=rol;
+		this.activo=true;
 	}
+	
+	public Fichero() { }
 
 	public int getId() {
 		return id;
@@ -55,14 +66,9 @@ public class Fichero {
 	public void setFechaEgreso(Date fechaEgreso) {
 		this.fechaEgreso = fechaEgreso;
 	}
-
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
 	
-	
+	public Integer getCantidadDeHoras() {
+		//TODO HACER calculo fechaHasta-fechaDesde
+		return 0;
+	}
 }

@@ -13,20 +13,20 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
   
-  		<!-- BBDD en memoria --> 
+  		<!-- BBDD en memoria  
 		<dependency> 
 			<groupId>org.hsqldb</groupId> 
 			<artifactId>hsqldb</artifactId> 
 			<scope>runtime</scope> 
 		</dependency> 
-
-		<!-- driver cliente sql server 
+		-->
+		<!-- driver cliente sql server --> 
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		-->
+		
   
   </dependencies>
   

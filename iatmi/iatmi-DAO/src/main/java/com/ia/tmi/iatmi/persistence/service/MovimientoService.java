@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ia.tmi.iatmi.persistence.entities.Factura;
 import com.ia.tmi.iatmi.persistence.entities.Movimiento;
-import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
+import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.repository.FacturaRepository;
 import com.ia.tmi.iatmi.persistence.repository.MovimientoRepository;
 
@@ -24,8 +24,8 @@ public class MovimientoService {
 		return movimientoRepo.findAll();
 	}
 	
-	public List<Movimiento> findBySocio(Habilitacion socio){
-		return movimientoRepo.findBySocio(socio);
+	public List<Movimiento> findByPersona(Persona socio){
+		return movimientoRepo.findByPersona(socio);
 	}
 	
 	public Movimiento save(Movimiento movimiento) {

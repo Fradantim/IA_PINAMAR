@@ -10,9 +10,10 @@ import com.ia.tmi.iatmi.dto.MovimientoDTO;
 import com.ia.tmi.iatmi.persistence.entities.Factura;
 import com.ia.tmi.iatmi.persistence.entities.MedioDePago;
 import com.ia.tmi.iatmi.persistence.entities.Pago;
+import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.MovimientoService;
-import com.ia.tmi.iatmi.persistence.service.SocioService;
+import com.ia.tmi.iatmi.persistence.service.PersonaService;
 import com.ia.tmi.iatmi.transformers.MovimientoTransformer;
 
 @Controller
@@ -25,7 +26,7 @@ public class MovimientoControllerImpl implements MovimientoController{
 	private MedioDePagoService mdpService;
 	
 	@Autowired
-	private SocioService socService;
+	private PersonaService personaService;
 	
 	@Autowired
 	private MovimientoTransformer movTransformer;
@@ -37,10 +38,8 @@ public class MovimientoControllerImpl implements MovimientoController{
 
 	@Override
 	public List<MovimientoDTO> findBySocio(Integer idSocio) {
-		//TODO CORREGIR
-		//Habilitacion socio = socService.findByID(idSocio);
-		//return movTransformer.transform(movService.findBySocio(socio));
-		return null;
+		Persona persona = personaService.findById(idSocio).get();
+		return movTransformer.transform(movService.findByPersona(persona));
 	}
 
 	@Override
