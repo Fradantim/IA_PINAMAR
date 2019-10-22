@@ -21,4 +21,8 @@ public class EmpleadoService {
 	public Empleado save(Empleado empleado) {
 		return empleadoRepo.save(empleado);
 	}
+	
+	public Empleado findByID(Integer legajo) {
+		return empleadoRepo.getOne(legajo);
+	}
 }
