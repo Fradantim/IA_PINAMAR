@@ -1,5 +1,0 @@
-Débito
-Tarjeta de Crédito
-Tarjeta de Débito
-Transferencia Bancaria
-Mercado Pago

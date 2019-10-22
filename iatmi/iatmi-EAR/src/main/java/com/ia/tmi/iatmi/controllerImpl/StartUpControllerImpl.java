@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import com.ia.tmi.iatmi.persistence.entities.Clase;
@@ -50,7 +50,12 @@ public class StartUpControllerImpl implements InitializingBean {
 		cargarRolesMemoria(++i);
 	}
 	
-	private void cargarMediosDePago(Integer orden) {
+	
+	private BufferedReader getReader(String file) throws FileNotFoundException {
+		return new BufferedReader(new FileReader("/iatmi/data/"+file));
+	}
+	
+	private void cargarMediosDePago(Integer orden) throws FileNotFoundException, IOException{
 		logger.info(orden+"> Buscando medios de pago guardados.");
 		if(!mdpService.findAll().isEmpty()) {
 			logger.info("< Medios de pago ya estan guardados.");
@@ -59,26 +64,21 @@ public class StartUpControllerImpl implements InitializingBean {
 		
 		logger.info("No hay medios de pago, los creo y guardo.");
 		
-		BufferedReader reader;
-		
-		try {
-			reader = new BufferedReader(new FileReader(new ClassPathResource("data/MEDIOS_DE_PAGO.TXT").getFile()));
-			String line = reader.readLine();
-			while (line != null) {
-				MedioDePago mdp = new MedioDePago(line);
-				mdpService.save(mdp);
-				line = reader.readLine();
-			}
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
+				
+		BufferedReader reader = getReader("MEDIOS_DE_PAGO.TXT");
+
+		String line = reader.readLine();
+		while (line != null) {
+			MedioDePago mdp = new MedioDePago(line);
+			mdpService.save(mdp);
+			line = reader.readLine();
+		}
+		reader.close();
+			
 		logger.info("< Fin carga Medios de Pago. "+mdpService.findAll().size()+" elementos cargados.");
 	}
 	
-	private void cargarClases(Integer orden) {
+	private void cargarClases(Integer orden) throws FileNotFoundException, IOException{
 		logger.info(orden+"> Buscando clases guardadas.");
 		if(!claseService.findAll().isEmpty()) {
 			logger.info("< Clases ya estan guardadas.");
@@ -87,27 +87,20 @@ public class StartUpControllerImpl implements InitializingBean {
 		
 		logger.info("No hay clases, las creo y guardo.");
 		
-		BufferedReader reader;
+		BufferedReader reader = getReader("CLASES.TXT");
 		
-		try {
-			reader = new BufferedReader(new FileReader(new ClassPathResource("data/CLASES.TXT").getFile()));
-			String line = reader.readLine();
-			while (line != null) {
-				Clase clase = new Clase(line);
-				claseService.save(clase);
-				line = reader.readLine();
-			}
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
+		String line = reader.readLine();
+		while (line != null) {
+			Clase clase = new Clase(line);
+			claseService.save(clase);
+			line = reader.readLine();
+		}
+		reader.close();
 		logger.info("< Fin carga Clases. "+claseService.findAll().size()+" elementos cargados.");
 	}
 	
 	@SuppressWarnings("deprecation")
-	private void cargarPases(Integer orden) {
+	private void cargarPases(Integer orden) throws FileNotFoundException, IOException{
 		logger.info(orden+"> Buscando pases guardados.");
 		if(!paseService.findAll().isEmpty()) {
 			logger.info("< pases ya estan guardados.");
@@ -116,30 +109,24 @@ public class StartUpControllerImpl implements InitializingBean {
 		
 		logger.info("No hay pases, los creo y guardo.");
 		
-		BufferedReader reader;
+		BufferedReader reader = getReader("PASES.TXT");
 		
-		try {
-			reader = new BufferedReader(new FileReader(new ClassPathResource("data/PASES.TXT").getFile()));
-			String line = reader.readLine();
-			while (line != null) {
-				String[] campos = line.split(",");
-				Integer cantDias = new Integer(campos [1]);
-				String nombre = campos[0];
-				Float precio = new Float(campos[2]);
-				Pase pase = new Pase(cantDias, nombre, precio);
-				paseService.save(pase);
-				line = reader.readLine();
-			}
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
+		String line = reader.readLine();
+		while (line != null) {
+			String[] campos = line.split(",");
+			Integer cantDias = new Integer(campos [1]);
+			String nombre = campos[0];
+			Float precio = new Float(campos[2]);
+			Pase pase = new Pase(cantDias, nombre, precio);
+			paseService.save(pase);
+			line = reader.readLine();
+		}
+		reader.close();
+			
 		logger.info("< Fin carga pases. "+paseService.findAll().size()+" elementos cargados.");
 	}
 	
-	private void cargarRoles(Integer orden) {
+	private void cargarRoles(Integer orden) throws FileNotFoundException, IOException {
 		logger.info(orden+"> Buscando roles guardados.");
 		if(!rolService.findAll().isEmpty()) {
 			logger.info("< roles pases ya estan guardados.");
@@ -148,22 +135,15 @@ public class StartUpControllerImpl implements InitializingBean {
 		
 		logger.info("No hay roles, los creo y guardo.");
 		
-		BufferedReader reader;
-		
-		try {
-			reader = new BufferedReader(new FileReader(new ClassPathResource("data/PASES.TXT").getFile()));
-			String line = reader.readLine();
-			while (line != null) {
-				RolPersona rol = new RolPersona(line);
-				rolService.save(rol);
-				line = reader.readLine();
-			}
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
+		BufferedReader reader = getReader("ROLES.TXT");
+		String line = reader.readLine();
+		while (line != null) {
+			RolPersona rol = new RolPersona(line);
+			rolService.save(rol);
+			line = reader.readLine();
+		}
+		reader.close();
+			
 		logger.info("< Fin carga roles. "+rolService.findAll().size()+" elementos cargados.");
 	}
 	

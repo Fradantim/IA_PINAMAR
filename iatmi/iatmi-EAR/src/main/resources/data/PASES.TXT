@@ -1,8 +1,0 @@
-Diario,1,100
-Semanal,7,500
-Quincenal,14,800
-Mensual,30,1300
-Bimestral,60,2300
-Trimestral,90,3000
-Semestral,180,5000
-Anual,365,8000

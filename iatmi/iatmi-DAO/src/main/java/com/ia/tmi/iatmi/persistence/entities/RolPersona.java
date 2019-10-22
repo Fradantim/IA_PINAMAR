@@ -20,7 +20,9 @@ public class RolPersona {
 	
 	public RolPersona() { }
 	
-	public RolPersona(String nombre) {	}
+	public RolPersona(String nombre) {
+		this.nombre=nombre;
+	}
 
 	public Integer getId() {
 		return id;

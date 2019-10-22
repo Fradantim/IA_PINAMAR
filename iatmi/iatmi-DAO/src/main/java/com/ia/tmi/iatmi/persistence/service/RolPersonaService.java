@@ -34,7 +34,7 @@ public class RolPersonaService {
 					return rol;
 				}
 			}
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No se encontro un rol con nombre "+key);
 		}
 	}
 	
