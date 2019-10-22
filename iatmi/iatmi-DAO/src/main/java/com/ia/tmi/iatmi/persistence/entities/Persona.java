@@ -222,7 +222,7 @@ public class Persona {
 			if (!getTipoEmpleado().getEsMensual() && getTipoEmpleado().getEsProfresor()) {
 				for (Fichero fichero : fichadas) {
 					if (fichero.getActivo()) {
-						if (DateAndCalendarUtil.mesDelAño(fichero.getFechaIngreso()) == mes) {
+						if (DateAndCalendarUtil.mesDelAnio(fichero.getFechaIngreso()) == mes) {
 							horas = DateAndCalendarUtil.restarHoras(fichero.getFechaIngreso(),
 									fichero.getFechaEgreso());
 						}
