@@ -12,6 +12,6 @@ public interface PersonaController {
 	
 	public PersonaDTO altaEmpleado(PersonaDTO persona, Float sueldoBasicoCostoHora, Integer idTipoEmpleado);
 	
-	public FacturaDTO asignarPase(PersonaDTO persona, Integer idPase);
+	public FacturaDTO asignarPase(Integer idPersona, Integer idPase);
 	
 }

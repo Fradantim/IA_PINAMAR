@@ -80,9 +80,9 @@ public class PersonaControllerImpl implements PersonaController{
 	}
 
 	@Override
-	public FacturaDTO asignarPase(PersonaDTO persona, Integer idPase) {
+	public FacturaDTO asignarPase(Integer idPersona, Integer idPase) {
 		//TODO RETORNAR FACTURA DTO CON DETALLES
-		Persona socio = personaService.findById(persona.getId()).get();
+		Persona socio = personaService.findById(idPersona).get();
 		Habilitacion hab =socio.getHabilitacion();
 		
 		if(hab != null && hab.getHabilitadoHasta().after(new Date())) {
