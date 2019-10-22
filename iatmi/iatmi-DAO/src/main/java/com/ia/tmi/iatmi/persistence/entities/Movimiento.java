@@ -25,6 +25,9 @@ public abstract class Movimiento {
 	
 	@Column
 	private Date fecha;
+	
+	@Column(name = "TIPO", insertable = false, updatable = false)
+	private String tipo;
 
 	@Column(precision=2)
 	protected Float montoTotal;
@@ -75,5 +78,9 @@ public abstract class Movimiento {
 
 	public void setSocio(Socio socio) {
 		this.socio = socio;
-	}	
+	}
+	
+	public String getTipo() {
+		return tipo;
+	}
 }

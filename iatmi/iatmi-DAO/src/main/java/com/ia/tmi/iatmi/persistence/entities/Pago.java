@@ -2,6 +2,7 @@ package com.ia.tmi.iatmi.persistence.entities;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -11,9 +12,12 @@ public class Pago extends Movimiento{
 	@OneToOne
 	private Factura factura;
 	
-	public Pago(Socio socio, Factura factura) {
-		super(socio, -factura.getMontoTotal());
-		this.factura=factura;
-	}
+	@ManyToOne
+	private MedioDePago medioDePago;
 	
+	public Pago(Factura factura, MedioDePago medioDePago) {
+		super(factura.getSocio(), -factura.getMontoTotal());
+		this.factura=factura;
+		this.medioDePago = medioDePago;
+	}
 }
