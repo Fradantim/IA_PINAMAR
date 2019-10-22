@@ -14,8 +14,7 @@ public class RolPersonaService {
 	
 	public enum RolPersonaEnum{
 		SOCIO("SOCIO"),
-		EMPLEADO_ADMINISTRATIVO("EMPLEADO_ADMINISTRATIVO"),
-		EMPREADO_PROFESOR("EMPLEADO_PROFESOR");
+		EMPLEADO("EMPLEADO");
 				
 		private RolPersonaEnum(String key) {
 			this.key= key;
