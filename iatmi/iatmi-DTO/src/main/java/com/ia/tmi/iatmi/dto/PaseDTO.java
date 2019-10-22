@@ -4,17 +4,14 @@ public class PaseDTO {
 	
 	private Integer id;
 	
-	private String tipoPase;
+	private String nombre;
 	
 	private Float precio;
 	
-	private String estado;
-
-	public PaseDTO(Integer id, String tipoPase, Float precio, String estado) {
+	public PaseDTO(Integer id, Float precio, String nombre) {
 		this.id = id;
-		this.tipoPase = tipoPase;
 		this.precio = precio;
-		this.estado = estado;
+		this.nombre = nombre;
 	}
 
 	public Integer getId() {
@@ -25,14 +22,6 @@ public class PaseDTO {
 		this.id = id;
 	}
 
-	public String getTipoPase() {
-		return tipoPase;
-	}
-
-	public void setTipoPase(String tipoPase) {
-		this.tipoPase = tipoPase;
-	}
-
 	public Float getPrecio() {
 		return precio;
 	}
@@ -41,11 +30,11 @@ public class PaseDTO {
 		this.precio = precio;
 	}
 
-	public String getEstado() {
-		return estado;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 }

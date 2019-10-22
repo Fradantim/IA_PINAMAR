@@ -7,13 +7,13 @@ import org.springframework.stereotype.Controller;
 
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
-import com.ia.tmi.iatmi.persistence.entities.Socio;
+import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
 
 @Controller
 public class PersonaControllerImpl implements PersonaController{
 	
-	public Socio transform(PersonaDTO persona) {
+	public Habilitacion transform(PersonaDTO persona) {
 //		Socio socio = new Socio();
 //		socio.setId(persona.getId());
 //		socio.setNombre(persona.getNombre());

@@ -1,8 +1,11 @@
 package com.ia.tmi.iatmi.transformers;
 
+import org.springframework.stereotype.Component;
+
 import com.ia.tmi.iatmi.dto.TipoEmpleadoDTO;
 import com.ia.tmi.iatmi.persistence.entities.TipoEmpleado;
 
+@Component
 public class TipoEmpleadoTransformer {
 
 	public TipoEmpleadoDTO tranform(TipoEmpleado bo) {

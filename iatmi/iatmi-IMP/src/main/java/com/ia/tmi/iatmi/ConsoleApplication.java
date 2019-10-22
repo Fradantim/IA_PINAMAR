@@ -9,7 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.ia.tmi.iatmi.persistence.entities.Empleado;
-import com.ia.tmi.iatmi.persistence.entities.Socio;
+import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
 import com.ia.tmi.iatmi.persistence.entities.TipoEmpleado;
 import com.ia.tmi.iatmi.persistence.service.EmpleadoService;
 import com.ia.tmi.iatmi.persistence.service.SocioService;
@@ -40,9 +40,9 @@ public class ConsoleApplication implements CommandLineRunner{
     
 	
 	public void testInsertPersona() {
-		Date hasta = Date.from(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1)
+		/*Date hasta = Date.from(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1)
 				.atZone(ZoneId.systemDefault()).toInstant());
-		Socio socio = new Socio("Franco", "T", "373", "a@a.com", "m", new Date(), new Date(), hasta);
+		Habilitacion socio = new Habilitacion("Franco", "T", "373", "a@a.com", "m", new Date(), new Date(), hasta);
 
 		socioService.save(socio);
 		
@@ -52,7 +52,9 @@ public class ConsoleApplication implements CommandLineRunner{
 
 		empleadoService.save(empleado);
 		
-		System.out.println("IN");
+		
+		
+		System.out.println("IN");*/
 	}
 	
 }

@@ -5,24 +5,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ia.tmi.iatmi.persistence.entities.Socio;
-import com.ia.tmi.iatmi.persistence.repository.SocioRepository;
+import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
+//import com.ia.tmi.iatmi.persistence.repository.SocioRepository;
 
 @Service
 public class SocioService {
 	
-	@Autowired
+	
+	// TODO BORRAR CLASE
+	/*@Autowired
 	private SocioRepository socioRepo;
 	
-	public List<Socio> findAll(){
+	public List<Habilitacion> findAll(){
 		return socioRepo.findAll();
 	}
 	
-	public Socio save(Socio socio) {
+	public Habilitacion save(Habilitacion socio) {
 		return socioRepo.save(socio);
 	}
 
-	public Socio findByID(Integer nroSocio) {
+	public Habilitacion findByID(Integer nroSocio) {
 		return socioRepo.getOne(nroSocio);
-	}
+	}*/
 }

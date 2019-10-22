@@ -18,10 +18,11 @@ import com.ia.tmi.iatmi.transformers.TipoEmpleadoTransformer;
 @Controller
 public class EmpleadoControllerImpl implements EmpleadoController {
 
+	//TODO BORRAR CLASE
 	@Autowired
 	private EmpleadoService empleadoServices;
 
-	@Autowired
+	//@Autowired
 	private EmpleadoTranformer empleadoTranformer;
 	
 	@Autowired

@@ -34,17 +34,17 @@ public abstract class Movimiento {
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "nroSocio", nullable = false)
-	private Socio socio;
+	private Habilitacion socio;
 
 	public Movimiento() {}
 	
-	public Movimiento(Socio socio, Float montoTotal) {
+	public Movimiento(Habilitacion socio, Float montoTotal) {
 		this.fecha = new Date();
 		this.socio = socio;
 		this.montoTotal=montoTotal;
 	}
 	
-	public Movimiento(Socio socio) {
+	public Movimiento(Habilitacion socio) {
 		this(socio, 0F);
 	}
 	
@@ -72,11 +72,11 @@ public abstract class Movimiento {
 		this.montoTotal = montoTotal;
 	}
 
-	public Socio getSocio() {
+	public Habilitacion getSocio() {
 		return socio;
 	}
 
-	public void setSocio(Socio socio) {
+	public void setSocio(Habilitacion socio) {
 		this.socio = socio;
 	}
 	

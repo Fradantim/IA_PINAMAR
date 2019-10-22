@@ -34,7 +34,7 @@ public class FichaMedica {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "nroSocio", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Socio socio;
+	private Habilitacion socio;
 
 	public int getId() {
 		return id;
@@ -81,11 +81,11 @@ public class FichaMedica {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Socio getSocio() {
+	public Habilitacion getSocio() {
 		return socio;
 	}
 
-	public void setSocio(Socio socio) {
+	public void setSocio(Habilitacion socio) {
 		this.socio = socio;
 	}
 

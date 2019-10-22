@@ -7,13 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-//@DiscriminatorColumn(name="tipo_Persona")
-public abstract class Persona {
+public class Persona {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -40,12 +36,12 @@ public abstract class Persona {
 	@Column
 	private Date fechaAlta;
 	
+	@Column
+	private Float sueldoBasicoCostoHora;
 
 	public Persona() { }
 	
-	
 	public Persona(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento) {
-		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;
@@ -54,7 +50,11 @@ public abstract class Persona {
 		this.fechaNacimiento = fechaNacimiento;
 		this.fechaAlta = new Date();
 	}
-
+	
+	public Persona(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento, Float sueldoBasicoCostoHora) {
+		this(nombre,apellido,dni,email,sexo,fechaNacimiento);
+		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
+	}
 
 	public Integer getId() {
 		return id;
@@ -119,6 +119,12 @@ public abstract class Persona {
 	public void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta = fechaAlta;
 	}
-	
-	
+
+	public Float getSueldoBasicoCostoHora() {
+		return sueldoBasicoCostoHora;
+	}
+
+	public void setSueldoBasicoCostoHora(Float sueldoBasicoCostoHora) {
+		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
+	}
 }

@@ -12,7 +12,7 @@ import com.ia.tmi.iatmi.persistence.entities.Pase;
 public class PaseTransformer {
 	
 	public PaseDTO transform(Pase pase) {
-		return new PaseDTO(pase.getId(), pase.getTipoPase().name(), pase.getPrecio(), pase.getEstado().name());
+		return new PaseDTO(pase.getId(), pase.getPrecio(), pase.getNombre());
 	}
 	
 	public List<PaseDTO> transform(List<Pase> pases) {

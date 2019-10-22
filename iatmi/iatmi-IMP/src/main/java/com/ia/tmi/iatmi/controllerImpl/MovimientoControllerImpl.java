@@ -10,7 +10,6 @@ import com.ia.tmi.iatmi.dto.MovimientoDTO;
 import com.ia.tmi.iatmi.persistence.entities.Factura;
 import com.ia.tmi.iatmi.persistence.entities.MedioDePago;
 import com.ia.tmi.iatmi.persistence.entities.Pago;
-import com.ia.tmi.iatmi.persistence.entities.Socio;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.MovimientoService;
 import com.ia.tmi.iatmi.persistence.service.SocioService;
@@ -38,8 +37,10 @@ public class MovimientoControllerImpl implements MovimientoController{
 
 	@Override
 	public List<MovimientoDTO> findBySocio(Integer idSocio) {
-		Socio socio = socService.findByID(idSocio);
-		return movTransformer.transform(movService.findBySocio(socio));
+		//TODO CORREGIR
+		//Habilitacion socio = socService.findByID(idSocio);
+		//return movTransformer.transform(movService.findBySocio(socio));
+		return null;
 	}
 
 	@Override

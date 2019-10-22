@@ -2,28 +2,38 @@ package com.ia.tmi.iatmi.persistence.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Pase {	
+	//TODO CARGAR Tipos de Pase con duracion
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private Integer id;
 	
-	@Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
-	private TipoPase tipoPase;
+	@Column
+	private Integer cantidadDias;
+	
+	@Column
+	private String nombre;	
+	
+	@Column
+	private Boolean activo;
 	
 	@Column(nullable = false, scale = 2)
 	private Float precio;
+
+	public Pase(Integer cantidadDias, String nombre, Float precio) {
+		this.cantidadDias = cantidadDias;
+		this.nombre=nombre;
+		this.precio= precio;
+		this.activo=true;
+	}
 	
-	@Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
-	private Estado estado;
+	public Pase() {	}
 
 	public Integer getId() {
 		return id;
@@ -33,12 +43,20 @@ public class Pase {
 		this.id = id;
 	}
 
-	public TipoPase getTipoPase() {
-		return tipoPase;
+	public Integer getCantidadDias() {
+		return cantidadDias;
 	}
 
-	public void setTipoPase(TipoPase tipoPase) {
-		this.tipoPase = tipoPase;
+	public void setCantidadDias(Integer cantidadDias) {
+		this.cantidadDias = cantidadDias;
+	}
+
+	public Boolean getActivo() {
+		return activo;
+	}
+
+	public void setActivo(Boolean activo) {
+		this.activo = activo;
 	}
 
 	public Float getPrecio() {
@@ -49,17 +67,11 @@ public class Pase {
 		this.precio = precio;
 	}
 
-	public Estado getEstado() {
-		return estado;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setEstado(Estado estado) {
-		this.estado = estado;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-
-	public Pase() {
-	}
-	
-	
-	
 }

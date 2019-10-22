@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.ia.tmi.iatmi.persistence.entities.Clase;
-import com.ia.tmi.iatmi.persistence.entities.Socio;
+import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
 import com.ia.tmi.iatmi.persistence.service.ClaseService;
 import com.ia.tmi.iatmi.persistence.service.SocioService;
 
@@ -18,10 +18,10 @@ import com.ia.tmi.iatmi.persistence.service.SocioService;
 //@ContextConfiguration(classes = {SocioService.class,SocioRepository.class})
 //@ContextConfiguration(classes = {ClaseService.class})
 //@ContextConfiguration
-@SpringBootTest
+//@SpringBootTest
 public class PersonaTester {
 
-	@Autowired
+	/*@Autowired
 	private SocioService socioService;
 
 	@Autowired
@@ -31,7 +31,7 @@ public class PersonaTester {
 	public void testInsert() {
 		Date hasta = Date.from(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1)
 				.atZone(ZoneId.systemDefault()).toInstant());
-		Socio socio = new Socio("Franco", "T", "373", "a@a.com", "m", new Date(), new Date(), hasta);
+		Habilitacion socio = new Habilitacion("Franco", "T", "373", "a@a.com", "m", new Date(), new Date(), hasta);
 
 		// socioService.save(socio);
 
@@ -39,4 +39,5 @@ public class PersonaTester {
 		claseService.save(clase);
 		System.out.println("IN");
 	}
+	*/
 }

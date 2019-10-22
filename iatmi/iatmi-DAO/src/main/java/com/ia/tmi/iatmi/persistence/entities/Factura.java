@@ -20,7 +20,7 @@ public class Factura extends Movimiento{
 		montoTotal+=facturaDetalle.getMontoParcial();
 	}
 	
-	public Factura(Socio socio) {
+	public Factura(Habilitacion socio) {
 		super(socio);
 	}
 	
