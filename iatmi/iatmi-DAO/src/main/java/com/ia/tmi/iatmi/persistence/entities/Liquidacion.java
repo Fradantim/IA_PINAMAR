@@ -71,16 +71,18 @@ public class Liquidacion {
 
 		montoBruto = montoBruto + empleado.getSueldoBasicoCostoHora();
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
-			montoBruto = liquidacionDetalle.calcularRemunerativo();
-			montoNoRemunarativo = liquidacionDetalle.calcularNoRemunerativo();
-			montoDescuento = liquidacionDetalle.calcularDescuento(montoBruto);
+			montoBruto = liquidacionDetalle.getItem().calcularRemunerativo();
+			montoNoRemunarativo = liquidacionDetalle.getItem().calcularNoRemunerativo();
+			montoDescuento = liquidacionDetalle.getItem().calcularDescuento(montoBruto);
 		}
 		montoNeto = montoBruto + montoNoRemunarativo - montoDescuento;
 	}
 
 	public void cacularLiquidacionPorHora() {
 
-		
+		if(!empleado.getTipoEmpleado().getEsMensual() && empleado.getTipoEmpleado().getEsProfresor()) {
+			empleado.getFichadas()
+		}
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
 			montoBruto = liquidacionDetalle.calcularRemunerativo();
 			montoNoRemunarativo = liquidacionDetalle.calcularNoRemunerativo();

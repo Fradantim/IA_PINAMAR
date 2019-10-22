@@ -1,10 +1,13 @@
 package com.ia.tmi.iatmi.persistence.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class LiquidacionItem {
@@ -24,6 +27,9 @@ public class LiquidacionItem {
 	
 	@Column
 	private Boolean sueldoBasico;
+	
+	@ManyToOne
+	private List<TipoLiquidacion> tiposLiquidaciones;
 
 	public LiquidacionItem(String descripcion, Float valor, Boolean sueldoBasico) {
 		this.descripcion = descripcion;
@@ -68,5 +74,46 @@ public class LiquidacionItem {
 
 	public void setSueldoBasico(Boolean sueldoBasico) {
 		this.sueldoBasico = sueldoBasico;
+	}
+	
+	public float calcularRemunerativo() {
+		float montoRemunerativo = 0;
+		for (TipoLiquidacion tipoLiquidacion : getTiposLiquidaciones()) {
+			if (tipoLiquidacion instanceof TipoLiquidacionRemunerativa) {
+				TipoLiquidacionRemunerativa tipo = (TipoLiquidacionRemunerativa) tipoLiquidacion;
+				montoRemunerativo = montoRemunerativo + tipo.getValor(); 
+			}
+		}
+		return montoRemunerativo;
+	}
+
+	public float calcularNoRemunerativo() {
+		float montoNoRemunerativo = 0;
+		for (TipoLiquidacion tipoLiquidacion : getTiposLiquidaciones()) {
+			if (tipoLiquidacion instanceof TipoLiquidacionNoRemunerativa) {
+				TipoLiquidacionNoRemunerativa tipo = (TipoLiquidacionNoRemunerativa) tipoLiquidacion;
+				montoNoRemunerativo = montoNoRemunerativo + tipo.getValor(); 
+			}
+		}
+		return montoNoRemunerativo;
+	}
+	
+	public float calcularDescuento(float montoBruto) {
+		float montoDescuento = 0;
+		for (TipoLiquidacion tipoLiquidacion : getTiposLiquidaciones()) {
+			if (tipoLiquidacion instanceof TipoLiquidacionDescuento) {
+				TipoLiquidacionDescuento tipo = (TipoLiquidacionDescuento) tipoLiquidacion;
+				montoDescuento = montoDescuento + (montoBruto * tipo.getValor()); 
+			}
+		}
+		return montoDescuento;
+	}
+
+	public List<TipoLiquidacion> getTiposLiquidaciones() {
+		return tiposLiquidaciones;
+	}
+
+	public void setTiposLiquidaciones(List<TipoLiquidacion> tiposLiquidaciones) {
+		this.tiposLiquidaciones = tiposLiquidaciones;
 	}
 }

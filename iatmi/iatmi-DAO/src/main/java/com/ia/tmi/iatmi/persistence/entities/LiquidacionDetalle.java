@@ -69,36 +69,4 @@ public class LiquidacionDetalle {
 		this.monto = monto;
 	}
 
-	public float calcularRemunerativo() {
-		float montoRemunerativo = 0;
-		for (TipoLiquidacion tipoLiquidacion : tiposLiquidaciones) {
-			if (tipoLiquidacion instanceof TipoLiquidacionRemunerativa) {
-				TipoLiquidacionRemunerativa tipo = (TipoLiquidacionRemunerativa) tipoLiquidacion;
-				montoRemunerativo = montoRemunerativo + tipo.getValor(); 
-			}
-		}
-		return montoRemunerativo;
-	}
-
-	public float calcularNoRemunerativo() {
-		float montoNoRemunerativo = 0;
-		for (TipoLiquidacion tipoLiquidacion : tiposLiquidaciones) {
-			if (tipoLiquidacion instanceof TipoLiquidacionNoRemunerativa) {
-				TipoLiquidacionNoRemunerativa tipo = (TipoLiquidacionNoRemunerativa) tipoLiquidacion;
-				montoNoRemunerativo = montoNoRemunerativo + tipo.getValor(); 
-			}
-		}
-		return montoNoRemunerativo;
-	}
-	
-	public float calcularDescuento(float montoBruto) {
-		float montoDescuento = 0;
-		for (TipoLiquidacion tipoLiquidacion : tiposLiquidaciones) {
-			if (tipoLiquidacion instanceof TipoLiquidacionDescuento) {
-				TipoLiquidacionDescuento tipo = (TipoLiquidacionDescuento) tipoLiquidacion;
-				montoDescuento = montoDescuento + (montoBruto * tipo.getValor()); 
-			}
-		}
-		return montoDescuento;
-	}
 }

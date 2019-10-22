@@ -1,7 +1,9 @@
 package com.ia.tmi.iatmi.persistence.entities;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -15,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.ia.tmi.iatmi.persistence.service.utils.DateAndCalendarUtil;
 
 @Entity
 public class Persona {
@@ -53,7 +57,7 @@ public class Persona {
 
 	@ManyToOne
 	private Habilitacion habilitacion;
-	
+
 	@Column
 	@OneToMany
 	private TipoEmpleado tipoEmpleado;
@@ -63,6 +67,10 @@ public class Persona {
 	@CollectionTable(name = "PERSONA_ROL")
 	@Column
 	private Set<RolPersona> roles;
+
+	@Column
+	@OneToMany
+	private List<Fichero> fichadas;
 
 	public Persona() {
 	}
@@ -172,8 +180,6 @@ public class Persona {
 		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
 	}
 
-
-
 	public Habilitacion getHabilitacion() {
 		return habilitacion;
 	}
@@ -190,6 +196,7 @@ public class Persona {
 		this.roles = roles;
 
 	}
+
 	public TipoEmpleado getTipoEmpleado() {
 		return tipoEmpleado;
 	}
@@ -198,4 +205,32 @@ public class Persona {
 		this.tipoEmpleado = tipoEmpleado;
 
 	}
+
+	public List<Fichero> getFichadas() {
+		return fichadas;
+	}
+
+	public void setFichadas(List<Fichero> fichadas) {
+		this.fichadas = fichadas;
+	}
+
+	public int calcularHorasPorFichada(int mes) {
+		int horas = 0;
+		if (mes > 13 || mes < 1)
+			return 0;
+		else {
+			if (!getTipoEmpleado().getEsMensual() && getTipoEmpleado().getEsProfresor()) {
+				for (Fichero fichero : fichadas) {
+					if (fichero.getActivo()) {
+						if (DateAndCalendarUtil.mesDelAño(fichero.getFechaIngreso()) == mes) {
+							horas = DateAndCalendarUtil.restarHoras(fichero.getFechaIngreso(),
+									fichero.getFechaEgreso());
+						}
+					}
+				}
+			}
+			return horas;
+		}
+	}
+
 }

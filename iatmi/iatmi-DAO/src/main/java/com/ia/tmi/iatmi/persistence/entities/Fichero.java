@@ -38,7 +38,7 @@ public class Fichero {
 		this.persona=persona;
 		this.fechaIngreso=new Date();
 		this.rol=rol;
-		this.activo=true;
+		this.setActivo(true);
 	}
 	
 	public Fichero() { }
@@ -70,5 +70,13 @@ public class Fichero {
 	public Integer getCantidadDeHoras() {
 		//TODO HACER calculo fechaHasta-fechaDesde
 		return 0;
+	}
+
+	public Boolean getActivo() {
+		return activo;
+	}
+
+	public void setActivo(Boolean activo) {
+		this.activo = activo;
 	}
 }
