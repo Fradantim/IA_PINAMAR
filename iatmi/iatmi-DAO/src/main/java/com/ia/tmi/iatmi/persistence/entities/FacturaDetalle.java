@@ -31,6 +31,14 @@ public class FacturaDetalle {
 	@Column(precision= 2)
 	private float montoParcial;
 
+	public FacturaDetalle() {}
+	
+	public FacturaDetalle(Pase pase, Factura factura) {
+		this.pase = pase;
+		this.factura = factura;
+		this.montoParcial= pase.getPrecio();
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -61,12 +69,5 @@ public class FacturaDetalle {
 
 	public void setMontoParcial(float montoParcial) {
 		this.montoParcial = montoParcial;
-	}
-
-	public FacturaDetalle() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	
+	}	
 }

@@ -6,18 +6,19 @@ import com.ia.tmi.iatmi.dto.TipoEmpleadoDTO;
 import com.ia.tmi.iatmi.persistence.entities.TipoEmpleado;
 
 @Component
-public class TipoEmpleadoTransformer {
+public class TipoEmpleadoTransformer extends Transformer<TipoEmpleado, TipoEmpleadoDTO>{
 
-	public TipoEmpleadoDTO tranform(TipoEmpleado bo) {
-		TipoEmpleadoDTO dto =new TipoEmpleadoDTO(bo.getDescripcion(), bo.isActivo());
-		dto.setId(bo.getId());
-		return dto;
-	}
-	
 	public TipoEmpleado tranform(TipoEmpleadoDTO dto) {
 		TipoEmpleado bo =new TipoEmpleado(dto.getDescripcion());
 		bo.setId(dto.getId());
 		bo.setActivo(dto.getActivo());
 		return bo;
+	}
+
+	@Override
+	public TipoEmpleadoDTO transform(TipoEmpleado element) {
+		TipoEmpleadoDTO dto =new TipoEmpleadoDTO(element.getDescripcion(), element.isActivo());
+		dto.setId(element.getId());
+		return dto;
 	}
 }

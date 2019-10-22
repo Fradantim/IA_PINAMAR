@@ -6,7 +6,7 @@ public class MovimientoDTO {
 	
 	private String tipo;
 	
-	private Float monto;
+	protected Float monto;
 
 	public MovimientoDTO(Integer id, String tipo, Float monto) {
 		this.id = id;

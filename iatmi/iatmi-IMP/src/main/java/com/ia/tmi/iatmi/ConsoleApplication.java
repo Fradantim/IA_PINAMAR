@@ -23,7 +23,7 @@ public class ConsoleApplication implements CommandLineRunner{
 		// TODO proximamente para app de consola / batch ?
 		// Por ahora para test
 		
-		testInsertPersona();
+		//testInsertPersona();
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -33,16 +33,17 @@ public class ConsoleApplication implements CommandLineRunner{
     
 	
 	public void testInsertPersona() {
+		System.out.println("TEST!");
 		Persona persona = new Persona("Franco", "T", "373", "a@a.com", "m", new Date());
 		
 		persona.addRol(RolPersona.SOCIO);
 		
 		persona = personaService.save(persona);
 		
-		/*System.out.println(
+		System.out.println(
 		personaService.findById(persona.getId()).get().getRoles().size()
 				);
-		*/
+		
 		
 		/*Date hasta = Date.from(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1)
 				.atZone(ZoneId.systemDefault()).toInstant());
