@@ -13,7 +13,7 @@ public class DateAndCalendarUtil {
 
 	}
 
-	public static int mesDelAño(Date in) {
+	public static int mesDelAnio(Date in) {
 		return dateToCalendar(in).get(Calendar.MONTH);
 	}
 
