@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +15,19 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ia.tmi.iatmi.controller.MovimientoController;
+import com.ia.tmi.iatmi.controller.PaseController;
+import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.persistence.entities.Clase;
 import com.ia.tmi.iatmi.persistence.entities.MedioDePago;
 import com.ia.tmi.iatmi.persistence.entities.Pase;
+import com.ia.tmi.iatmi.persistence.entities.Persona;
+import com.ia.tmi.iatmi.persistence.entities.Persona.RolPersona;
 import com.ia.tmi.iatmi.persistence.entities.TipoEmpleado;
 import com.ia.tmi.iatmi.persistence.service.ClaseService;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.PaseService;
+import com.ia.tmi.iatmi.persistence.service.PersonaService;
 import com.ia.tmi.iatmi.persistence.service.TipoEmpleadoService;
 
 @Component
@@ -33,7 +43,16 @@ public class StartUpControllerImpl implements InitializingBean {
 	private PaseService paseService;
 	
 	@Autowired
+	private PersonaService personaService;
+	
+	@Autowired
 	private TipoEmpleadoService tipoEmpService;
+	
+	@Autowired
+	private PersonaController personaController;
+	
+	@Autowired
+	private MovimientoController movController;
 	
 	private static final Logger logger = LoggerFactory.getLogger(StartUpControllerImpl.class);
 	
@@ -46,8 +65,10 @@ public class StartUpControllerImpl implements InitializingBean {
 			cargarClases(++i);
 			cargarPases(++i);
 			cargaTipoEmpleado(++i);
+			//cargaPersonas(++i);
 		} catch (Exception e) {
 			logger.error("No se encontró un archivo!!!!"+e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -154,5 +175,68 @@ public class StartUpControllerImpl implements InitializingBean {
 		reader.close();
 			
 		logger.info("< Fin carga Tipos de Empleado. "+tipoEmpService.findAll().size()+" elementos cargados.");
+	}
+	
+	private void cargaPersonas(Integer orden) {
+		logger.info(orden+"> Buscando personas guardadas.");
+		if(!personaService.findAll().isEmpty()) {
+			logger.info("< personas ya estan guardadas.");
+			return;
+		}
+		
+		logger.info("No hay clases, las creo y guardo.");
+		
+		List<Persona> personas = new ArrayList<Persona>();
+		Persona p;
+		
+		p = new Persona("Juan", "Ster", "111", "j@s.com", "m", new Date());
+		p.addRol(RolPersona.SOCIO);
+		personas.add(p);
+		
+		p = new Persona("Franco", "Timpone", "222", "f@t.com", "m", new Date());
+		p.addRol(RolPersona.EMPLEADO);
+		p.setTipoEmpleado(tipoEmpService.findById(1).get()); //ojo estos hardcodeos
+		personas.add(p);
+		
+		p = new Persona("Alessandro", "Foglio", "333", "a@f.com", "m", new Date());
+		p.addRol(RolPersona.EMPLEADO);
+		p.addRol(RolPersona.SOCIO);
+		p.setTipoEmpleado(tipoEmpService.findById(2).get()); //ojo estos hardcodeos
+		personas.add(p);
+		
+		p = new Persona("Ezequiel", "Cufre", "444", "e@c.com", "m", new Date());
+		p.addRol(RolPersona.EMPLEADO);
+		p.setTipoEmpleado(tipoEmpService.findById(3).get()); //ojo estos hardcodeos
+		personas.add(p);
+		
+		p = new Persona("Lisandro", "Rodriguez", "555", "l@r.com", "m", new Date());
+		p.addRol(RolPersona.SOCIO);
+		p.setTipoEmpleado(tipoEmpService.findById(3).get()); //ojo estos hardcodeos
+		personas.add(p);
+		
+		for(Persona persona: personas) {
+			personaService.save(persona);
+		}
+		
+		List<Pase> pases = paseService.findAll();
+		List<MedioDePago> mediosDePago = mdpService.findAll();
+		
+		for(Persona persona: personaService.findByRolPersona(RolPersona.SOCIO)) {
+			personaController.asignarPase(persona.getId(), getRandomPaseFromList(pases).getId());
+			movController.pagarFactura(
+					movController.findBySocio(persona.getId()).get(0).getId(),
+					getRandomMDPFromList(mediosDePago).getId()
+					);//ojo estos hardcodeos
+		}
+		
+		logger.info("< Fin carga personas. "+personaService.findAll().size()+" elementos cargados.");
+	}
+	
+	private Pase getRandomPaseFromList(List<Pase> pases) {
+	    return pases.get(new Random().nextInt(pases.size()));
+	}
+	
+	private MedioDePago getRandomMDPFromList(List<MedioDePago> mediosDePago) {
+	    return mediosDePago.get(new Random().nextInt(mediosDePago.size()));
 	}
 }

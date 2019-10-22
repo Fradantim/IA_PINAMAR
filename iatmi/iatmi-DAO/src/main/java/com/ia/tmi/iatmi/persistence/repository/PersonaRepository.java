@@ -16,6 +16,6 @@ public interface PersonaRepository extends JpaRepository<Persona, Integer> {
 	@Query("SELECT p from Persona p WHERE p.tipoEmpleado.esProfesor is true")
 	public List<Persona> findProfesores();
 	 
-	@Query("SELECT p from Persona p WHERE rol in p.roles") 
+	@Query("SELECT p from Persona p WHERE :rol member of p.roles") 
 	public List<Persona> findyByRolPersona(@Param("rol") RolPersona rol);
 }

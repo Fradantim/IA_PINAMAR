@@ -27,7 +27,6 @@ public class Fichero {
 	@Column
 	private Date fechaEgreso;
 	
-	@ManyToOne
 	@Enumerated(EnumType.STRING)
 	private RolPersona rol;
 	
