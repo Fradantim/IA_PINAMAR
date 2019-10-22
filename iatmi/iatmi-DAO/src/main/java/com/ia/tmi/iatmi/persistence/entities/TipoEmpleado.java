@@ -15,7 +15,7 @@ import javax.persistence.ManyToMany;
 public class TipoEmpleado {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY) a mano
 	private Integer id;
 
 	@Column
@@ -33,9 +33,11 @@ public class TipoEmpleado {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<LiquidacionItem> liquidacionItems;
 
-	public TipoEmpleado(String descripcion) {
+	public TipoEmpleado(String descripcion, Boolean esProfresor, Boolean esMensual) {
 		this.descripcion = descripcion;
 		this.activo = true;
+		this.esProfresor = esProfresor;
+		this.esMensual = esMensual;
 	}
 
 	public TipoEmpleado() {

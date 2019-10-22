@@ -10,7 +10,6 @@ public class TipoEmpleadoDTO {
 
 	
 	public TipoEmpleadoDTO( String descripcion, Boolean activo) {
-		super();
 		this.descripcion = descripcion;
 		this.activo = activo;
 	}

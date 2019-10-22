@@ -12,7 +12,7 @@ import com.ia.tmi.iatmi.persistence.entities.Persona;
 public class PersonaTransformer {
 	
 	public PersonaDTO transform(Persona persona) {
-		return new PersonaDTO(persona.getNombre(), persona.getApellido(),
+		return new PersonaDTO(persona.getId(), persona.getNombre(), persona.getApellido(),
 				persona.getDni(), persona.getEmail(), persona.getSexo(), 
 				persona.getFechaNacimiento(), persona.getFechaAlta());
 	}

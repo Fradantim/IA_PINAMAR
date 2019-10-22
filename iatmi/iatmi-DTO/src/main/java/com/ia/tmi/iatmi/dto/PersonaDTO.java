@@ -29,7 +29,7 @@ public class PersonaDTO {
 		this.nombre = nombre;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -37,7 +37,14 @@ public class PersonaDTO {
 		this.id = id;
 	}
 
-
+	public PersonaDTO() {}
+	
+	public PersonaDTO(Integer id, String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento,
+			Date fechaAlta) {
+		this(nombre, apellido, dni ,email, sexo, fechaNacimiento,fechaAlta);
+		this.id=id;
+	}
+	
 	public PersonaDTO(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento,
 			Date fechaAlta) {
 		super();

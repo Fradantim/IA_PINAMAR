@@ -14,9 +14,11 @@ import org.springframework.stereotype.Component;
 import com.ia.tmi.iatmi.persistence.entities.Clase;
 import com.ia.tmi.iatmi.persistence.entities.MedioDePago;
 import com.ia.tmi.iatmi.persistence.entities.Pase;
+import com.ia.tmi.iatmi.persistence.entities.TipoEmpleado;
 import com.ia.tmi.iatmi.persistence.service.ClaseService;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.PaseService;
+import com.ia.tmi.iatmi.persistence.service.TipoEmpleadoService;
 
 @Component
 public class StartUpControllerImpl implements InitializingBean {
@@ -29,6 +31,9 @@ public class StartUpControllerImpl implements InitializingBean {
 	
 	@Autowired
 	private PaseService paseService;
+	
+	@Autowired
+	private TipoEmpleadoService tipoEmpService;
 	
 	//@Autowired
 	//private PersonaService personaService;
@@ -51,11 +56,15 @@ public class StartUpControllerImpl implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		//testInsert();
 		Integer i=0;
-		cargarMediosDePago(++i);
-		cargarClases(++i);
-		cargarPases(++i);
+		try {
+			cargarMediosDePago(++i);
+			cargarClases(++i);
+			cargarPases(++i);
+			cargaTipoEmpleado(++i);
+		} catch (Exception e) {
+			logger.error("No se encontró un archivo!!!!"+e.getMessage());
+		}
 	}
-	
 	
 	private BufferedReader getReader(String file) throws FileNotFoundException {
 		return new BufferedReader(new FileReader("/iatmi/data/"+file));
@@ -130,5 +139,35 @@ public class StartUpControllerImpl implements InitializingBean {
 		reader.close();
 			
 		logger.info("< Fin carga pases. "+paseService.findAll().size()+" elementos cargados.");
+	}
+	
+	private void cargaTipoEmpleado(Integer orden) throws IOException {
+		logger.info(orden+"> Buscando Tipos de Empleado guardados.");
+		if(!tipoEmpService.findAll().isEmpty()) {
+			logger.info("< Tipos de Empleado  ya estan guardados.");
+			return;
+		}
+		
+		logger.info("No hay Tipos de Empleado , los creo y guardo.");
+				
+		BufferedReader reader = getReader("TIPO_DE_EMPLEADOS.TXT");
+		
+		String line = reader.readLine();
+		while (line != null) {
+			String[] campos= line.split(",");
+			String descripcion = campos[0];
+			Boolean esProfesor = Boolean.valueOf(campos[1]);
+			Boolean esMensual = Boolean.valueOf(campos[2]);
+			
+			Integer index =0;
+			TipoEmpleado tipoEmpleado = new TipoEmpleado(descripcion, esProfesor, esMensual);
+			tipoEmpleado.setId(++index);
+			
+			tipoEmpService.save(tipoEmpleado);
+			line = reader.readLine();
+		}
+		reader.close();
+			
+		logger.info("< Fin carga Tipos de Empleado. "+tipoEmpService.findAll().size()+" elementos cargados.");
 	}
 }

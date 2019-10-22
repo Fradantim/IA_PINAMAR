@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.FacturaDTO;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
+import com.ia.tmi.iatmi.exception.PersonaNoPoseeRolNecesarioException;
 import com.ia.tmi.iatmi.exception.SocioYaPoseePaseActivoException;
 import com.ia.tmi.iatmi.persistence.entities.Factura;
 import com.ia.tmi.iatmi.persistence.entities.FacturaDetalle;
@@ -81,8 +82,12 @@ public class PersonaControllerImpl implements PersonaController{
 
 	@Override
 	public FacturaDTO asignarPase(Integer idPersona, Integer idPase) {
-		//TODO RETORNAR FACTURA DTO CON DETALLES
 		Persona socio = personaService.findById(idPersona).get();
+		
+		if(!socio.hasRol(RolPersona.SOCIO)) {
+			throw new PersonaNoPoseeRolNecesarioException("La persona requiere del rol "+RolPersona.SOCIO+" para poder realizar esta operacion.");
+		}
+		
 		Habilitacion hab =socio.getHabilitacion();
 		
 		if(hab != null && hab.getHabilitadoHasta().after(new Date())) {
