@@ -23,6 +23,6 @@ public class PersonaEndpoint{
 		if(emptyResponse) {
 			return WSReturn.ERROR("No se encontraron elementos");
 		}
-		return WSReturn.OK("Busqueda exitosa.", personaController.findAll());
+		return WSReturn.OK("Busqueda exitosa.", null);
 	}
 }
