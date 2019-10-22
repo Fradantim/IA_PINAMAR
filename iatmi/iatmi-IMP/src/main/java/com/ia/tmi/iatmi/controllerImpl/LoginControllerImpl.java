@@ -9,7 +9,7 @@ public class LoginControllerImpl implements LoginController{
 
 	@Override
 	public String login(String user, String pass) {
-		// TODO HACER ESTO CONECTANDO A LA BBDD!!
+		// TODO Login HACER ESTO CONECTANDO A LA BBDD!!
 		return user+"_"+pass;
 	}	
 }

@@ -17,7 +17,7 @@ public class Endpoint{
 	private static final Logger logger = LoggerFactory.getLogger(Endpoint.class);
 	
 	protected PersonaDTO evaluarToken(String token) {
-		//TODO IR CONTRA LA BBDD, buscar el user al que le corresponde el token o solo evaluar que exista / posea permisos?
+		//TODO Login IR CONTRA LA BBDD, buscar el user al que le corresponde el token o solo evaluar que exista / posea permisos?
 		logger.info("Evaluando token:'"+token+"'");
 		if(token==null || token.isEmpty()) {
 			throw new UsuarioDebeLoguearseException("No se proporcionó un token de autenticación.");

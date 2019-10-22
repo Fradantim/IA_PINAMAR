@@ -1,5 +1,6 @@
 package com.ia.tmi.iatmi.persistence.entities;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.ia.tmi.iatmi.persistence.entities.Persona.RolPersona;
 
 @Entity
 public class Fichero {
@@ -68,8 +71,7 @@ public class Fichero {
 	}
 	
 	public Integer getCantidadDeHoras() {
-		//TODO HACER calculo fechaHasta-fechaDesde
-		return 0;
+		return (int) ChronoUnit.HOURS.between(fechaIngreso.toInstant(),fechaEgreso.toInstant());
 	}
 
 	public Boolean getActivo() {
