@@ -57,8 +57,7 @@ public class Persona {
 	@ManyToOne
 	private Habilitacion habilitacion;
 
-	@Column
-	@OneToMany
+	@ManyToOne
 	private TipoEmpleado tipoEmpleado;
 
 	@ElementCollection(targetClass = RolPersona.class)

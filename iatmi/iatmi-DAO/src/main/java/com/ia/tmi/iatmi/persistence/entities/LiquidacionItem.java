@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class LiquidacionItem {
@@ -28,7 +29,7 @@ public class LiquidacionItem {
 	@Column
 	private Boolean sueldoBasico;
 	
-	@ManyToOne
+	@OneToMany
 	private List<TipoLiquidacion> tiposLiquidaciones;
 
 	public LiquidacionItem(String descripcion, Float valor, Boolean sueldoBasico) {

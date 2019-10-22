@@ -2,7 +2,9 @@ package com.ia.tmi.iatmi.persistence.entities;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
+@Entity
 @DiscriminatorValue(value = "Descuento")
 public class TipoLiquidacionDescuento extends TipoLiquidacion {
 
