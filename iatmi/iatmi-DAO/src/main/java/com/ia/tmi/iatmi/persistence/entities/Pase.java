@@ -8,8 +8,6 @@ import javax.persistence.Id;
 
 @Entity
 public class Pase {	
-	//TODO CARGAR Tipos de Pase con duracion
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;

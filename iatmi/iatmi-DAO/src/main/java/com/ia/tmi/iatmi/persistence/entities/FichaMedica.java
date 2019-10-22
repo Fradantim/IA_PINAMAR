@@ -76,10 +76,7 @@ public class FichaMedica {
 		this.obraSocial = obraSocial;
 	}
 
-	public FichaMedica() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public FichaMedica() {	}
 
 	public Habilitacion getSocio() {
 		return socio;

@@ -20,7 +20,7 @@ public class ConsoleApplication implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO proximamente para app de consola / batch ?
+		// Clase para test
 		// Por ahora para test
 		
 		//testInsertPersona();
