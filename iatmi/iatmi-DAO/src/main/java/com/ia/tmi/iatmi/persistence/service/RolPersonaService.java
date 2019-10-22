@@ -12,6 +12,32 @@ import com.ia.tmi.iatmi.persistence.repository.RolPersonaRepository;
 @Service
 public class RolPersonaService {
 	
+	public enum RolPersonaEnum{
+		SOCIO("SOCIO"),
+		EMPLEADO_ADMINISTRATIVO("EMPLEADO_ADMINISTRATIVO"),
+		EMPREADO_PROFESOR("EMPLEADO_PROFESOR");
+				
+		private RolPersonaEnum(String key) {
+			this.key= key;
+		}
+		
+		private String key;
+		private RolPersona rol;
+		
+		public String getKey() { return key; }
+		public RolPersona getRol() { return rol; }
+		public void setRol(RolPersona rol) { this.rol=rol;}
+		
+		public static RolPersonaEnum getByKey (String key) {
+			for(RolPersonaEnum rol: values()) {
+				if(rol.getKey().equals(key)) {
+					return rol;
+				}
+			}
+			throw new IllegalArgumentException();
+		}
+	}
+	
 	@Autowired
 	private RolPersonaRepository rolRepo;
 	

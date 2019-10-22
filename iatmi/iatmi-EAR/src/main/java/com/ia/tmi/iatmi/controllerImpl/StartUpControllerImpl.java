@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import com.ia.tmi.iatmi.persistence.service.ClaseService;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.PaseService;
 import com.ia.tmi.iatmi.persistence.service.RolPersonaService;
+import com.ia.tmi.iatmi.persistence.service.RolPersonaService.RolPersonaEnum;
 
 @Component
 public class StartUpControllerImpl implements InitializingBean {
@@ -45,6 +47,7 @@ public class StartUpControllerImpl implements InitializingBean {
 		cargarClases(++i);
 		cargarPases(++i);
 		cargarRoles(++i);
+		cargarRolesMemoria(++i);
 	}
 	
 	private void cargarMediosDePago(Integer orden) {
@@ -103,6 +106,7 @@ public class StartUpControllerImpl implements InitializingBean {
 		logger.info("< Fin carga Clases. "+claseService.findAll().size()+" elementos cargados.");
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void cargarPases(Integer orden) {
 		logger.info(orden+"> Buscando pases guardados.");
 		if(!paseService.findAll().isEmpty()) {
@@ -161,5 +165,14 @@ public class StartUpControllerImpl implements InitializingBean {
 			e.printStackTrace();
 		}	
 		logger.info("< Fin carga roles. "+rolService.findAll().size()+" elementos cargados.");
+	}
+	
+	private void cargarRolesMemoria(Integer orden) {
+		logger.info(orden+"> Cargando Roles a memoria.");
+		List<RolPersona> roles = rolService.findAll();
+		for(RolPersona rol: roles) {
+			RolPersonaEnum.getByKey(rol.getNombre()).setRol(rol);
+		}
+		logger.info("< Fin carga roles en memoria.");
 	}
 }
