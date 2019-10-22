@@ -10,6 +10,7 @@ import com.ia.tmi.iatmi.controller.SocioController;
 import com.ia.tmi.iatmi.dto.SocioDTO;
 import com.ia.tmi.iatmi.persistence.entities.Socio;
 import com.ia.tmi.iatmi.persistence.service.SocioService;
+import com.ia.tmi.iatmi.transformers.SocioTranformer;
 
 @Controller
 public class SocioControllerImpl implements SocioController {
@@ -17,15 +18,8 @@ public class SocioControllerImpl implements SocioController {
 	@Autowired
 	private SocioService socioServices;
 
-	public Socio transform(SocioDTO socioDto) {
-		return   new Socio(socioDto.getNombre(), socioDto.getApellido(), socioDto.getDni(), socioDto.getEmail(), socioDto.getSexo(), socioDto.getFechaNacimiento(), socioDto.getHabilitadoDesde(), socioDto.getHabilitadoHasta());
-	}
-	
-	public SocioDTO transform(Socio socio) {
-		SocioDTO dto = new SocioDTO(socio.getNombre(), socio.getApellido(), socio.getDni(), socio.getEmail(), socio.getSexo(), socio.getFechaNacimiento(), socio.getFechaAlta(), socio.getHabilitadoDesde(), socio.getHabilitadoHasta());
-		dto.setId(socio.getId());
-		return dto;
-	}
+	@Autowired
+	private SocioTranformer socioTranformer;
 	
 	
 	@Override
@@ -36,7 +30,7 @@ public class SocioControllerImpl implements SocioController {
 		else {
 			List<SocioDTO> socioDTOs = new ArrayList<SocioDTO>();
 			for (Socio socio : sociosEncontrados) {
-				socioDTOs.add(transform(socio));
+				socioDTOs.add(socioTranformer.transform(socio));
 			}
 			return socioDTOs;
 		}
@@ -45,13 +39,13 @@ public class SocioControllerImpl implements SocioController {
 	@Override
 	public void setSocio(SocioDTO dto) {
 		//@TODO validar los atributos nulos.
-		socioServices.save(transform(dto));
+		socioServices.save(socioTranformer.transform(dto));
 		
 	}
 
 	@Override
 	public SocioDTO getSocioByID(Integer nroSocio) {
-		return  transform(socioServices.findByID(nroSocio));
+		return  socioTranformer.transform(socioServices.findByID(nroSocio));
 		
 	}
 

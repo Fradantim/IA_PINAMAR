@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ia.tmi.iatmi.controller.SocioController;
 import com.ia.tmi.iatmi.dto.SocioDTO;
+import com.ia.tmi.iatmi.wsModel.WSReturn;
 
 @RestController
 public class SocioEndpoint {
@@ -21,18 +22,18 @@ public class SocioEndpoint {
 	private SocioController socioController;
 	
 	@GetMapping(PATH+"All")
-	public List<SocioDTO> getAll(){
-		return socioController.getAll();
+	public WSReturn<List<SocioDTO>> getAll(){
+		return new WSReturn<List<SocioDTO>>("busqueda de los socios con exito", socioController.getAll()) ;
 	}
 	
 	@GetMapping(PATH)
-	public SocioDTO getSocioById(
+	public WSReturn<SocioDTO>getSocioById(
 			@RequestParam(required = true) Integer idSocio){
-		return socioController.getSocioByID(idSocio);
+		return new WSReturn<SocioDTO>("Busqueda del Usuario con exito.",socioController.getSocioByID(idSocio));
 	}
 	
 	@PostMapping(PATH)
-	public void addMember(@RequestBody SocioDTO socio) {
+	public void addSocio( @RequestBody(required = true) SocioDTO socio) {
 	    socioController.setSocio(socio);
 	}
 }

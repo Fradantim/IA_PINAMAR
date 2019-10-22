@@ -62,4 +62,12 @@ public class TipoEmpleado {
 	public void setLiquidacionItems(List<LiquidacionItem> liquidacionItems) {
 		this.liquidacionItems = liquidacionItems;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 }

@@ -28,7 +28,7 @@ public class Empleado extends Persona {
 			Integer legajo, TipoEmpleado tipoEmpleado, Float sueldoBasicoCostoHora) {
 		super(nombre, apellido, dni, email, sexo, fechaNacimiento);
 		this.legajo = legajo;
-		this.tipoEmpleado = tipoEmpleado;
+		this.setTipoEmpleado(tipoEmpleado);
 		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
 	}
 
@@ -46,5 +46,13 @@ public class Empleado extends Persona {
 
 	public void setSueldoBasicoCostoHora(Float sueldoBasicoCostoHora) {
 		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
+	}
+
+	public TipoEmpleado getTipoEmpleado() {
+		return tipoEmpleado;
+	}
+
+	public void setTipoEmpleado(TipoEmpleado tipoEmpleado) {
+		this.tipoEmpleado = tipoEmpleado;
 	}
 }
