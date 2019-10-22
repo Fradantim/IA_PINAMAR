@@ -18,7 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.ia.tmi.iatmi.persistence.service.utils.DateAndCalendarUtil;
+import com.ia.tmi.iatmi.persistence.utils.DateAndCalendarUtil;
 
 @Entity
 public class Persona {

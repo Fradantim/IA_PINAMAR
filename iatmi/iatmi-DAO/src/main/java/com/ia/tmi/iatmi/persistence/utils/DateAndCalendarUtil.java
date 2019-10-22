@@ -1,4 +1,4 @@
-package com.ia.tmi.iatmi.persistence.service.utils;
+package com.ia.tmi.iatmi.persistence.utils;
 
 import java.util.Calendar;
 import java.util.Date;
