@@ -10,13 +10,6 @@
 	<artifactId>iatmi-IMP</artifactId>
 
 	<dependencies>
-		<!-- 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
- 		-->
- 
 		<dependency>
 			<groupId>com.ia.tmi</groupId>
 			<artifactId>iatmi-INT</artifactId>
@@ -28,6 +21,18 @@
 			<artifactId>iatmi-DAO</artifactId>
 			<version>${version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        
 		<!--
 		 
 		<dependency>
