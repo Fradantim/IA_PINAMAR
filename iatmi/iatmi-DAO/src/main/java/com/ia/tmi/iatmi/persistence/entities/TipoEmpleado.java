@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -25,7 +23,7 @@ public class TipoEmpleado {
 	private Boolean activo;
 
 	@Column
-	private Boolean esProfresor;
+	private Boolean esProfesor;
 	
 	@Column
 	private Boolean esMensual;
@@ -33,10 +31,10 @@ public class TipoEmpleado {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<LiquidacionItem> liquidacionItems;
 
-	public TipoEmpleado(String descripcion, Boolean esProfresor, Boolean esMensual) {
+	public TipoEmpleado(String descripcion, Boolean esProfesor, Boolean esMensual) {
 		this.descripcion = descripcion;
 		this.activo = true;
-		this.esProfresor = esProfresor;
+		this.esProfesor = esProfesor;
 		this.esMensual = esMensual;
 	}
 
@@ -81,12 +79,12 @@ public class TipoEmpleado {
 		this.id = id;
 	}
 
-	public Boolean getEsProfresor() {
-		return esProfresor;
+	public Boolean getEsProfesor() {
+		return esProfesor;
 	}
 
-	public void setEsProfresor(Boolean esProfresor) {
-		this.esProfresor = esProfresor;
+	public void setEsProfesor(Boolean esProfesor) {
+		this.esProfesor = esProfesor;
 	}
 
 	public Boolean getEsMensual() {

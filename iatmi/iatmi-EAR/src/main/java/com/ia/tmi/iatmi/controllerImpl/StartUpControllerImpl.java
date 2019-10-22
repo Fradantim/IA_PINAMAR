@@ -35,22 +35,7 @@ public class StartUpControllerImpl implements InitializingBean {
 	@Autowired
 	private TipoEmpleadoService tipoEmpService;
 	
-	//@Autowired
-	//private PersonaService personaService;
-	
 	private static final Logger logger = LoggerFactory.getLogger(StartUpControllerImpl.class);
-	
-	/*public void testInsert() {
-		Persona persona = new Persona("Franco", "T", "373", "a@a.com", "m", new Date());
-		
-		persona.addRol(Persona.RolPersona.SOCIO);
-		
-		persona = personaService.save(persona);
-		
-		System.out.println(
-		personaService.findById(persona.getId()).get().getRoles().size()
-				);
-	}*/
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -153,13 +138,13 @@ public class StartUpControllerImpl implements InitializingBean {
 		BufferedReader reader = getReader("TIPO_DE_EMPLEADOS.TXT");
 		
 		String line = reader.readLine();
+		Integer index =0;
 		while (line != null) {
 			String[] campos= line.split(",");
 			String descripcion = campos[0];
 			Boolean esProfesor = Boolean.valueOf(campos[1]);
 			Boolean esMensual = Boolean.valueOf(campos[2]);
 			
-			Integer index =0;
 			TipoEmpleado tipoEmpleado = new TipoEmpleado(descripcion, esProfesor, esMensual);
 			tipoEmpleado.setId(++index);
 			

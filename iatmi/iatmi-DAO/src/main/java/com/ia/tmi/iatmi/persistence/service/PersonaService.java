@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ia.tmi.iatmi.persistence.entities.Persona;
+import com.ia.tmi.iatmi.persistence.entities.Persona.RolPersona;
 import com.ia.tmi.iatmi.persistence.repository.PersonaRepository;
 
 @Service
 public class PersonaService {
+	
 	@Autowired
 	private PersonaRepository personaRepo;
 	
@@ -25,5 +27,13 @@ public class PersonaService {
 	
 	public Optional<Persona> findById(Integer id) {
 		return personaRepo.findById(id);
+	}
+	
+	public List<Persona> findProfesores(){
+		return personaRepo.findProfesores();
+	}
+	
+	public List<Persona> findByRolPersona(RolPersona rol){
+		return personaRepo.findyByRolPersona(rol);
 	}
 }

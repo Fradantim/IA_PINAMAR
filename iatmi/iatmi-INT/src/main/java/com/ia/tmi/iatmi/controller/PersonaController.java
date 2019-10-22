@@ -14,4 +14,7 @@ public interface PersonaController {
 	
 	public FacturaDTO asignarPase(Integer idPersona, Integer idPase);
 	
+	public List<PersonaDTO> findEmpleados();
+	
+	public List<PersonaDTO> findProfesores();
 }

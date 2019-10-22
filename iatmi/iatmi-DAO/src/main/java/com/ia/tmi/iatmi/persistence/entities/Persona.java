@@ -217,7 +217,7 @@ public class Persona {
 		if (mes > 13 || mes < 1)
 			return 0;
 		else {
-			if (!getTipoEmpleado().getEsMensual() && getTipoEmpleado().getEsProfresor()) {
+			if (!getTipoEmpleado().getEsMensual() && getTipoEmpleado().getEsProfesor()) {
 				for (Fichero fichero : fichadas) {
 					if (fichero.getActivo()) {
 						if (DateAndCalendarUtil.mesDelAnio(fichero.getFechaIngreso()) == mes) {

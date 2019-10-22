@@ -110,4 +110,14 @@ public class PersonaControllerImpl implements PersonaController{
 		factura = factService.save(factura);
 		return facturaTransformer.transform(factura);
 	}
+
+	@Override
+	public List<PersonaDTO> findEmpleados() {
+		return personaTransformer.transform(personaService.findByRolPersona(RolPersona.EMPLEADO));
+	}
+
+	@Override
+	public List<PersonaDTO> findProfesores() {
+		return personaTransformer.transform(personaService.findProfesores());
+	}
 }

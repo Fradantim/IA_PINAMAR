@@ -21,6 +21,8 @@ public class PersonaEndpoint{
 	
 	public static final String PATH_EMPLEADOS="/api/empleados";
 	
+	public static final String PATH_PROFESORES="/api/profesores";
+	
 	@Autowired
 	private PersonaController personaController;
 	
@@ -44,4 +46,15 @@ public class PersonaEndpoint{
 		PersonaDTO empleadoNuevo = personaController.altaEmpleado(empleado, sueldoBasicoCostoHora, idTipoEmpleado);
 		return new WSReturn<PersonaDTO>("Alta exitosa.", empleadoNuevo);
 	}
+	
+	@GetMapping(PATH_EMPLEADOS)
+	public WSReturn<List<PersonaDTO>> getEmpleados(){
+		return new WSReturn<List<PersonaDTO>>("Búsqueda exitosa.", personaController.findEmpleados());
+	}
+
+	@GetMapping(PATH_PROFESORES)
+	public WSReturn<List<PersonaDTO>> getProfesores(){
+		return new WSReturn<List<PersonaDTO>>("Búsqueda exitosa.", personaController.findProfesores());
+	}
+	
 }
