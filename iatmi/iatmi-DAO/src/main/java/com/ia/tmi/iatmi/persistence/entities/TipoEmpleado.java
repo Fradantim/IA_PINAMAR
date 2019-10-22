@@ -13,16 +13,22 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class TipoEmpleado {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column
 	private String descripcion;
-		
+
 	@Column
 	private Boolean activo;
+
+	@Column
+	private Boolean esProfresor;
+	
+	@Column
+	private Boolean esMensual;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<LiquidacionItem> liquidacionItems;
@@ -31,14 +37,16 @@ public class TipoEmpleado {
 		this.descripcion = descripcion;
 		this.activo = true;
 	}
-	
-	public TipoEmpleado() {}
+
+	public TipoEmpleado() {
+	}
 
 	public void addLiquidacionItem(LiquidacionItem liquidacionItem) {
-		if(this.liquidacionItems == null) liquidacionItems = new ArrayList<LiquidacionItem>();
+		if (this.liquidacionItems == null)
+			liquidacionItems = new ArrayList<LiquidacionItem>();
 		liquidacionItems.add(liquidacionItem);
 	}
-	
+
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -54,7 +62,7 @@ public class TipoEmpleado {
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
 	}
-	
+
 	public List<LiquidacionItem> getLiquidacionItems() {
 		return liquidacionItems;
 	}
@@ -69,5 +77,21 @@ public class TipoEmpleado {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Boolean getEsProfresor() {
+		return esProfresor;
+	}
+
+	public void setEsProfresor(Boolean esProfresor) {
+		this.esProfresor = esProfresor;
+	}
+
+	public Boolean getEsMensual() {
+		return esMensual;
+	}
+
+	public void setEsMensual(Boolean esMensual) {
+		this.esMensual = esMensual;
 	}
 }

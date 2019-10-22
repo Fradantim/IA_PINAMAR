@@ -14,51 +14,59 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Persona {
-	
-	public enum RolPersona { SOCIO, EMPLEADO; }
-	
+
+	public enum RolPersona {
+		SOCIO, EMPLEADO;
+	}
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id; 
-	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+
 	@Column
 	private String nombre;
-	
+
 	@Column
 	private String apellido;
-	
+
 	@Column
 	private String dni;
-	
+
 	@Column
 	private String email;
-	
+
 	@Column
 	private String sexo;
-	
+
 	@Column
 	private Date fechaNacimiento;
-	
+
 	@Column
 	private Date fechaAlta;
-	
+
 	@Column
 	private Float sueldoBasicoCostoHora;
-	
+
 	@ManyToOne
 	private Habilitacion habilitacion;
+	
+	@Column
+	@OneToMany
+	private TipoEmpleado tipoEmpleado;
 
-	@ElementCollection(targetClass=RolPersona.class)
+	@ElementCollection(targetClass = RolPersona.class)
 	@Enumerated(EnumType.STRING)
-	@CollectionTable(name="PERSONA_ROL")
+	@CollectionTable(name = "PERSONA_ROL")
 	@Column
 	private Set<RolPersona> roles;
-	
-	public Persona() { }
-	
+
+	public Persona() {
+	}
+
 	public Persona(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento) {
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -68,28 +76,30 @@ public class Persona {
 		this.fechaNacimiento = fechaNacimiento;
 		this.fechaAlta = new Date();
 	}
-	
-	public Persona(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento, Float sueldoBasicoCostoHora) {
-		this(nombre,apellido,dni,email,sexo,fechaNacimiento);
+
+	public Persona(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento,
+			Float sueldoBasicoCostoHora) {
+		this(nombre, apellido, dni, email, sexo, fechaNacimiento);
 		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
 	}
 
 	public void addRol(RolPersona rol) {
-		if(roles==null) roles = new HashSet<Persona.RolPersona>();
+		if (roles == null)
+			roles = new HashSet<Persona.RolPersona>();
 		roles.add(rol);
 	}
-	
+
 	public void removeRol(RolPersona rol) {
-		if(roles!=null) 
+		if (roles != null)
 			roles.remove(rol);
 	}
-	
+
 	public Boolean hasRol(RolPersona rol) {
-		if(roles!=null) 
+		if (roles != null)
 			roles.contains(rol);
 		return false;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -162,6 +172,8 @@ public class Persona {
 		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
 	}
 
+
+
 	public Habilitacion getHabilitacion() {
 		return habilitacion;
 	}
@@ -176,5 +188,14 @@ public class Persona {
 
 	public void setRoles(Set<RolPersona> roles) {
 		this.roles = roles;
+
+	}
+	public TipoEmpleado getTipoEmpleado() {
+		return tipoEmpleado;
+	}
+
+	public void setTipoEmpleado(TipoEmpleado tipoEmpleado) {
+		this.tipoEmpleado = tipoEmpleado;
+
 	}
 }
