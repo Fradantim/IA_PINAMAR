@@ -287,20 +287,20 @@ El sistema abarca las siguientes funciones:
 #### Response
 	BODY:
 	{
-    	"message": "Alta exitosa.",
-    	"successful": true,
-    	"content": {
-        	"id": 252,
-        	"nombre": "Pepe",
-        	"apellido": "Argento",
-        	"dni": "12345678",
-       		"email": "racingMiVida@campeones.net",
-        	"sexo": "Masculino",
-        	"fechaNacimiento": "1953-11-22T19:49:44.408+0000",
-       		"fechaAlta": "2019-10-23T18:31:12.132+0000",
-        	"roles": [
-            	"SOCIO"
-        	]
-    	}
+		"message": "Alta exitosa.",
+		"successful": true,
+		content": {
+			"id": 252,
+			"nombre": "Pepe",
+			"apellido": "Argento",
+			"dni": "12345678",
+			"email": "racingMiVida@campeones.net",
+			"sexo": "Masculino",
+			"fechaNacimiento": "1953-11-22T19:49:44.408+0000",
+			"fechaAlta": "2019-10-23T18:31:12.132+0000",
+			"roles": [
+				"SOCIO"
+			]
+		}
 	}
 
