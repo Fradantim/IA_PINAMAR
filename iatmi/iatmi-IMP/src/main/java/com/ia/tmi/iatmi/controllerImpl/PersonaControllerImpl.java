@@ -20,6 +20,7 @@ import com.ia.tmi.iatmi.persistence.entities.Pase;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.entities.RolPersona.RolPersonaEnum;
 import com.ia.tmi.iatmi.persistence.service.FacturaService;
+import com.ia.tmi.iatmi.persistence.service.FichaMedicaService;
 import com.ia.tmi.iatmi.persistence.service.HabilitacionService;
 import com.ia.tmi.iatmi.persistence.service.PaseService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
@@ -46,6 +47,10 @@ public class PersonaControllerImpl implements PersonaController{
 	
 	@Autowired
 	private TipoEmpleadoService tipoEmpleadoService;
+	
+	@Autowired
+	private FichaMedicaService fichaService;
+	
 	
 	@Autowired
 	private PersonaTransformer personaTransformer;
@@ -139,8 +144,10 @@ public class PersonaControllerImpl implements PersonaController{
 		if(!persona.hasRol(RolPersonaEnum.SOCIO.getRol())) {
 			throw new PersonaNoPoseeRolNecesarioException("Solo los usuarios de tipo "+ RolPersonaEnum.SOCIO+ " pueden agregar FichaMedica.");
 		}
-		FichaMedica ficha = fichaMedTranFromDTO.transform(fichaMedica);
 		
-		//TODO Continuar
+		FichaMedica ficha = fichaMedTranFromDTO.transform(fichaMedica);
+		ficha.setPersona(persona);
+		
+		fichaService.save(ficha);
 	}
 }
