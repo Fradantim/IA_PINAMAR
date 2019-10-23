@@ -18,21 +18,21 @@ El sistema abarca las siguientes funciones:
 
 ### Script creacion BBDD SQL SERVER
 
-  CREATE DATABASE IA_TMI;
-  CREATE LOGIN IA_TMI WITH password='IA_TMI', default_database= IA_TMI, check_policy=OFF;
-  USE IA_TMI;
-  sp_helpdb IA_TMI;
-  exec sp_changedbowner IA_TMI;
+	CREATE DATABASE IA_TMI;
+	CREATE LOGIN IA_TMI WITH password='IA_TMI', default_database= IA_TMI, check_policy=OFF;
+	USE IA_TMI;
+	--sp_helpdb IA_TMI;
+	exec sp_changedbowner IA_TMI;
 
-____________________________________________________________________________
-
+---
 
 ### Endpoints definidos
+
 #### Consulta Tipo Empleado
-  Endpoint: /api/tiposEmpleado
-  TIPO: GET
-  Parametros: N/A
-  Retorno: WSReturn contenido de un Array de TipoEmpleadoDTO
+	Endpoint: /api/tiposEmpleado
+	TIPO: GET
+	Parametros: N/A
+	Retorno: WSReturn contenido de un Array de TipoEmpleadoDTO
 
 #### Consulta Clases.
 	Endpoint: /api/clases
@@ -93,56 +93,56 @@ ____________________________________________________________________________
 	Endpoint: /api/socios
 	TIPO: POST
 	Parametros OBLIGATORIOS BODY:
-		(“socio” del tipo PersonaDTO)
+		PersonaDTO
 	Retorno: WSReturn contenido de la PersonaDTO creada
 
 #### Carga Empleado
 	Endpoint: /api/empleados
 	TIPO: POST
 	Parametros OBLIGATORIOS BODY:
-		"request" (del tipo AltaEmpleadoRequest)
+		AltaEmpleadoRequest
 	Retorno: WSReturn contenido de la PersonaDTO creada
 
 #### Pagar Factura
 	Endpoint: /api/movimientos
 	TIPO: POST
 	Parametros OBLIGATORIOS BODY:
-		"request" (del tipo PagoFacturaRequest)
+		PagoFacturaRequest
 	Retorno: WSReturn con contenido vacio.
 
 #### Asociar nuevo Pase
 	Endpoint: /api/pases
 	TIPO: POST
 	Parametros OBLIGATORIOS BODY:
-		"request" (del tipo AgregarPaseRequest)
+		AgregarPaseRequest
 	Retorno: WSReturn contenido la FacturaDTO creada	
 
 #### Asociar Nueva Ficha Medica
 	Endpoint: /api/socios7FM
 	TIPO: POST
 	Parametros OBLIGATORIOS BODY:
-		"request" (del tipo AgregarFichaMedicaRequest)
+		AgregarFichaMedicaRequest
 	Retorno: WSReturn con contenido vacio.
 
 #### Imputar Liquidacion
 	Endpoint: /api/liquidacion
 	TIPO: POST
 	Parametros OBLIGATORIOS BODY:
-		"request" (del tipo LiquidacionRequest)
+		LiquidacionRequest
 	Retorno: WSReturn con contenido vacio.
 
 #### Fichar Ingreso
 	Endpoint: /api/fichero/ingreso
 	TIPO: POST
 	Parametros OBLIGATORIOS BODY:
-		"request" (del tipo FichadoRequest)
+		FichadoRequest
 	Retorno: WSReturn con contenido vacio.	
 
 #### Fichar Egreso
 	Endpoint: /api/fichero/egreso
 	TIPO: POST
 	Parametros OBLIGATORIOS BODY:
-		"request" (del tipo FichadoRequest)
+		FichadoRequest
 	Retorno: WSReturn con contenido vacio.	
 
 ---
@@ -189,9 +189,9 @@ ____________________________________________________________________________
 	
 ### PaseDTO
 	{
-	"id": Integer,
-	"nombre": String,
-	"precio": Float
+		"id": Integer,
+		"nombre": String,
+		"precio": Float
 	}
 
 ### MedioDePagoDTO
@@ -208,22 +208,99 @@ ____________________________________________________________________________
 	}
 
 ### FacturaDTO
-	//TODO
+	{
+        "id": Integer,
+        "monto": Float,
+        "facturaDetalles": FacturaDetalleDTO[]
+    }
+
+### FacturaDetalleDTO
+	{
+		"id": Integer,
+		"pase": PaseDTO,
+		"montoParcial": Float
+	}
+
+### FichaMedicaDTO
+	{
+		"fechaAlta": Date,
+		"nombreMedico": String,
+		"telefono": String,;
+		"obraSocial": String
+	}
 
 ### AltaEmpleadoRequest
-	//TODO
+	{
+		"persona": PersonaDTO,
+		"sueldoBasicoCostoHora": Float,
+		"idTipoEmpleado": Integer
+	}
 	
 ### PagoFacturaRequest
-	//TODO
+	{
+		"idFactura": Integer,
+		"idMedioDePago": Integer
+	}
 	
 ### AgregarPaseRequest
-	//TODO
+	{
+		"idPersona": Integer,
+		"idPase": Integer
+	}
 	
 ### AgregarFichaMedicaRequest
-	//TODO
+	{
+		"fichaMedica": FichaMedicaDTO,
+		"idPersona": Integer
+	}
 	
 ### LiquidacionRequest
-	//TODO
+	{
+		"idEmpleado": Integer,
+		"anio": Integer,
+		"mes": Integer
+	}
 	
 ### FichadoRequest
-	//TODO
+	{
+		"idPersona" Integer,
+		"idRol" String
+	}
+	
+---
+
+### Ejemplos de llamado
+
+#### Request
+	URL: /api/socios
+	TIPO:POST
+	BODY:
+	{
+		"nombre": "Pepe",
+		"apellido": "Argento",
+		"dni": "12345678",
+		"email": "racingMiVida@campeones.net",
+		"sexo": "Masculino",
+		"fechaNacimiento": "1953-11-22T19:49:44.408205"
+	}
+
+#### Response
+	BODY:
+	{
+    	"message": "Alta exitosa.",
+    	"successful": true,
+    	"content": {
+        	"id": 252,
+        	"nombre": "Pepe",
+        	"apellido": "Argento",
+        	"dni": "12345678",
+       		"email": "racingMiVida@campeones.net",
+        	"sexo": "Masculino",
+        	"fechaNacimiento": "1953-11-22T19:49:44.408+0000",
+       		"fechaAlta": "2019-10-23T18:31:12.132+0000",
+        	"roles": [
+            	"SOCIO"
+        	]
+    	}
+	}
+
