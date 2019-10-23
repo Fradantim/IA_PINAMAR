@@ -5,11 +5,29 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value="NoRemunerativa")
+@DiscriminatorValue(value = "NoRemunerativa")
 public class TipoLiquidacionNoRemunerativa extends TipoLiquidacion {
+
+	public TipoLiquidacionNoRemunerativa(Integer id, String descripcion, Float valorPorcentaje, boolean activo,
+			float valor) {
+		super(id, descripcion, valorPorcentaje, activo);
+		this.setValor(valor);
+	}
+
+	
+	public TipoLiquidacionNoRemunerativa(String descripcion, Float valorPorcentaje, boolean activo, Float valor) {
+		super(descripcion, valorPorcentaje, activo);
+		this.valor = valor;
+	}
+
 
 	@Column
 	private Float valor;
+
+	
+	public TipoLiquidacionNoRemunerativa() {}
+
+	
 
 	public Float getValor() {
 		return valor;

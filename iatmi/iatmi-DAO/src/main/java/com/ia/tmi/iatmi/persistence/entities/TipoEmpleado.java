@@ -28,7 +28,7 @@ public class TipoEmpleado {
 	@Column
 	private Boolean esMensual;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "tipoEmpleados")
 	private List<LiquidacionItem> liquidacionItems;
 
 	public TipoEmpleado(String descripcion, Boolean esProfesor, Boolean esMensual) {

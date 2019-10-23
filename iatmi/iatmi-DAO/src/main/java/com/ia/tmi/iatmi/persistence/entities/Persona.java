@@ -51,6 +51,9 @@ public class Persona {
 
 	@ManyToOne
 	private TipoEmpleado tipoEmpleado;
+	
+	@OneToMany
+	private List<Liquidacion> liquidacion;
 
 	@ManyToMany
 	private Set<RolPersona> roles;
@@ -218,6 +221,14 @@ public class Persona {
 			}
 			return horas;
 		}
+	}
+
+	public List<Liquidacion> getLiquidacion() {
+		return liquidacion;
+	}
+
+	public void setLiquidacion(List<Liquidacion> liquidacion) {
+		this.liquidacion = liquidacion;
 	}
 
 }

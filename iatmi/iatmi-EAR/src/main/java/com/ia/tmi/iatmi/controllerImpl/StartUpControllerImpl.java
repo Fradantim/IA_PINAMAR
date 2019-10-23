@@ -18,13 +18,17 @@ import org.springframework.stereotype.Component;
 import com.ia.tmi.iatmi.controller.MovimientoController;
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.persistence.entities.Clase;
+import com.ia.tmi.iatmi.persistence.entities.LiquidacionItem;
 import com.ia.tmi.iatmi.persistence.entities.MedioDePago;
 import com.ia.tmi.iatmi.persistence.entities.Pase;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.entities.RolPersona;
 import com.ia.tmi.iatmi.persistence.entities.RolPersona.RolPersonaEnum;
 import com.ia.tmi.iatmi.persistence.entities.TipoEmpleado;
+import com.ia.tmi.iatmi.persistence.entities.TipoLiquidacionDescuento;
+import com.ia.tmi.iatmi.persistence.entities.TipoLiquidacionRemunerativa;
 import com.ia.tmi.iatmi.persistence.service.ClaseService;
+import com.ia.tmi.iatmi.persistence.service.LiquidacionService;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.PaseService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
@@ -36,13 +40,13 @@ public class StartUpControllerImpl implements InitializingBean {
 
 	@Autowired
 	private MedioDePagoService mdpService;
-	
+
 	@Autowired
 	private ClaseService claseService;
-	
+
 	@Autowired
 	private PaseService paseService;
-	
+
 	@Autowired
 	private PersonaService personaService;
 	
@@ -58,12 +62,15 @@ public class StartUpControllerImpl implements InitializingBean {
 	@Autowired
 	private MovimientoController movController;
 	
-	private static final Logger logger = LoggerFactory.getLogger(StartUpControllerImpl.class);
+	@Autowired
+	private LiquidacionService liquidacionService;;
 	
+	private static final Logger logger = LoggerFactory.getLogger(StartUpControllerImpl.class);
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		//testInsert();
-		Integer i=0;
+		// testInsert();
+		Integer i = 0;
 		try {
 			cachearRoles(++i);
 			cargarMediosDePago(++i);
@@ -71,15 +78,16 @@ public class StartUpControllerImpl implements InitializingBean {
 			cargarPases(++i);
 			cargaTipoEmpleado(++i);
 			cargaPersonas(++i);
+			cargaTipoLiquidacion();
 		} catch (Exception e) {
 			logger.error("No se encontró un archivo!!!!"+e.getMessage());
 			//e.printStackTrace();
 			throw e;
 		}
 	}
-	
+
 	private BufferedReader getReader(String file) throws FileNotFoundException {
-		return new BufferedReader(new FileReader("/iatmi/data/"+file));
+		return new BufferedReader(new FileReader("/iatmi/data/" + file));
 	}
 	
 	private void cachearRoles(Integer orden) {
@@ -103,10 +111,9 @@ public class StartUpControllerImpl implements InitializingBean {
 			logger.info("< Medios de pago ya estan guardados.");
 			return;
 		}
-		
+
 		logger.info("No hay medios de pago, los creo y guardo.");
-		
-				
+
 		BufferedReader reader = getReader("MEDIOS_DE_PAGO.TXT");
 
 		String line = reader.readLine();
@@ -116,21 +123,21 @@ public class StartUpControllerImpl implements InitializingBean {
 			line = reader.readLine();
 		}
 		reader.close();
-			
-		logger.info("< Fin carga Medios de Pago. "+mdpService.findAll().size()+" elementos cargados.");
+
+		logger.info("< Fin carga Medios de Pago. " + mdpService.findAll().size() + " elementos cargados.");
 	}
-	
-	private void cargarClases(Integer orden) throws FileNotFoundException, IOException{
-		logger.info(orden+"> Buscando clases guardadas.");
-		if(!claseService.findAll().isEmpty()) {
+
+	private void cargarClases(Integer orden) throws FileNotFoundException, IOException {
+		logger.info(orden + "> Buscando clases guardadas.");
+		if (!claseService.findAll().isEmpty()) {
 			logger.info("< Clases ya estan guardadas.");
 			return;
 		}
-		
+
 		logger.info("No hay clases, las creo y guardo.");
-		
+
 		BufferedReader reader = getReader("CLASES.TXT");
-		
+
 		String line = reader.readLine();
 		while (line != null) {
 			Clase clase = new Clase(line);
@@ -138,25 +145,25 @@ public class StartUpControllerImpl implements InitializingBean {
 			line = reader.readLine();
 		}
 		reader.close();
-		logger.info("< Fin carga Clases. "+claseService.findAll().size()+" elementos cargados.");
+		logger.info("< Fin carga Clases. " + claseService.findAll().size() + " elementos cargados.");
 	}
-	
+
 	@SuppressWarnings("deprecation")
-	private void cargarPases(Integer orden) throws FileNotFoundException, IOException{
-		logger.info(orden+"> Buscando pases guardados.");
-		if(!paseService.findAll().isEmpty()) {
+	private void cargarPases(Integer orden) throws FileNotFoundException, IOException {
+		logger.info(orden + "> Buscando pases guardados.");
+		if (!paseService.findAll().isEmpty()) {
 			logger.info("< pases ya estan guardados.");
 			return;
 		}
-		
+
 		logger.info("No hay pases, los creo y guardo.");
-		
+
 		BufferedReader reader = getReader("PASES.TXT");
-		
+
 		String line = reader.readLine();
 		while (line != null) {
 			String[] campos = line.split(",");
-			Integer cantDias = new Integer(campos [1]);
+			Integer cantDias = new Integer(campos[1]);
 			String nombre = campos[0];
 			Float precio = new Float(campos[2]);
 			Pase pase = new Pase(cantDias, nombre, precio);
@@ -164,39 +171,40 @@ public class StartUpControllerImpl implements InitializingBean {
 			line = reader.readLine();
 		}
 		reader.close();
-			
-		logger.info("< Fin carga pases. "+paseService.findAll().size()+" elementos cargados.");
+
+		logger.info("< Fin carga pases. " + paseService.findAll().size() + " elementos cargados.");
 	}
-	
+
 	private void cargaTipoEmpleado(Integer orden) throws IOException {
-		logger.info(orden+"> Buscando Tipos de Empleado guardados.");
-		if(!tipoEmpService.findAll().isEmpty()) {
+		logger.info(orden + "> Buscando Tipos de Empleado guardados.");
+		if (!tipoEmpService.findAll().isEmpty()) {
 			logger.info("< Tipos de Empleado  ya estan guardados.");
 			return;
 		}
-		
+
 		logger.info("No hay Tipos de Empleado , los creo y guardo.");
-				
+
 		BufferedReader reader = getReader("TIPO_DE_EMPLEADOS.TXT");
-		
+
 		String line = reader.readLine();
-		Integer index =0;
+		Integer index = 0;
 		while (line != null) {
-			String[] campos= line.split(",");
+			String[] campos = line.split(",");
 			String descripcion = campos[0];
 			Boolean esProfesor = Boolean.valueOf(campos[1]);
 			Boolean esMensual = Boolean.valueOf(campos[2]);
-			
+
 			TipoEmpleado tipoEmpleado = new TipoEmpleado(descripcion, esProfesor, esMensual);
 			tipoEmpleado.setId(++index);
-			
+
 			tipoEmpService.save(tipoEmpleado);
 			line = reader.readLine();
 		}
 		reader.close();
-			
-		logger.info("< Fin carga Tipos de Empleado. "+tipoEmpService.findAll().size()+" elementos cargados.");
+
+		logger.info("< Fin carga Tipos de Empleado. " + tipoEmpService.findAll().size() + " elementos cargados.");
 	}
+
 	
 	private void cargaPersonas(Integer orden) {
 		logger.info(orden+"> Buscando personas guardadas.");
@@ -261,4 +269,136 @@ public class StartUpControllerImpl implements InitializingBean {
 	private MedioDePago getRandomMDPFromList(List<MedioDePago> mediosDePago) {
 	    return mediosDePago.get(new Random().nextInt(mediosDePago.size()));
 	}
+	
+	private void cargaTipoLiquidacion() {
+
+		LiquidacionItem item = new LiquidacionItem(1,"Basico", 30F, true);
+		item.addTipoLiquidacion(new TipoLiquidacionRemunerativa(1, "Asistencia y Puntualidad", 0.11F, true, 2637.98F,item));
+		TipoEmpleado empleado =  new TipoEmpleado();
+		empleado.setId(1);
+		item.addTipoEmpleado(empleado);
+		liquidacionService.save(item);
+		item = new LiquidacionItem(2,"Antiguedad", 0F, true);
+		empleado =  new TipoEmpleado();
+		empleado.setId(2);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(3,"Asistencia y Puntualidad", 2637.98F, true);
+		liquidacionService.save(item);
+		empleado =  new TipoEmpleado();
+		empleado.setId(1);
+		item.addTipoEmpleado(empleado);
+		item = new LiquidacionItem(4,"Adicional por Zona", 11F, true);
+		empleado =  new TipoEmpleado();
+		empleado.setId(2);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(5,"Horas Extras al 50%", 11F, true);
+		empleado =  new TipoEmpleado();
+		empleado.setId(2);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(6,"Horas Extras al 100%", 11F, true);
+		empleado =  new TipoEmpleado();
+		empleado.setId(2);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(7,"Acuerdo", 11F, true);
+		empleado =  new TipoEmpleado();
+		empleado.setId(2);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(8,"Antiguedad/Acuerdo", 11F, true);
+		empleado =  new TipoEmpleado();
+		empleado.setId(2);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(9,"Asistencia y Puntualidad/Acuerdo", 11F, true);
+		empleado =  new TipoEmpleado();
+		empleado.setId(2);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(10,"Adicional por Zona/Acuerdo", 11F, true);
+		empleado =  new TipoEmpleado();
+		empleado.setId(2);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(11,"Horas Extras al 50%/Acuerdo", 11F, true);
+		empleado =  new TipoEmpleado();
+		empleado.setId(2);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(12,"Jubilacion", 11F, true);
+		empleado =  new TipoEmpleado();
+		empleado.setId(2);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(13,"Ley 19.032n", 3F, true);
+		item.addTipoLiquidacion(new TipoLiquidacionDescuento(2, "Jubilacion", 0.11F, true, 0));
+		empleado =  new TipoEmpleado();
+		empleado.setId(1);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(14,"Obra Social", 3F, true);
+		item.addTipoLiquidacion(new TipoLiquidacionDescuento(3, "Ley 19.032", 0.031F, true, 0));
+		empleado =  new TipoEmpleado();
+		empleado.setId(1);
+		item.addTipoEmpleado(empleado);
+		liquidacionService.save(item);
+		item = new LiquidacionItem(15,"S.E.C. Art. 100 CCT 130/75", 2F, true);
+		item.addTipoLiquidacion(new TipoLiquidacionDescuento(4, "Obra Social", 0.03F, true, 0));
+		empleado =  new TipoEmpleado();
+		empleado.setId(1);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(16,"F.A.E.C. y S. Art. 100 CCT 130/75", 0.5F, true);
+		item.addTipoLiquidacion(new TipoLiquidacionDescuento(5, "S.E.C. Art. 100 CCT 130/75", 0.02F, true, 0));
+		empleado =  new TipoEmpleado();
+		empleado.setId(1);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(17,"S.E.C. Art. 101 CCT 130/75", 2F, true);
+		item.addTipoLiquidacion(new TipoLiquidacionDescuento(6, "F.A.E.C. y S. Art. 100 CCT 130/75", 0.005F, true, 0));
+		empleado =  new TipoEmpleado();
+		empleado.setId(1);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		item = new LiquidacionItem(18,"Liquidacion por horas trabajadas", 0F, true);
+		item.addTipoLiquidacion(new TipoLiquidacionDescuento(7, "S.E.C. Art. 101 CCT 130/75", 0.002F, true, 0));
+		empleado =  new TipoEmpleado();
+		empleado.setId(3);
+		item.addTipoEmpleado(empleado);		
+		liquidacionService.save(item);
+		
+//		List<TipoLiquidacion> liquidacion = new ArrayList<TipoLiquidacion>();
+//		liquidacion.add(new TipoLiquidacionRemunerativa(1, "Asistencia y Puntualidad", 0.11F, true, 2637.98F,item));
+//		item.addTipoLiquidacion(liquidacion.get(0));
+//		liquidacion.add(new TipoLiquidacionDescuento(2, "Jubilacion", 0.11F, true, 0));
+//		liquidacion.add(new TipoLiquidacionDescuento(3, "Ley 19.032", 0.031F, true, 0));
+//		liquidacion.add(new TipoLiquidacionDescuento(4, "Obra Social", 0.03F, true, 0));
+//		liquidacion.add(new TipoLiquidacionDescuento(5, "S.E.C. Art. 100 CCT 130/75", 0.02F, true, 0));
+//		liquidacion.add(new TipoLiquidacionDescuento(6, "F.A.E.C. y S. Art. 100 CCT 130/75", 0.005F, true, 0));
+//		liquidacion.add(new TipoLiquidacionDescuento(7, "S.E.C. Art. 101 CCT 130/75", 0.002F, true, 0));
+//		for (TipoLiquidacion tipoLiquidacion : liquidacion) {
+//			if (tipoLiquidacion instanceof TipoLiquidacionNoRemunerativa) {
+//				TipoLiquidacionNoRemunerativa tlnr = (TipoLiquidacionNoRemunerativa) tipoLiquidacion;
+//				liquidacionService.save(liquidacion.get(0));
+//				logger.info("< Tipo creado. "+tlnr.getId()+" No Remunerativa.");
+//			}
+//			if (tipoLiquidacion instanceof TipoLiquidacionRemunerativa) {
+//				TipoLiquidacionRemunerativa tlr = (TipoLiquidacionRemunerativa) tipoLiquidacion;
+//				liquidacionService.save(tlr);
+//				logger.info("< Tipo creado. "+tlr.getId()+"  Remunerativa.");
+//			}
+//			if (tipoLiquidacion instanceof TipoLiquidacionDescuento) {
+//				TipoLiquidacionDescuento tld = (TipoLiquidacionDescuento) tipoLiquidacion;
+//				liquidacionService.save(tld);
+//				logger.info("< Tipo creado. "+tld.getId()+" Descuento.");
+//			}
+//
+//			
+//		}
+
+	}
+	
 }
