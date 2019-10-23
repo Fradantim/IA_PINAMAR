@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 public class LiquidacionItem {
 
@@ -39,6 +42,8 @@ public class LiquidacionItem {
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "liquidacion_item_tipo_empleados", joinColumns = @JoinColumn(name = "liquidacion_item_id"), inverseJoinColumns = @JoinColumn(name = "tipo_empleados_id"))
 	private List<TipoEmpleado> tipoEmpleados;
+
+	private static final Logger logger = LoggerFactory.getLogger(LiquidacionItem.class);
 
 	public LiquidacionItem(String descripcion, Float valor, Boolean sueldoBasico) {
 		this.descripcion = descripcion;
@@ -121,7 +126,12 @@ public class LiquidacionItem {
 		for (TipoLiquidacion tipoLiquidacion : getTiposLiquidaciones()) {
 			if (tipoLiquidacion instanceof TipoLiquidacionDescuento) {
 				TipoLiquidacionDescuento tipo = (TipoLiquidacionDescuento) tipoLiquidacion;
-				montoDescuento = montoDescuento + (montoBruto * tipo.getValor());
+				if(tipo.getValor()==null || tipo.getValor() ==0) {					
+					montoDescuento = montoDescuento + (montoBruto * tipo.getValorPorcentaje());
+					logger.info("Montos descuento: monto bruto: " +  montoBruto + " monto descuento: " + montoDescuento + " monto porcentaje: " + tipo.getValorPorcentaje());
+			}else 
+					montoDescuento = montoDescuento + tipo.getValor();					
+				
 			}
 		}
 		return montoDescuento;

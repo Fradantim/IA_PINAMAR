@@ -1,6 +1,7 @@
 package com.ia.tmi.iatmi.controllerImpl;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.ia.tmi.iatmi.config.CatalogoConfig;
 import com.ia.tmi.iatmi.controller.LiquidacionController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
 import com.ia.tmi.iatmi.persistence.entities.Liquidacion;
@@ -16,6 +18,7 @@ import com.ia.tmi.iatmi.persistence.entities.LiquidacionItem;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.service.LiquidacionService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
+import com.ia.tmi.iatmi.remoteEndpoint.BancariaRemoteEndpoint;
 import com.ia.tmi.iatmi.transformers.PersonaTransformer;
 
 @Controller
@@ -30,6 +33,12 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 	@Autowired
 	private PersonaTransformer personaTransformer;
 
+	@Autowired
+	private CatalogoConfig catalogo;
+	
+	@Autowired
+	private BancariaRemoteEndpoint  depositarSueldo;
+	
 	@Override
 	public List<PersonaDTO> findPersonaLiquidacionAnioMesAll(int anio, int mes) {
 		return personaTransformer.transform(liquidacionServices.findPersonaByLiquidacionAnioMesAll(anio, mes));
@@ -58,6 +67,17 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 		else
 			liquidacion.cacularLiquidacionPorHora(mes);
 		liquidacionServices.save(liquidacion);
+	}
+
+	@Override
+	public void pagarLiquidaciones(int anio, int mes) {
+			List<Liquidacion> liquidaciones = liquidacionServices.payPersonaByLiquidacion(anio, mes);
+		    for (Liquidacion liquidacion : liquidaciones) {
+				depositarSueldo.pagarLiquidacion(liquidacion.getEmpleado().getCBU(), liquidacion.getEmpleado().getCUIT(), catalogo.getCBU(), catalogo.getCUIL(), liquidacion.getMontoNeto());
+				Liquidacion liquidacionPaga = liquidacionServices.findById(liquidacion.getId());
+				liquidacionPaga.setFechaPago(new Date());
+				liquidacionServices.save(liquidacionPaga);
+		    }
 	}
 
 }

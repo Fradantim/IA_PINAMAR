@@ -11,14 +11,13 @@ import com.ia.tmi.iatmi.persistence.entities.Liquidacion;
 
 @Repository
 public interface LiquidacionRepository extends JpaRepository<Liquidacion, Integer> {
-	// @Query(value = "select p.* from liquidacion l " +
-	// " right join persona p on l.empleado_id != p.id " +
-	// " and year(l.fecha) = :anio " +
-	// " and month(l.fecha) = :mes " +
-	// "where p.tipo_empleado_id IS NOT NULL", nativeQuery = true)
+
 	@Query(value = " select p.id, p.apellido, p.dni, p.email, p.fecha_alta, p.fecha_nacimiento, p.nombre, \r\n" + 
 			"p.sexo, p.sueldo_basico_costo_hora, p.habilitacion_id, p.tipo_empleado_id"
 			+ " from  persona p where p.id not in (select l.empleado_id from liquidacion l where  year(l.fecha) = :anio and month(l.fecha) = :mes  ) and p.tipo_empleado_id IS NOT NULL", nativeQuery = true)
 	public List<Object[]> findAllLiquidacionPersona(@Param("anio") int anio, @Param("mes") int mes);
-
+ 
+	@Query(value = " select  p.id, p.apellido, p.cbu, p.nombre, l.id, l.monto_neto"
+			+ " from  persona p, liquidacion l where p.id = l.empleado_id  and year(l.fecha) = :anio and month(l.fecha) = :mes  and l.fechaPago IS NULL", nativeQuery = true)
+	public List<Object[]> findNotPayLiquidacionPersona(@Param("anio") int anio, @Param("mes") int mes);
 }

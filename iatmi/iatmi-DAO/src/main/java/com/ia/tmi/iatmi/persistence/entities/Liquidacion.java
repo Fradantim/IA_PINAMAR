@@ -17,7 +17,6 @@ import javax.persistence.OneToMany;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 @Entity
 public class Liquidacion {
 
@@ -27,8 +26,11 @@ public class Liquidacion {
 
 	@Column
 	private Date fecha;
+	
+	@Column
+	private Date fechaPago;
 
-	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	private List<LiquidacionDetalle> liquidacionDetalles;
 
 	@Column
@@ -47,16 +49,17 @@ public class Liquidacion {
 	private Persona empleado;
 
 	public Liquidacion(Persona empleado) {
-		this.empleado = empleado;
+		this.setEmpleado(empleado);
 		setFecha(new Date());
-		montoNeto = 0F;
+		setMontoNeto(0F);
 		montoBruto = 0F;
 		montoDescuento = 0F;
 		montoNoRemunarativo = 0F;
+		setFechaPago(null);
 	}
 
 	private static final Logger logger = LoggerFactory.getLogger(Liquidacion.class);
-	
+
 	public Liquidacion() {
 	}
 
@@ -65,51 +68,55 @@ public class Liquidacion {
 			liquidacionDetalles = new ArrayList<LiquidacionDetalle>();
 
 		LiquidacionDetalle liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, montoBruto);
-		
-//		if (liquidacionItem.getValor() >= 0) {
-//			liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, empleado.getSueldoBasicoCostoHora());
-//			montoBruto += liquidacionDetalle.getMonto();
-//		} else {
-//			liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, montoBruto);
-//		}
-//		montoNeto += liquidacionDetalle.getMonto(); +  
-		
+
+		// if (liquidacionItem.getValor() >= 0) {
+		// liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem,
+		// empleado.getSueldoBasicoCostoHora());
+		// montoBruto += liquidacionDetalle.getMonto();
+		// } else {
+		// liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem,
+		// montoBruto);
+		// }
+		// montoNeto += liquidacionDetalle.getMonto(); +
+
 		liquidacionDetalles.add(liquidacionDetalle);
 	}
 
 	public void cacularLiquidacionMes() {
 
-		montoBruto = montoBruto + empleado.getSueldoBasicoCostoHora();
-		logger.info("--> monto bruto empleado: " + montoBruto + " Id empleado: " + empleado.getId());
+		montoBruto = montoBruto + getEmpleado().getSueldoBasicoCostoHora();
+		logger.info("--> monto bruto empleado: " + montoBruto + " Id empleado: " + getEmpleado().getId());
 		logger.info("--> Cantidad de detalles: " + liquidacionDetalles.size());
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
-			logger.info("--> items del detalle: " + liquidacionDetalle.toString());			
+			logger.info("--> items del detalle: " + liquidacionDetalle.toString());
 			montoBruto = montoBruto + liquidacionDetalle.getItem().calcularRemunerativo();
 		}
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
-			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "+ liquidacionDetalle.getItem().getValor() );			
-			montoNoRemunarativo = liquidacionDetalle.getItem().calcularNoRemunerativo();
+			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "
+					+ liquidacionDetalle.getItem().getValor());
+			montoNoRemunarativo = montoNoRemunarativo + liquidacionDetalle.getItem().calcularNoRemunerativo();
 		}
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
-			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "+ liquidacionDetalle.getItem().getValor() + " Valor  " + liquidacionDetalle.getItem().getTiposLiquidaciones().size());			
-			montoDescuento = liquidacionDetalle.getItem().calcularDescuento(montoBruto);
+			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "
+					+ liquidacionDetalle.getItem().getValor() + " Valor  "
+					+ liquidacionDetalle.getItem().getTiposLiquidaciones().size());
+			montoDescuento = montoDescuento + liquidacionDetalle.getItem().calcularDescuento(montoBruto);
 		}
 
-		montoNeto = montoBruto + montoNoRemunarativo - montoDescuento;
-		
 		logger.info("--> montoBruto: " + montoBruto);
 		logger.info("--> montoNoRemunarativo: " + montoNoRemunarativo);
 		logger.info("--> montoDescuento: " + montoDescuento);
-		logger.info("--> montoNeto: " + montoNeto);
+		setMontoNeto(montoBruto + montoNoRemunarativo - montoDescuento);
+		logger.info("--> montoNeto: " + getMontoNeto());
 	}
 
 	public void cacularLiquidacionPorHora(int mes) {
-		int	horas = empleado.calcularHorasPorFichada(mes);
-		if(liquidacionDetalles != null) 
-			for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) 
+		int horas = getEmpleado().calcularHorasPorFichada(mes);
+		if (liquidacionDetalles != null)
+			for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles)
 				montoBruto = horas * liquidacionDetalle.getItem().calcularRemunerativo();
-		else if(this.empleado != null) 
-			montoBruto = empleado.getSueldoBasicoCostoHora();
+		else if (this.getEmpleado() != null)
+			montoBruto = getEmpleado().getSueldoBasicoCostoHora();
 	}
 
 	public Float getMontoDescuento() {
@@ -126,5 +133,37 @@ public class Liquidacion {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	public Date getFechaPago() {
+		return fechaPago;
+	}
+
+	public void setFechaPago(Date fechaPago) {
+		this.fechaPago = fechaPago;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Float getMontoNeto() {
+		return montoNeto;
+	}
+
+	public void setMontoNeto(Float montoNeto) {
+		this.montoNeto = montoNeto;
+	}
+
+	public Persona getEmpleado() {
+		return empleado;
+	}
+
+	public void setEmpleado(Persona empleado) {
+		this.empleado = empleado;
 	}
 }

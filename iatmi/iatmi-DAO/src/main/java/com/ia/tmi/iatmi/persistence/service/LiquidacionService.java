@@ -55,6 +55,10 @@ public class LiquidacionService {
 		return tipoDescuentoRepo.findAll();
 	}
 
+	public Liquidacion findById(Integer id) {
+		return liquidacionRepo.findById(id).get();
+	}
+	
 	public TipoLiquidacion save(TipoLiquidacion tipo) {
 		return tipoLiquidacionRepo.save(tipo);
 	}
@@ -76,15 +80,25 @@ public class LiquidacionService {
 		List<Object[]> rows = liquidacionRepo.findAllLiquidacionPersona(anio, mes);
 		for (Object[] objects : rows) {		
 			personas.add(Persona.toPersona(((objects[0] == null) ? null : (Integer) objects[0]),(String) objects[1],(String) objects[2],(String) objects[3],(Date)objects[4],(Date) objects[5],(String) objects[6],(String) objects[7], ((objects[8] == null) ? null : ((Double)objects[8]).floatValue()),((objects[9] == null) ? null : (Integer) objects[9]),((objects[10] == null) ? null : (Integer) objects[10])));
-//			int posicion = 0;
-//			for (Object object : objects) {	
-//				
-//				logger.info("Que tengo en la consulta por atibutos " + ((object == null) ? "Soy nulo" : object)
-//						+ " Posicion: " + posicion);
-//				posicion++;
-//			}
 		}
 		return personas;
 	}
-
+	public List<Liquidacion> payPersonaByLiquidacion(int anio, int mes){
+		List<Liquidacion> liquidacionPagar= new ArrayList<Liquidacion>();
+		List<Object[]> rows = liquidacionRepo.findNotPayLiquidacionPersona(anio, mes);
+		for (Object[] objects : rows) {	
+			logger.info(objects.toString());
+			Persona persona = new Persona();
+			persona.setId(((objects[0] == null) ? null : (Integer) objects[0]));
+			persona.setApellido((String) objects[1]);
+			persona.setCBU((String) objects[2]);
+			persona.setNombre((String) objects[3]);
+			Liquidacion liquidacion = new Liquidacion();
+			liquidacion.setId(((objects[4] == null) ? null : (Integer) objects[4]));
+			liquidacion.setMontoNeto((objects[5] == null) ? null : ((Float)objects[5]));
+			liquidacion.setEmpleado(persona);
+			liquidacionPagar.add(liquidacion);
+		}
+		return liquidacionPagar;
+	}
 }
