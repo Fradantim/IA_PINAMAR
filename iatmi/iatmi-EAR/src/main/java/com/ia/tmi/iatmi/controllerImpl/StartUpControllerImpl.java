@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import com.ia.tmi.iatmi.controller.MovimientoController;
 import com.ia.tmi.iatmi.controller.PersonaController;
+import com.ia.tmi.iatmi.dto.PersonaDTO;
 import com.ia.tmi.iatmi.persistence.entities.Clase;
 import com.ia.tmi.iatmi.persistence.entities.LiquidacionItem;
 import com.ia.tmi.iatmi.persistence.entities.MedioDePago;
@@ -28,6 +31,7 @@ import com.ia.tmi.iatmi.persistence.entities.TipoEmpleado;
 import com.ia.tmi.iatmi.persistence.entities.TipoLiquidacionDescuento;
 import com.ia.tmi.iatmi.persistence.entities.TipoLiquidacionRemunerativa;
 import com.ia.tmi.iatmi.persistence.service.ClaseService;
+import com.ia.tmi.iatmi.persistence.service.FicheroService;
 import com.ia.tmi.iatmi.persistence.service.LiquidacionService;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.PaseService;
@@ -63,7 +67,10 @@ public class StartUpControllerImpl implements InitializingBean {
 	private MovimientoController movController;
 	
 	@Autowired
-	private LiquidacionService liquidacionService;;
+	private LiquidacionService liquidacionService;
+	
+	@Autowired
+	private FicheroService ficheroService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(StartUpControllerImpl.class);
 
@@ -260,6 +267,7 @@ public class StartUpControllerImpl implements InitializingBean {
 		}
 		
 		logger.info("< Fin carga personas. "+personaService.findAll().size()+" elementos cargados.");
+		cargarFicheros();
 	}
 	
 	private Pase getRandomPaseFromList(List<Pase> pases) {
@@ -369,4 +377,19 @@ public class StartUpControllerImpl implements InitializingBean {
 
 	}
 	
+	private void cargarFicheros() {
+		logger.info(" > Cargando Ficheros.");
+		LocalDate start = LocalDate.of(2019, 9, 1);
+		LocalDate end = start.plusDays(50);
+		
+		for(PersonaDTO persona: personaController.findEmpleados()) {
+			for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+				Date ingreso = Date.from( date.atTime(9, 0).atZone( ZoneId.systemDefault()).toInstant());
+				Date egreso = Date.from( date.atTime(18, 0).atZone( ZoneId.systemDefault()).toInstant());
+				ficheroService.altaFicheroMock(persona.getId(), ingreso, egreso, RolPersonaEnum.EMPLEADO.getRol());
+			}
+		}
+		
+		logger.info("< Fin carga Ficheros. " + ficheroService.findAll().size() + " elementos cargados.");
+	}
 }
