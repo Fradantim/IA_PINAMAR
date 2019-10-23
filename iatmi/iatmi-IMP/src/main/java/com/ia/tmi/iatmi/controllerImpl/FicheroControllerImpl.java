@@ -1,5 +1,6 @@
 package com.ia.tmi.iatmi.controllerImpl;
 
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +40,27 @@ public class FicheroControllerImpl implements FicheroController{
 			ficheroService.save(ultimaFichada);
 		}
 		
-		//TODO Continuar fichereada
-		//Fichero fichero ultimaFichada = ficheroService
+		Fichero nuevaFichada = new Fichero(persona, rol);
+		ficheroService.save(nuevaFichada);
 	}
 
 	@Override
 	public void ficharEgreso(Integer idPersona, String idRol) {
-		// TODO Auto-generated method stub
+		Persona persona = personaService.findById(idPersona).get();
+		RolPersona rol;
+		try {
+			rol = RolPersonaEnum.valueOf(idRol).getRol();
+		} catch(IllegalArgumentException e) {
+			throw new NoSuchElementException("No se encontro un Rol con id "+idRol);
+		}
 		
+		Fichero ultimaFichada = ficheroService.findFirstByPersonaAndRolOrderByFechaIngresoDesc(persona, rol);
+		
+		if(ultimaFichada == null) {
+			throw new NoSuchElementException("No se encontró una Fichada que a la cual marcar egreso.");
+		}
+		
+		ultimaFichada.setFechaEgreso(new Date());
+		ficheroService.save(ultimaFichada);
 	}
 }

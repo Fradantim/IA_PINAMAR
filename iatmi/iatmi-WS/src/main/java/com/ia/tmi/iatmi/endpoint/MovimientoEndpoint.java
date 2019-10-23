@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ia.tmi.iatmi.controller.MovimientoController;
-import com.ia.tmi.iatmi.dto.MedioDePagoDTO;
 import com.ia.tmi.iatmi.dto.MovimientoDTO;
 import com.ia.tmi.iatmi.request.PagoFacturaRequest;
 
