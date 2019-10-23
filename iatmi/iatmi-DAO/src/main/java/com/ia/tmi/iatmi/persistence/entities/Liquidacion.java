@@ -108,9 +108,11 @@ public class Liquidacion {
 
 	public void cacularLiquidacionPorHora(int mes) {
 		int	horas = empleado.calcularHorasPorFichada(mes);
-		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
-			montoBruto = horas * liquidacionDetalle.getItem().calcularRemunerativo();
-		}
+		if(liquidacionDetalles != null) 
+			for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) 
+				montoBruto = horas * liquidacionDetalle.getItem().calcularRemunerativo();
+		else if(this.empleado != null) 
+			montoBruto = empleado.getSueldoBasicoCostoHora();
 	}
 
 	public Float getMontoDescuento() {
