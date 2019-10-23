@@ -20,4 +20,8 @@ public class Pago extends Movimiento{
 		this.factura=factura;
 		this.medioDePago = medioDePago;
 	}
+
+	public Pago() {
+	}
+	
 }
