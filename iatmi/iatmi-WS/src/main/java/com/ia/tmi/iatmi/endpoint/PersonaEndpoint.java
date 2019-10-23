@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
+import com.ia.tmi.iatmi.request.AgregarFichaMedicaRequest;
 import com.ia.tmi.iatmi.request.AltaEmpleadoRequest;
 import com.ia.tmi.iatmi.wsModel.WSReturn;
 
@@ -58,4 +59,13 @@ public class PersonaEndpoint{
 	public WSReturn<List<PersonaDTO>> getSocios(){
 		return new WSReturn<List<PersonaDTO>>("Búsqueda exitosa.", personaController.findSocios());
 	}
+	
+	@SuppressWarnings("rawtypes")
+	@PostMapping(PATH_SOCIOS+"/FM")
+	public WSReturn agregarFacturaMedica(@RequestBody(required = true) AgregarFichaMedicaRequest request){
+		personaController.addFichaMedica(request.getFichaMedica(), request.getIdPersona());
+		return WSReturn.OK("Búsqueda exitosa.");
+	}
+	
+	
 }
