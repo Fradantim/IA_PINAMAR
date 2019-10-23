@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ia.tmi.iatmi.controller.LiquidacionController;
-import com.ia.tmi.iatmi.dto.MovimientoDTO;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
+import com.ia.tmi.iatmi.request.LiquidacionRequest;
 import com.ia.tmi.iatmi.wsModel.WSReturn;
 
 @RestController
@@ -23,8 +23,8 @@ public class LiquidacionEndpoint {
 	public LiquidacionController liquidacionController;
 
 	@PostMapping(PATH)
-	public WSReturn crearLiquidacion(@RequestBody PersonaDTO empleado) {
-		liquidacionController.guardarLiquidacion(empleado.getId(), 2019, 10);
+	public WSReturn crearLiquidacion(@RequestBody(required=true) LiquidacionRequest request) {
+		liquidacionController.guardarLiquidacion(request.getIdEmpleado(), request.getAnio(), request.getMes());
 		return WSReturn.OK("Alta Exitosa de la Liquidacion");
 	}
 
