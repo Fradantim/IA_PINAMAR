@@ -1,5 +1,6 @@
 package com.ia.tmi.iatmi.controllerImpl;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,9 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 		logger.info("--> Persona: " + persona.getId().toString());
 		
 		Liquidacion liquidacion = new Liquidacion(persona);
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(anio, mes, 20);
+		liquidacion.setFecha(calendar.getTime());
 		for (LiquidacionItem items : persona.getTipoEmpleado().getLiquidacionItems()) {
 			logger.info("--> Items Id: " + items.getId() + " Tipo Persona:  " + persona.getTipoEmpleado().getDescripcion() + " Items: " + items.getValor() + " Tipos: " + items.getTiposLiquidaciones().size());
 			liquidacion.addLiquidacionItem(items);
