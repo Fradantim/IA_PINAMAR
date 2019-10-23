@@ -8,11 +8,13 @@ import org.springframework.stereotype.Controller;
 
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.FacturaDTO;
+import com.ia.tmi.iatmi.dto.FichaMedicaDTO;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
 import com.ia.tmi.iatmi.exception.PersonaNoPoseeRolNecesarioException;
 import com.ia.tmi.iatmi.exception.SocioYaPoseePaseActivoException;
 import com.ia.tmi.iatmi.persistence.entities.Factura;
 import com.ia.tmi.iatmi.persistence.entities.FacturaDetalle;
+import com.ia.tmi.iatmi.persistence.entities.FichaMedica;
 import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
 import com.ia.tmi.iatmi.persistence.entities.Pase;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
@@ -23,6 +25,7 @@ import com.ia.tmi.iatmi.persistence.service.PaseService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
 import com.ia.tmi.iatmi.persistence.service.TipoEmpleadoService;
 import com.ia.tmi.iatmi.transformers.FacturaTransformer;
+import com.ia.tmi.iatmi.transformers.FichaMedicaTransformerFromDTO;
 import com.ia.tmi.iatmi.transformers.PersonaTransformer;
 import com.ia.tmi.iatmi.transformers.PersonaTransformerFromDTO;
 
@@ -49,6 +52,9 @@ public class PersonaControllerImpl implements PersonaController{
 	
 	@Autowired
 	private FacturaTransformer facturaTransformer;
+	
+	@Autowired
+	private FichaMedicaTransformerFromDTO fichaMedTranFromDTO;
 	
 	
 	@Autowired
@@ -124,5 +130,17 @@ public class PersonaControllerImpl implements PersonaController{
 	@Override
 	public List<PersonaDTO> findSocios() {
 		return personaTransformer.transform(personaService.findByRolPersona(RolPersonaEnum.SOCIO.getRol()));
+	}
+
+	@Override
+	public void addFichaMedica(FichaMedicaDTO fichaMedica, Integer idPersona) {
+		Persona persona = personaService.findById(idPersona).get();
+		
+		if(!persona.hasRol(RolPersonaEnum.SOCIO.getRol())) {
+			throw new PersonaNoPoseeRolNecesarioException("Solo los usuarios de tipo "+ RolPersonaEnum.SOCIO+ " pueden agregar FichaMedica.");
+		}
+		FichaMedica ficha = fichaMedTranFromDTO.transform(fichaMedica);
+		
+		//TODO Continuar
 	}
 }

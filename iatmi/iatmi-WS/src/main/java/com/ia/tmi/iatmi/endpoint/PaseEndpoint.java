@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +12,7 @@ import com.ia.tmi.iatmi.controller.PaseController;
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.FacturaDTO;
 import com.ia.tmi.iatmi.dto.PaseDTO;
-import com.ia.tmi.iatmi.dto.PersonaDTO;
+import com.ia.tmi.iatmi.request.AgregarPaseRequest;
 import com.ia.tmi.iatmi.wsModel.WSReturn;
 
 @RestController
@@ -31,11 +31,8 @@ public class PaseEndpoint{
 		return new WSReturn<List<PaseDTO>>("Busqueda exitosa", paseController.findAll());
 	}
 	
-	@PutMapping(PATH)
-	public WSReturn<FacturaDTO> addPase(
-			@RequestBody PersonaDTO persona,
-			@RequestBody PaseDTO pase
-			){
-		return new WSReturn<FacturaDTO>("Asociación exitosa", personaController.asignarPase(persona.getId(), pase.getId()));
+	@PostMapping(PATH)
+	public WSReturn<FacturaDTO> addPase(@RequestBody AgregarPaseRequest request){
+		return new WSReturn<FacturaDTO>("Asociación exitosa", personaController.asignarPase(request.getIdPersona(), request.getIdPase()));
 	}
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.ia.tmi.iatmi.controller.FicheroController;
+import com.ia.tmi.iatmi.exception.PersonaNoPoseeRolNecesarioException;
 import com.ia.tmi.iatmi.persistence.entities.Fichero;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.entities.RolPersona;
@@ -33,6 +34,10 @@ public class FicheroControllerImpl implements FicheroController{
 			throw new NoSuchElementException("No se encontro un Rol con id "+idRol);
 		}
 		
+		if(!persona.hasRol(rol)) {
+			throw new PersonaNoPoseeRolNecesarioException("La persona no posee con el perfil indicado.");
+		}
+		
 		Fichero ultimaFichada = ficheroService.findFirstByPersonaAndRolOrderByFechaIngresoDesc(persona, rol);
 		
 		if(ultimaFichada != null && ultimaFichada.getFechaEgreso()==null) {
@@ -52,6 +57,10 @@ public class FicheroControllerImpl implements FicheroController{
 			rol = RolPersonaEnum.valueOf(idRol).getRol();
 		} catch(IllegalArgumentException e) {
 			throw new NoSuchElementException("No se encontro un Rol con id "+idRol);
+		}
+		
+		if(!persona.hasRol(rol)) {
+			throw new PersonaNoPoseeRolNecesarioException("La persona no posee con el perfil indicado.");
 		}
 		
 		Fichero ultimaFichada = ficheroService.findFirstByPersonaAndRolOrderByFechaIngresoDesc(persona, rol);
