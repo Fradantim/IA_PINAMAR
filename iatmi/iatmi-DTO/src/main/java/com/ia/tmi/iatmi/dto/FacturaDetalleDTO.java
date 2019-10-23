@@ -9,7 +9,8 @@ public class FacturaDetalleDTO {
 
 	public FacturaDetalleDTO() {}
 	
-	public FacturaDetalleDTO(PaseDTO pase) {
+	public FacturaDetalleDTO(Integer id, PaseDTO pase) {
+		this.id=id;
 		this.pase = pase;
 		this.montoParcial= pase.getPrecio();
 	}

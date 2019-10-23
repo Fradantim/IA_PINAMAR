@@ -14,6 +14,6 @@ public class FacturaDetalleTransformer extends Transformer<FacturaDetalle, Factu
 	
 	@Override
 	public FacturaDetalleDTO transform(FacturaDetalle element) {
-		return new FacturaDetalleDTO(paseTransformer.transform(element.getPase()));
+		return new FacturaDetalleDTO(element.getId(), paseTransformer.transform(element.getPase()));
 	}
 }
