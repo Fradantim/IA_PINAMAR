@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ia.tmi.iatmi.persistence.entities.Liquidacion;
-import com.ia.tmi.iatmi.persistence.entities.Persona;
 
 @Repository
 public interface LiquidacionRepository extends JpaRepository<Liquidacion, Integer> {
@@ -18,6 +17,6 @@ public interface LiquidacionRepository extends JpaRepository<Liquidacion, Intege
 			"		and year(l.fecha) = :anio " + 
 			"		and month(l.fecha) = :mes " + 
 			"where p.tipo_empleado_id IS NOT NULL", nativeQuery = true)
-	public List<Persona> findAllLiquidacionPersona(@Param("anio") int anio, @Param("mes") int mes);
+	public List<Object[]> findAllLiquidacionPersona(@Param("anio") int anio, @Param("mes") int mes);
 	
 }

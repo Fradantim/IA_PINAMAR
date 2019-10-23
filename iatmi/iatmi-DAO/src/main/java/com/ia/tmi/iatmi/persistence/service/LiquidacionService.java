@@ -2,9 +2,12 @@ package com.ia.tmi.iatmi.persistence.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ia.tmi.iatmi.controllerImpl.StartUpControllerImpl;
 import com.ia.tmi.iatmi.persistence.entities.Liquidacion;
 import com.ia.tmi.iatmi.persistence.entities.LiquidacionItem;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
@@ -37,6 +40,7 @@ public class LiquidacionService {
 		@Autowired
 		private LiquidacionItemRepository liquidacionItemRepo;
 
+		private static final Logger logger = LoggerFactory.getLogger(LiquidacionService.class);
 
 		public List<TipoLiquidacionRemunerativa> findTypeRemunerativaAll(){
 			return tipoRemunerativaRepo.findAll();
@@ -68,7 +72,13 @@ public class LiquidacionService {
 		
 		
 		public List<Persona> findPersonaByLiquidacionAnioMesAll(int anio,int mes){
-			return liquidacionRepo.findAllLiquidacionPersona(anio, mes);
+			List<Object[]> rows = liquidacionRepo.findAllLiquidacionPersona(anio, mes);
+			for (Object[] objects : rows) {
+				for (Object object : objects) {
+					logger.info("Que tengo en la consulta por atibutos" + object + " toString" + object.toString() + " Valor: " + object.getClass().getName());
+				} 
+			}
+			return null;
 		}
 		
 		
