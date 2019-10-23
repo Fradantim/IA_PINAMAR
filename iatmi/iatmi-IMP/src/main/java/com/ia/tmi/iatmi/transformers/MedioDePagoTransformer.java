@@ -12,7 +12,7 @@ import com.ia.tmi.iatmi.persistence.entities.MedioDePago;
 public class MedioDePagoTransformer {
 	
 	public MedioDePagoDTO transform(MedioDePago medioDePago) {
-		return new MedioDePagoDTO(medioDePago.getId(), medioDePago.getNombre());
+		return new MedioDePagoDTO(medioDePago.getId(), medioDePago.getNombre(), medioDePago.getEsTarjeta());
 	}
 	
 	public List<MedioDePagoDTO> transform(List<MedioDePago> mediosDePago) {

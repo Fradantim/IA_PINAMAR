@@ -5,10 +5,13 @@ public class MedioDePagoDTO {
 	private Integer id;
 	
 	private String nombre;
+	
+	private Boolean esTarjeta;
 
-	public MedioDePagoDTO(Integer id, String nombre) {
+	public MedioDePagoDTO(Integer id, String nombre, Boolean esTarjeta) {
 		this.id = id;
 		this.nombre = nombre;
+		this.esTarjeta = esTarjeta;
 	}
 
 	public Integer getId() {
@@ -25,5 +28,13 @@ public class MedioDePagoDTO {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public Boolean getEsTarjeta() {
+		return esTarjeta;
+	}
+
+	public void setEsTarjeta(Boolean esTarjeta) {
+		this.esTarjeta = esTarjeta;
 	}
 }
