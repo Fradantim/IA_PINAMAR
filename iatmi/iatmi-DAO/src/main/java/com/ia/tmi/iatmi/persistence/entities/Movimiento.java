@@ -21,7 +21,7 @@ public abstract class Movimiento {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 	
 	@Column
 	private Date fecha;
@@ -48,11 +48,11 @@ public abstract class Movimiento {
 		this(persona, 0F);
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

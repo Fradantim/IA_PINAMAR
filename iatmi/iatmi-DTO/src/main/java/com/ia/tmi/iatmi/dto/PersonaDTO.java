@@ -30,7 +30,7 @@ public class PersonaDTO {
 	public PersonaDTO(Integer id, String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento,
 			Date fechaAlta) {
 		this(nombre, apellido, dni ,email, sexo, fechaNacimiento,fechaAlta);
-		this.id=id;
+		this.setId(id);
 	}
 	
 	public PersonaDTO(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento,
@@ -52,7 +52,7 @@ public class PersonaDTO {
 
 	@Override
 	public String toString() {
-		return "PersonaDTO [nombre=" + nombre + ", id=" + id + "]";
+		return "PersonaDTO [nombre=" + nombre + ", id=" + getId() + "]";
 	}
 
 	public String getApellido() {
@@ -103,9 +103,7 @@ public class PersonaDTO {
 		this.fechaAlta = fechaAlta;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	
 
 	public List<String> getRoles() {
 		return roles;
@@ -127,7 +125,9 @@ public class PersonaDTO {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	
 }

@@ -1,7 +1,7 @@
 package com.ia.tmi.iatmi.dto;
 public class FacturaDetalleDTO {
 
-	private int id;
+	private Integer id;
 	
 	private PaseDTO pase;
 	
@@ -14,11 +14,11 @@ public class FacturaDetalleDTO {
 		this.montoParcial= pase.getPrecio();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
