@@ -76,4 +76,20 @@ public class Fichero {
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
 	}
+
+	public RolPersona getRol() {
+		return rol;
+	}
+
+	public void setRol(RolPersona rol) {
+		this.rol = rol;
+	}
+
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
 }
