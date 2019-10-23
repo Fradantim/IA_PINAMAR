@@ -28,10 +28,10 @@ public class MovimientoEndpoint{
 	}
 	
 	@GetMapping(PATH)
-	public List<MovimientoDTO> getBySocio(
+	public WSReturn<List<MovimientoDTO>> getBySocio(
 			@RequestParam(required = true) Integer idSocio
 			){
-		return movimientoController.findBySocio(idSocio);
+		return new WSReturn<List<MovimientoDTO>>("Busqueda exitosa.",movimientoController.findBySocio(idSocio));
 	}
 	
 	@PostMapping(PATH)
