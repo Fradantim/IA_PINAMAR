@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.ia.tmi.iatmi.persistence.entities.RolPersona.RolPersonaEnum;
 import com.ia.tmi.iatmi.persistence.utils.DateAndCalendarUtil;
 
 @Entity
@@ -228,11 +229,10 @@ public class Persona {
 		else {
 			if (!getTipoEmpleado().getEsMensual() && getTipoEmpleado().getEsProfesor()) {
 				for (Fichero fichero : fichadas) {
-					if (fichero.getActivo()) {
-						if (DateAndCalendarUtil.mesDelAnio(fichero.getFechaIngreso()) == mes) {
-							horas = DateAndCalendarUtil.restarHoras(fichero.getFechaIngreso(),
-									fichero.getFechaEgreso());
-						}
+					if (fichero.getActivo()
+							&& DateAndCalendarUtil.mesDelAnio(fichero.getFechaIngreso()) == mes
+							&& fichero.getRol().equals(RolPersonaEnum.EMPLEADO.getRol())) {
+						horas+=fichero.getCantidadDeHoras();
 					}
 				}
 			}
