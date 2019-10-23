@@ -83,6 +83,7 @@ public class Persona {
 	
 	public static Persona toPersona(Integer id,String apellido,String dni,String mail, Date fechaAlta, Date fechaNacimiento, String nombre, String sexo,Float sueldo,Integer idHabilitacion, Integer idTipoEmpleado) {
 		Persona persona = new Persona(nombre, apellido, dni, mail, sexo, fechaNacimiento);
+		persona.setId(id);
 		persona.setSueldoBasicoCostoHora(sueldo);
 		if(idHabilitacion != null) {			
 			Habilitacion habilitacion = new Habilitacion();
