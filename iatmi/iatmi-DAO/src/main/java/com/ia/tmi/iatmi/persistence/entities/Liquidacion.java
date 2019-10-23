@@ -58,15 +58,15 @@ public class Liquidacion {
 		if (liquidacionDetalles == null)
 			liquidacionDetalles = new ArrayList<LiquidacionDetalle>();
 
-		LiquidacionDetalle liquidacionDetalle;
-		if (liquidacionItem.getValor() >= 0) {
-			liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, empleado.getSueldoBasicoCostoHora());
-			montoBruto += liquidacionDetalle.getMonto();
-		} else {
-			liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, montoBruto);
-		}
+		LiquidacionDetalle liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, montoBruto);
+//		if (liquidacionItem.getValor() >= 0) {
+//			liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, empleado.getSueldoBasicoCostoHora());
+//			montoBruto += liquidacionDetalle.getMonto();
+//		} else {
+//			liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, montoBruto);
+//		}
+//		montoNeto += liquidacionDetalle.getMonto();
 		liquidacionDetalles.add(liquidacionDetalle);
-		montoNeto += liquidacionDetalle.getMonto();
 	}
 
 	public void cacularLiquidacionMes() {
