@@ -16,10 +16,14 @@ import com.ia.tmi.iatmi.persistence.entities.RolPersona;
 import com.ia.tmi.iatmi.persistence.entities.RolPersona.RolPersonaEnum;
 import com.ia.tmi.iatmi.persistence.service.FicheroService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
+import com.ia.tmi.iatmi.remoteEndpoint.PresentismoRemoteEnpoint;
 
 @Controller
 public class FicheroControllerImpl implements FicheroController{
 
+	@Autowired
+	PresentismoRemoteEnpoint presentismoEndpoint;
+	
 	@Autowired
 	private FicheroService ficheroService;
 	
@@ -47,6 +51,10 @@ public class FicheroControllerImpl implements FicheroController{
 			}
 		}
 		
+		if(rol.equals(RolPersonaEnum.EMPLEADO.getRol())) {
+			presentismoEndpoint.registrarIngreso(persona);
+		}
+		
 		Fichero ultimaFichada = ficheroService.findFirstByPersonaAndRolOrderByFechaIngresoDesc(persona, rol);
 		
 		if(ultimaFichada != null && ultimaFichada.getFechaEgreso()==null) {
@@ -70,6 +78,10 @@ public class FicheroControllerImpl implements FicheroController{
 		
 		if(!persona.hasRol(rol)) {
 			throw new PersonaNoPoseeRolNecesarioException("La persona no posee con el perfil indicado.");
+		}
+		
+		if(rol.equals(RolPersonaEnum.EMPLEADO.getRol())) {
+			presentismoEndpoint.registrarEgreso(persona);
 		}
 		
 		Fichero ultimaFichada = ficheroService.findFirstByPersonaAndRolOrderByFechaIngresoDesc(persona, rol);
