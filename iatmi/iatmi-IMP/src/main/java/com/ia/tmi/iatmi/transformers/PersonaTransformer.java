@@ -16,8 +16,10 @@ public class PersonaTransformer {
 		PersonaDTO p = new PersonaDTO(persona.getId(), persona.getNombre(), persona.getApellido(),
 				persona.getDni(), persona.getEmail(), persona.getSexo(), 
 				persona.getFechaNacimiento(), persona.getFechaAlta());
-		for(RolPersona rol : persona.getRoles()) {
-			p.addRol(rol.getId());
+		if(persona.getRoles() != null) {			
+			for(RolPersona rol : persona.getRoles()) {
+				p.addRol(rol.getId());
+			}
 		}
 		return p;
 	}
