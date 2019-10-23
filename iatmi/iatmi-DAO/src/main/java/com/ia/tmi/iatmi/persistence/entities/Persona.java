@@ -80,6 +80,22 @@ public class Persona {
 		this(nombre, apellido, dni, email, sexo, fechaNacimiento);
 		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
 	}
+	
+	public static Persona toPersona(Integer id,String apellido,String dni,String mail, Date fechaAlta, Date fechaNacimiento, String nombre, String sexo,Float sueldo,Integer idHabilitacion, Integer idTipoEmpleado) {
+		Persona persona = new Persona(nombre, apellido, dni, mail, sexo, fechaNacimiento);
+		persona.setSueldoBasicoCostoHora(sueldo);
+		if(idHabilitacion != null) {			
+			Habilitacion habilitacion = new Habilitacion();
+			habilitacion.setId(idHabilitacion);
+			persona.setHabilitacion(habilitacion);
+		}
+		if(idTipoEmpleado != null) {			
+			TipoEmpleado tipoEmpleado = new TipoEmpleado();
+			tipoEmpleado.setId(idTipoEmpleado);
+			persona.setTipoEmpleado(tipoEmpleado);
+		}
+		return persona;
+	}
 
 	public void addRol(RolPersona rol) {
 		if (roles == null)

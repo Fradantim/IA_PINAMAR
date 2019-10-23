@@ -1,6 +1,7 @@
 package com.ia.tmi.iatmi.persistence.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -71,16 +72,19 @@ public class LiquidacionService {
 	}
 
 	public List<Persona> findPersonaByLiquidacionAnioMesAll(int anio, int mes) {
+		List<Persona> personas = new ArrayList<Persona>();
 		List<Object[]> rows = liquidacionRepo.findAllLiquidacionPersona(anio, mes);
-		for (Object[] objects : rows) {
-			int posicion = 0;
-			for (Object object : objects) {
-				logger.info("Que tengo en la consulta por atibutos " + ((object == null) ? "Soy nulo" : object)
-						+ " Posicion: " + posicion);
-				posicion++;
-			}
+		for (Object[] objects : rows) {		
+			personas.add(Persona.toPersona(((objects[0] == null) ? null : (Integer) objects[0]),(String) objects[1],(String) objects[2],(String) objects[3],(Date)objects[4],(Date) objects[5],(String) objects[6],(String) objects[7], ((objects[8] == null) ? null : (Float)objects[8]),((objects[9] == null) ? null : (Integer) objects[9]),((objects[10] == null) ? null : (Integer) objects[10])));
+//			int posicion = 0;
+//			for (Object object : objects) {	
+//				
+//				logger.info("Que tengo en la consulta por atibutos " + ((object == null) ? "Soy nulo" : object)
+//						+ " Posicion: " + posicion);
+//				posicion++;
+//			}
 		}
-		return new ArrayList<Persona>();
+		return personas;
 	}
 
 }
