@@ -17,4 +17,6 @@ public interface PersonaController {
 	public List<PersonaDTO> findEmpleados();
 	
 	public List<PersonaDTO> findProfesores();
+	
+	public List<PersonaDTO> findSocios();
 }

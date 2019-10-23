@@ -16,7 +16,6 @@ import com.ia.tmi.iatmi.persistence.entities.FacturaDetalle;
 import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
 import com.ia.tmi.iatmi.persistence.entities.Pase;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
-import com.ia.tmi.iatmi.persistence.entities.RolPersona;
 import com.ia.tmi.iatmi.persistence.entities.RolPersona.RolPersonaEnum;
 import com.ia.tmi.iatmi.persistence.service.FacturaService;
 import com.ia.tmi.iatmi.persistence.service.HabilitacionService;
@@ -120,5 +119,10 @@ public class PersonaControllerImpl implements PersonaController{
 	@Override
 	public List<PersonaDTO> findProfesores() {
 		return personaTransformer.transform(personaService.findProfesores());
+	}
+
+	@Override
+	public List<PersonaDTO> findSocios() {
+		return personaTransformer.transform(personaService.findByRolPersona(RolPersonaEnum.SOCIO.getRol()));
 	}
 }

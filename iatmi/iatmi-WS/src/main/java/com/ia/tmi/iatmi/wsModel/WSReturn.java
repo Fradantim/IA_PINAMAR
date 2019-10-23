@@ -14,18 +14,23 @@ public class WSReturn <T> {
 		this.content = content;
 	}
 	
-	public WSReturn(String message) {
+	public WSReturn(String message, Boolean successful) {
 		this.message = message;
-		this.successful = false;
+		this.successful=successful;
+	}
+	
+	public WSReturn(String message) {
+		this(message, true);
 	}
 
-	/*public static WSReturn OK(String message, Object content) {
-		return new WSReturn(message, content);
-	}*/
+	@SuppressWarnings("rawtypes")
+	public static WSReturn OK(String message) {
+		return new WSReturn(message);
+	}
 	
 	@SuppressWarnings("rawtypes")
 	public static WSReturn ERROR(String message) {
-		return new WSReturn(message);
+		return new WSReturn(message, false);
 	}
 	
 	public String getMessage() {

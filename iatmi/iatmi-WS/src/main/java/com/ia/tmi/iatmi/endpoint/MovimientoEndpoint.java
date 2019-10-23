@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ia.tmi.iatmi.controller.MovimientoController;
 import com.ia.tmi.iatmi.dto.MedioDePagoDTO;
 import com.ia.tmi.iatmi.dto.MovimientoDTO;
+import com.ia.tmi.iatmi.request.PagoFacturaRequest;
 
 @RestController
 public class MovimientoEndpoint{
@@ -34,10 +35,7 @@ public class MovimientoEndpoint{
 	}
 	
 	@PostMapping(PATH)
-	public void pagar(
-			@RequestBody(required = true) MovimientoDTO factura,
-			@RequestBody(required = true) MedioDePagoDTO medioDePago
-			){
-		movimientoController.pagarFactura(factura.getId(),medioDePago.getId());
+	public void pagar(@RequestBody(required = true) PagoFacturaRequest request){
+		movimientoController.pagarFactura(request.getIdFactura(),request.getIdMedioDePago());
 	}
 }

@@ -1,6 +1,8 @@
 package com.ia.tmi.iatmi.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class PersonaDTO {
@@ -20,22 +22,8 @@ public class PersonaDTO {
 	private Date fechaNacimiento;
 	
 	private Date fechaAlta;
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	
+	private List<String> roles;
 
 	public PersonaDTO() {}
 	
@@ -55,6 +43,11 @@ public class PersonaDTO {
 		this.sexo = sexo;
 		this.fechaNacimiento = fechaNacimiento;
 		this.fechaAlta = fechaAlta;
+	}
+	
+	public void addRol(String rol) {
+		if (roles == null) roles = new ArrayList<String>();
+		roles.add(rol);
 	}
 
 	@Override
@@ -113,6 +106,28 @@ public class PersonaDTO {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
 	
-	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }
