@@ -29,9 +29,9 @@ public class LiquidacionEndpoint {
 	}
 
 	@GetMapping(PATH)
-	public List<PersonaDTO> getByEmpleadoByMesAnio(@RequestParam(required = true) Integer mes,
+	public WSReturn<List<PersonaDTO>> getByEmpleadoByMesAnio(@RequestParam(required = true) Integer mes,
 			@RequestParam(required = true) Integer anio) {
-		return liquidacionController.findPersonaLiquidacionAnioMesAll(anio, mes);
+		return new WSReturn<List<PersonaDTO>>("Busqueda OK.", liquidacionController.findPersonaLiquidacionAnioMesAll(anio, mes));
 	}
 
 }
