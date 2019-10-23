@@ -14,6 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 @Entity
 public class Liquidacion {
 
@@ -51,6 +55,8 @@ public class Liquidacion {
 		montoNoRemunarativo = 0F;
 	}
 
+	private static final Logger logger = LoggerFactory.getLogger(Liquidacion.class);
+	
 	public Liquidacion() {
 	}
 
@@ -59,6 +65,7 @@ public class Liquidacion {
 			liquidacionDetalles = new ArrayList<LiquidacionDetalle>();
 
 		LiquidacionDetalle liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, montoBruto);
+		
 //		if (liquidacionItem.getValor() >= 0) {
 //			liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, empleado.getSueldoBasicoCostoHora());
 //			montoBruto += liquidacionDetalle.getMonto();
@@ -66,18 +73,26 @@ public class Liquidacion {
 //			liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, montoBruto);
 //		}
 //		montoNeto += liquidacionDetalle.getMonto();
+		
 		liquidacionDetalles.add(liquidacionDetalle);
 	}
 
 	public void cacularLiquidacionMes() {
 
 		montoBruto = montoBruto + empleado.getSueldoBasicoCostoHora();
+		logger.info("--> montoBruto: " + liquidacionDetalles.size());
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
+			
 			montoBruto = liquidacionDetalle.getItem().calcularRemunerativo();
 			montoNoRemunarativo = liquidacionDetalle.getItem().calcularNoRemunerativo();
 			montoDescuento = liquidacionDetalle.getItem().calcularDescuento(montoBruto);
 		}
 		montoNeto = montoBruto + montoNoRemunarativo - montoDescuento;
+		
+		logger.info("--> montoBruto: " + montoBruto.toString());
+		logger.info("--> montoNoRemunarativo: " + montoNoRemunarativo.toString());
+		logger.info("--> montoDescuento: " + montoDescuento.toString());
+		logger.info("--> montoNeto: " + montoNeto.toString());
 	}
 
 	public void cacularLiquidacionPorHora(int mes) {

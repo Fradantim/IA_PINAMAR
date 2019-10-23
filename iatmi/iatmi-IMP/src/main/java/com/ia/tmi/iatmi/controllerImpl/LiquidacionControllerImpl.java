@@ -3,6 +3,8 @@ package com.ia.tmi.iatmi.controllerImpl;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -32,10 +34,16 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 		return personaTransformer.transform(liquidacionServices.findPersonaByLiquidacionAnioMesAll(anio, mes));
 	}
 
+	
+	private static final Logger logger = LoggerFactory.getLogger(LiquidacionControllerImpl.class);
+	
 	@Override
 	public void guardarLiquidacion(int idEmpleado, int anio, int mes) {
 		Optional<Persona> p = personaService.findById(idEmpleado);
 		Persona persona = p.get();
+
+		logger.info("--> Persona: " + persona.getId().toString());
+		
 		Liquidacion liquidacion = new Liquidacion(persona);
 		for (LiquidacionItem items : persona.getTipoEmpleado().getLiquidacionItems()) {
 			liquidacion.addLiquidacionItem(items);
