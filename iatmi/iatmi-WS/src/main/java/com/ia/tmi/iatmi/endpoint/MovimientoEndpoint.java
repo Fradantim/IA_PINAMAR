@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ia.tmi.iatmi.controller.MovimientoController;
 import com.ia.tmi.iatmi.dto.MovimientoDTO;
 import com.ia.tmi.iatmi.request.PagoFacturaRequest;
+import com.ia.tmi.iatmi.wsModel.WSReturn;
 
 @RestController
 public class MovimientoEndpoint{
@@ -34,7 +35,8 @@ public class MovimientoEndpoint{
 	}
 	
 	@PostMapping(PATH)
-	public void pagar(@RequestBody(required = true) PagoFacturaRequest request){
+	public WSReturn pagar(@RequestBody(required = true) PagoFacturaRequest request){
 		movimientoController.pagarFactura(request.getIdFactura(),request.getIdMedioDePago());
+		return WSReturn.OK("Pago grabado exitosamente.");
 	}
 }
