@@ -286,8 +286,8 @@ public class StartUpControllerImpl implements InitializingBean {
 	private void cargaTipoLiquidacion() {
 
 		TipoEmpleado empleado1 =  tipoEmpService.findById(1).get();
-		TipoEmpleado empleado2 =  tipoEmpService.findById(1).get();
-		TipoEmpleado empleado3 =  tipoEmpService.findById(1).get();
+		TipoEmpleado empleado2 =  tipoEmpService.findById(2).get();
+		TipoEmpleado empleado3 =  tipoEmpService.findById(3).get();
 		
 		LiquidacionItem item = new LiquidacionItem(1,"Basico", 30F, true);
 		item.addTipoLiquidacion(new TipoLiquidacionRemunerativa(1, "Asistencia y Puntualidad", 0.11F, true, 2637.98F,item));

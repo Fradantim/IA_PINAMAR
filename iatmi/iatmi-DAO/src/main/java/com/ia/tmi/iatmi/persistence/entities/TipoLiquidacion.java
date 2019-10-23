@@ -96,6 +96,4 @@ public abstract class TipoLiquidacion {
 		this.liquidacionItem = liquidacionItem;
 	}
 	
-	
-	
 }

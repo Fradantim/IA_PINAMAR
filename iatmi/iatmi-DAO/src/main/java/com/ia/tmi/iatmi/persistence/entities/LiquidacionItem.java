@@ -146,4 +146,20 @@ public class LiquidacionItem {
 			tipoEmpleados = new ArrayList<TipoEmpleado>();
 		tipoEmpleados.add(tipoEmpleado);
 	}
+
+	@Override
+	public String toString() {
+		return "LiquidacionItem [id=" + id + ", descripcion=" + descripcion + ", valor=" + valor + ", activo=" + activo
+				+ ", sueldoBasico=" + sueldoBasico + toStringTipoLiquidacion() +"]";
+	}
+	
+	private String toStringTipoLiquidacion() {
+		String msj = "";
+		for (TipoLiquidacion tipoLiquidacion : getTiposLiquidaciones()) {
+			msj = " " + tipoLiquidacion.toString() + "\n" ;
+		}
+		return msj;
+	}
+
+	
 }

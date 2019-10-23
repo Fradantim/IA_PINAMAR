@@ -26,7 +26,8 @@ public class LiquidacionDetalle {
 	public LiquidacionDetalle(Liquidacion liquidacion, LiquidacionItem item, Float montoReferencia) {
 		this.liquidacion = liquidacion;
 		this.item = item;
-		monto = (item.isSueldoBasico()) ? montoReferencia : montoReferencia * item.getValor();
+		//monto = (item.isSueldoBasico()) ? montoReferencia : montoReferencia * item.getValor();
+		monto = 0F;
 	}
 
 	public LiquidacionDetalle() {
@@ -63,5 +64,12 @@ public class LiquidacionDetalle {
 	public void setMonto(Float monto) {
 		this.monto = monto;
 	}
+
+	@Override
+	public String toString() {
+		return "LiquidacionDetalle [id=" + id + ", item=" + item + ", monto=" + monto + this.getItem().toString() + "]";
+	}
+	
+	
 
 }

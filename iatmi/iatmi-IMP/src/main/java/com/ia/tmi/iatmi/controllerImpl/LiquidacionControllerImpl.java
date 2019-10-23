@@ -46,6 +46,7 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 		
 		Liquidacion liquidacion = new Liquidacion(persona);
 		for (LiquidacionItem items : persona.getTipoEmpleado().getLiquidacionItems()) {
+			logger.info("--> Items Id: " + items.getId() + " Tipo Persona:  " + persona.getTipoEmpleado().getDescripcion() + " Items: " + items.getValor() + " Tipos: " + items.getTiposLiquidaciones().size());
 			liquidacion.addLiquidacionItem(items);
 		}
 		if (persona.getTipoEmpleado().getEsMensual())

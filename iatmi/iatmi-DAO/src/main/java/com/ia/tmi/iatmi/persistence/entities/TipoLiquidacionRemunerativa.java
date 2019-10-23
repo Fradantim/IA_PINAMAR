@@ -39,4 +39,11 @@ public class TipoLiquidacionRemunerativa extends TipoLiquidacion {
 	public void setValor(Float valor) {
 		this.valor = valor;
 	}
+	
+	@Override
+	public String toString() {
+		return "TipoLiquidacionNoRemunerativa [valor=" + valor + ", getId()=" + getId() + ", getDescripcion()="
+				+ getDescripcion() + ", getValorPorcentaje()=" + getValorPorcentaje() + ", isActivo()=" + isActivo()
+				+ "]";
+	}
 }

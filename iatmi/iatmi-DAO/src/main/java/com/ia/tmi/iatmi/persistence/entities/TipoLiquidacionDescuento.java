@@ -40,4 +40,14 @@ public class TipoLiquidacionDescuento extends TipoLiquidacion {
 		this.valor = valor;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return "TipoLiquidacionDescuento [valor=" + valor + ", getId()=" + getId() + ", getDescripcion()="
+				+ getDescripcion() + ", getValorPorcentaje()=" + getValorPorcentaje() + ", isActivo()=" + isActivo()
+				+ "]";
+	}
+	
+	
 }
