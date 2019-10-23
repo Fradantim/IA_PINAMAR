@@ -148,3 +148,82 @@ ____________________________________________________________________________
 ---
 
 ### Objetos manejados por los endpoint
+
+### Date
+	Formato ISO8601
+	Ejemplo de Date usado: "2019-10-23T14:22:22.763+0000" 
+
+#### WSReturn
+	Objeto que encierra una respuesta
+	{
+		"message": String,
+		"successful": Boolean,
+		"content": Object
+	}
+	
+### TipoEmpleadoDTO
+	{
+		"id": Integer,
+		"descripcion": String,
+		"activo": Boolean
+	}
+
+### ClaseDTO
+	{
+		"id": Integer,
+		"nombre": String
+	}
+	
+### PersonaDTO
+	{
+		"id": Integer,
+		"nombre": String,
+		"apellido": String,
+		"dni": String,
+		"email": String,
+		"sexo": String,
+		"fechaNacimiento": Date,
+		"fechaAlta": Date,
+		"roles": String[]
+	}
+	
+### PaseDTO
+	{
+	"id": Integer,
+	"nombre": String,
+	"precio": Float
+	}
+
+### MedioDePagoDTO
+	{
+		"id": Integer,
+		"nombre": String
+	}
+
+### MovimientoDTO
+	{
+		"id": Integer,
+		"tipo": String ("FACTURA" | "PAGO"),
+		"monto": Float
+	}
+
+### FacturaDTO
+	//TODO
+
+### AltaEmpleadoRequest
+	//TODO
+	
+### PagoFacturaRequest
+	//TODO
+	
+### AgregarPaseRequest
+	//TODO
+	
+### AgregarFichaMedicaRequest
+	//TODO
+	
+### LiquidacionRequest
+	//TODO
+	
+### FichadoRequest
+	//TODO
