@@ -47,7 +47,7 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 		
 		Liquidacion liquidacion = new Liquidacion(persona);
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(anio, mes, 20);
+		calendar.set(anio, mes-1, 20);
 		liquidacion.setFecha(calendar.getTime());
 		for (LiquidacionItem items : persona.getTipoEmpleado().getLiquidacionItems()) {
 			logger.info("--> Items Id: " + items.getId() + " Tipo Persona:  " + persona.getTipoEmpleado().getDescripcion() + " Items: " + items.getValor() + " Tipos: " + items.getTiposLiquidaciones().size());
