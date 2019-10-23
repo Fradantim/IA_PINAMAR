@@ -27,4 +27,8 @@ public class MedioDePagoService {
 	public MedioDePago save(MedioDePago medioDePago){
 		return mdpRepo.save(medioDePago);
 	}
+	
+	public List<MedioDePago> findByEsTarjetaIsNull() {
+		return mdpRepo.findByEsTarjetaIsNull();
+	}
 }

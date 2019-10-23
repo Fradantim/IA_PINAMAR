@@ -15,6 +15,9 @@ public class MedioDePago {
 	
 	@Column
 	private String nombre;
+	
+	@Column
+	public Boolean esTarjeta;
 
 	public MedioDePago() { }
 	
@@ -36,5 +39,13 @@ public class MedioDePago {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public Boolean getEsTarjeta() {
+		return esTarjeta;
+	}
+
+	public void setEsTarjeta(Boolean esTarjeta) {
+		this.esTarjeta = esTarjeta;
 	}	
 }

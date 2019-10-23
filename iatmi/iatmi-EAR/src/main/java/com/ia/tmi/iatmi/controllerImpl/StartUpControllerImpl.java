@@ -85,6 +85,7 @@ public class StartUpControllerImpl implements InitializingBean {
 			cargaTipoEmpleado(++i);
 			cargaPersonas(++i);
 			cargaTipoLiquidacion();
+			actualizarMediosDePago(++i);
 		} catch (Exception e) {
 			logger.error("No se encontró un archivo!!!!"+e.getMessage());
 			//e.printStackTrace();
@@ -399,5 +400,28 @@ public class StartUpControllerImpl implements InitializingBean {
 		}
 		
 		logger.info("< Fin carga Ficheros. " + ficheroService.findAll().size() + " elementos cargados.");
+	}
+	
+	private void actualizarMediosDePago(Integer orden) {
+		logger.info(orden+"> Buscando medios de pago actualizados.");
+		
+		List <MedioDePago> mediosDePago = mdpService.findByEsTarjetaIsNull(); 
+		if(mediosDePago.isEmpty()) {
+			logger.info("< Medios de pago ya estan actualizdos.");
+			return;
+		}
+		
+		for(MedioDePago mdp: mediosDePago) {
+			mdp.setEsTarjeta(mdp.getNombre().trim().toUpperCase().startsWith("TARJETA"));
+		}
+		
+		for(MedioDePago mdp: mediosDePago) {
+			mdpService.save(mdp);
+		}
+		
+
+		logger.info("No estan actualizados, los actualizo.");
+		
+		logger.info("< Fin actualizacion Medios de Pago. ");
 	}
 }
