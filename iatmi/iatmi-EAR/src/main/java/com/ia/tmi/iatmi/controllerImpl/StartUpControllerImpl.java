@@ -230,23 +230,28 @@ public class StartUpControllerImpl implements InitializingBean {
 		personas.add(p);
 		
 		p = new Persona("Franco", "Timpone", "222", "f@t.com", "m", new Date());
+		p.setSueldoBasicoCostoHora(30000F);
 		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(1).get()); //ojo estos hardcodeos
 		personas.add(p);
 		
 		p = new Persona("Alessandro", "Foglio", "333", "a@f.com", "m", new Date());
+		p.setSueldoBasicoCostoHora(31000F);
 		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.addRol(RolPersonaEnum.SOCIO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(2).get()); //ojo estos hardcodeos
 		personas.add(p);
 		
 		p = new Persona("Ezequiel", "Cufre", "444", "e@c.com", "m", new Date());
+		p.setSueldoBasicoCostoHora(50F);
 		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(3).get()); //ojo estos hardcodeos
 		personas.add(p);
 		
 		p = new Persona("Lisandro", "Rodriguez", "555", "l@r.com", "m", new Date());
+		p.setSueldoBasicoCostoHora(50F);
 		p.addRol(RolPersonaEnum.SOCIO.getRol());
+		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(3).get()); //ojo estos hardcodeos
 		personas.add(p);
 		
