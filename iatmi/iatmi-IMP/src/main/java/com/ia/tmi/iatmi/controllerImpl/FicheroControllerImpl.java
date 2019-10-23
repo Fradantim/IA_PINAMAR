@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 
 import com.ia.tmi.iatmi.controller.FicheroController;
 import com.ia.tmi.iatmi.exception.PersonaNoPoseeRolNecesarioException;
+import com.ia.tmi.iatmi.exception.SocioNoPoseePaseActivoException;
 import com.ia.tmi.iatmi.persistence.entities.Fichero;
+import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.entities.RolPersona;
 import com.ia.tmi.iatmi.persistence.entities.RolPersona.RolPersonaEnum;
@@ -36,6 +38,13 @@ public class FicheroControllerImpl implements FicheroController{
 		
 		if(!persona.hasRol(rol)) {
 			throw new PersonaNoPoseeRolNecesarioException("La persona no posee con el perfil indicado.");
+		}
+		
+		if(rol.equals(RolPersonaEnum.SOCIO.getRol())) {
+			Habilitacion hab = persona.getHabilitacion();
+			if(hab == null || hab.getHabilitadoHasta().after(new Date())) {
+				throw new SocioNoPoseePaseActivoException("El socio no posee un pase activo.");
+			}
 		}
 		
 		Fichero ultimaFichada = ficheroService.findFirstByPersonaAndRolOrderByFechaIngresoDesc(persona, rol);
