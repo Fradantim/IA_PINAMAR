@@ -184,7 +184,7 @@ El sistema abarca las siguientes funciones:
 		"sexo": String,
 		"fechaNacimiento": Date,
 		"fechaAlta": Date,
-		"roles": String[]
+		"roles": String[] ("SOCIO" | "EMPLEADO")
 	}
 	
 ### PaseDTO
