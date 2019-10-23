@@ -81,14 +81,41 @@ public class PersonaControllerImpl implements PersonaController{
 	@Override
 	public PersonaDTO altaEmpleado(PersonaDTO persona, Float sueldoBasicoCostoHora, Integer idTipoEmpleado) {
 		Persona p = personaTransFromDTO.transform(persona);
+		evaluarNuevoEmpleado(persona);
 		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setSueldoBasicoCostoHora(sueldoBasicoCostoHora);
 		
 		p.setTipoEmpleado(tipoEmpleadoService.findById(idTipoEmpleado).get());
+		p.setCBU(persona.getCBU());
+		p.setCUIT(persona.getCUIT());
 		
 		p = personaService.save(p);
 
 		return personaTransformer.transform(p);
+	}
+	
+	private void evaluarNuevoEmpleado(PersonaDTO p) {
+		String errores ="";
+		if(p.getCBU()== null || p.getCBU().length()!=11 || !isInteger(p.getCBU()) ) {
+			errores += "El CBU es obligatorio y debe poseer 11 digitos numéricos. ";
+		}
+		
+		if(p.getCBU()== null || p.getCUIT().length()!=22 || !isInteger(p.getCUIT()) ) {
+			errores += "El CUIT es obligatorio y debe poseer 22 digitos numéricos. ";
+		}
+		
+		if(errores.length()>0) {
+			throw new IllegalArgumentException(errores);
+		}
+	}
+	
+	private Boolean isInteger(String s) {
+		try {
+			Integer.parseInt(s);
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

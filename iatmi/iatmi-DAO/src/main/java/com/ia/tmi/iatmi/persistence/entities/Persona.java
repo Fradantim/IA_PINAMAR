@@ -20,6 +20,7 @@ import com.ia.tmi.iatmi.persistence.utils.DateAndCalendarUtil;
 
 @Entity
 public class Persona {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -47,6 +48,12 @@ public class Persona {
 
 	@Column
 	private Float sueldoBasicoCostoHora;
+	
+	@Column
+	private String CUIT;
+	
+	@Column
+	private String CBU;
 
 	@ManyToOne
 	private Habilitacion habilitacion;
@@ -78,9 +85,11 @@ public class Persona {
 	}
 
 	public Persona(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento,
-			Float sueldoBasicoCostoHora) {
+			Float sueldoBasicoCostoHora, String CBU, String CUIT) {
 		this(nombre, apellido, dni, email, sexo, fechaNacimiento);
 		this.sueldoBasicoCostoHora = sueldoBasicoCostoHora;
+		this.CBU=CBU;
+		this.CUIT=CUIT;
 	}
 	
 	public static Persona toPersona(Integer id,String apellido,String dni,String mail, Date fechaAlta, Date fechaNacimiento, String nombre, String sexo,Float sueldo,Integer idHabilitacion, Integer idTipoEmpleado) {
@@ -249,4 +258,19 @@ public class Persona {
 		this.liquidacion = liquidacion;
 	}
 
+	public String getCUIT() {
+		return CUIT;
+	}
+
+	public void setCUIT(String cUIT) {
+		CUIT = cUIT;
+	}
+
+	public String getCBU() {
+		return CBU;
+	}
+
+	public void setCBU(String cBU) {
+		CBU = cBU;
+	}
 }

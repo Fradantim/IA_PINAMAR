@@ -23,6 +23,8 @@ public class PersonaDTO {
 	
 	private Date fechaAlta;
 	
+	private String CBU, CUIT;
+	
 	private List<String> roles;
 
 	public PersonaDTO() {}
@@ -103,8 +105,6 @@ public class PersonaDTO {
 		this.fechaAlta = fechaAlta;
 	}
 
-	
-
 	public List<String> getRoles() {
 		return roles;
 	}
@@ -129,5 +129,19 @@ public class PersonaDTO {
 		this.id = id;
 	}
 
-	
+	public String getCBU() {
+		return CBU;
+	}
+
+	public void setCBU(String cBU) {
+		CBU = cBU;
+	}
+
+	public String getCUIT() {
+		return CUIT;
+	}
+
+	public void setCUIT(String cUIT) {
+		CUIT = cUIT;
+	}
 }
