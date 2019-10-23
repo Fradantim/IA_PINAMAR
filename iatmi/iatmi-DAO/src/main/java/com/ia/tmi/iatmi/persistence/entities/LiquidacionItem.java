@@ -150,13 +150,13 @@ public class LiquidacionItem {
 	@Override
 	public String toString() {
 		return "LiquidacionItem [id=" + id + ", descripcion=" + descripcion + ", valor=" + valor + ", activo=" + activo
-				+ ", sueldoBasico=" + sueldoBasico + toStringTipoLiquidacion() +"]";
+				+ ", sueldoBasico=" + sueldoBasico + " Tipo Liquidacion: " + toStringTipoLiquidacion() +"]";
 	}
 	
 	private String toStringTipoLiquidacion() {
 		String msj = "";
 		for (TipoLiquidacion tipoLiquidacion : getTiposLiquidaciones()) {
-			msj = " " + tipoLiquidacion.toString() + "\n" ;
+			msj = msj + " " + tipoLiquidacion.toString() + "\n" ;
 		}
 		return msj;
 	}

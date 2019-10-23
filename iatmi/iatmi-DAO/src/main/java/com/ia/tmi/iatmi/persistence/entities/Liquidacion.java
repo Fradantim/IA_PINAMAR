@@ -48,7 +48,7 @@ public class Liquidacion {
 
 	public Liquidacion(Persona empleado) {
 		this.empleado = empleado;
-		fecha = new Date();
+		setFecha(new Date());
 		montoNeto = 0F;
 		montoBruto = 0F;
 		montoDescuento = 0F;
@@ -83,7 +83,7 @@ public class Liquidacion {
 		logger.info("--> monto bruto empleado: " + montoBruto + " Id empleado: " + empleado.getId());
 		logger.info("--> Cantidad de detalles: " + liquidacionDetalles.size());
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
-			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "+ liquidacionDetalle.getItem().getValor() );			
+			logger.info("--> items del detalle: " + liquidacionDetalle.toString());			
 			liquidacionDetalle.setMonto(liquidacionDetalle.getItem().calcularRemunerativo());
 			montoBruto = montoBruto + liquidacionDetalle.getItem().calcularRemunerativo();
 		}
@@ -121,5 +121,13 @@ public class Liquidacion {
 
 	public void setMontoDescuento(Float montoDescuento) {
 		this.montoDescuento = montoDescuento;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 }
