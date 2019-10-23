@@ -7,11 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 public class FichaMedica {
 
@@ -30,11 +26,23 @@ public class FichaMedica {
 
 	@Column
 	private String obraSocial;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Persona persona;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "nroSocio", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Habilitacion socio;
+	public FichaMedica() {	}
+	
+	public FichaMedica(String nombreMedico, String telefono, String obraSocial) {
+		this.nombreMedico = nombreMedico;
+		this.telefono = telefono;
+		this.obraSocial = obraSocial;
+		this.fechaAlta= new Date();
+	}
+	
+	public FichaMedica(String nombreMedico, String telefono, String obraSocial, Persona persona) {
+		this(nombreMedico,telefono,obraSocial);
+		this.persona = persona;
+	}
 
 	public int getId() {
 		return id;
@@ -76,14 +84,11 @@ public class FichaMedica {
 		this.obraSocial = obraSocial;
 	}
 
-	public FichaMedica() {	}
-
-	public Habilitacion getSocio() {
-		return socio;
+	public Persona getPersona() {
+		return persona;
 	}
-
-	public void setSocio(Habilitacion socio) {
-		this.socio = socio;
+	
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
-
 }

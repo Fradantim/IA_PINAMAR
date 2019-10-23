@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
+import com.ia.tmi.iatmi.request.AltaEmpleadoRequest;
 import com.ia.tmi.iatmi.wsModel.WSReturn;
 
 @RestController
@@ -17,7 +18,7 @@ public class PersonaEndpoint{
 	
 	public static final String PATH="/api/personas";
 	
-	public static final String PATH_SOCIO="/api/socios";
+	public static final String PATH_SOCIOS="/api/socios";
 	
 	public static final String PATH_EMPLEADOS="/api/empleados";
 	
@@ -31,19 +32,15 @@ public class PersonaEndpoint{
 		return new WSReturn<List<PersonaDTO>>("Busqueda exitosa.", personaController.findAll());
 	}
 	
-	@PostMapping(PATH_SOCIO)
+	@PostMapping(PATH_SOCIOS)
 	public WSReturn<PersonaDTO> crearSocio(@RequestBody PersonaDTO socio){
 		PersonaDTO socioNuevo = personaController.altaSocio(socio);
 		return new WSReturn<PersonaDTO>("Alta exitosa.", socioNuevo);
 	}
 	
 	@PostMapping(PATH_EMPLEADOS)
-	public WSReturn<PersonaDTO> crearEmpleado(
-			@RequestBody  PersonaDTO empleado,
-			@RequestBody  Float sueldoBasicoCostoHora,
-			@RequestBody  Integer idTipoEmpleado
-			){
-		PersonaDTO empleadoNuevo = personaController.altaEmpleado(empleado, sueldoBasicoCostoHora, idTipoEmpleado);
+	public WSReturn<PersonaDTO> crearEmpleado(@RequestBody  AltaEmpleadoRequest request ){
+		PersonaDTO empleadoNuevo = personaController.altaEmpleado(request.getPersona(), request.getSueldoBasicoCostoHora(), request.getIdTipoEmpleado());
 		return new WSReturn<PersonaDTO>("Alta exitosa.", empleadoNuevo);
 	}
 	
@@ -57,4 +54,8 @@ public class PersonaEndpoint{
 		return new WSReturn<List<PersonaDTO>>("Búsqueda exitosa.", personaController.findProfesores());
 	}
 	
+	@GetMapping(PATH_SOCIOS)
+	public WSReturn<List<PersonaDTO>> getSocios(){
+		return new WSReturn<List<PersonaDTO>>("Búsqueda exitosa.", personaController.findSocios());
+	}
 }
