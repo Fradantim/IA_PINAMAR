@@ -76,7 +76,6 @@ public class StartUpControllerImpl implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		// testInsert();
 		Integer i = 0;
 		try {
 			cachearRoles(++i);
@@ -284,6 +283,10 @@ public class StartUpControllerImpl implements InitializingBean {
 	}
 	
 	private void cargaTipoLiquidacion() {
+		
+		if(!liquidacionService.findItemsAll().isEmpty()) {
+			return;
+		}
 
 		TipoEmpleado empleado1 =  tipoEmpService.findById(1).get();
 		TipoEmpleado empleado2 =  tipoEmpService.findById(2).get();
