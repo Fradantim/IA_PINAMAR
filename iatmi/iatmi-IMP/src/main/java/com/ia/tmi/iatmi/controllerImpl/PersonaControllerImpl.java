@@ -16,7 +16,8 @@ import com.ia.tmi.iatmi.persistence.entities.FacturaDetalle;
 import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
 import com.ia.tmi.iatmi.persistence.entities.Pase;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
-import com.ia.tmi.iatmi.persistence.entities.Persona.RolPersona;
+import com.ia.tmi.iatmi.persistence.entities.RolPersona;
+import com.ia.tmi.iatmi.persistence.entities.RolPersona.RolPersonaEnum;
 import com.ia.tmi.iatmi.persistence.service.FacturaService;
 import com.ia.tmi.iatmi.persistence.service.HabilitacionService;
 import com.ia.tmi.iatmi.persistence.service.PaseService;
@@ -61,7 +62,7 @@ public class PersonaControllerImpl implements PersonaController{
 	@Override
 	public PersonaDTO altaSocio(PersonaDTO persona) {
 		Persona p = personaTransFromDTO.transform(persona);
-		p.addRol(RolPersona.SOCIO);
+		p.addRol(RolPersonaEnum.SOCIO.getRol());
 		
 		p = personaService.save(p);
 		return personaTransformer.transform(p);
@@ -70,7 +71,7 @@ public class PersonaControllerImpl implements PersonaController{
 	@Override
 	public PersonaDTO altaEmpleado(PersonaDTO persona, Float sueldoBasicoCostoHora, Integer idTipoEmpleado) {
 		Persona p = personaTransFromDTO.transform(persona);
-		p.addRol(RolPersona.EMPLEADO);
+		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setSueldoBasicoCostoHora(sueldoBasicoCostoHora);
 		
 		p.setTipoEmpleado(tipoEmpleadoService.findById(idTipoEmpleado).get());
@@ -84,8 +85,8 @@ public class PersonaControllerImpl implements PersonaController{
 	public FacturaDTO asignarPase(Integer idPersona, Integer idPase) {
 		Persona socio = personaService.findById(idPersona).get();
 		
-		if(!socio.hasRol(RolPersona.SOCIO)) {
-			throw new PersonaNoPoseeRolNecesarioException("La persona requiere del rol "+RolPersona.SOCIO+" para poder realizar esta operacion.");
+		if(!socio.hasRol(RolPersonaEnum.SOCIO.getRol())) {
+			throw new PersonaNoPoseeRolNecesarioException("La persona requiere del rol "+RolPersonaEnum.SOCIO+" para poder realizar esta operacion.");
 		}
 		
 		Habilitacion hab =socio.getHabilitacion();
@@ -113,7 +114,7 @@ public class PersonaControllerImpl implements PersonaController{
 
 	@Override
 	public List<PersonaDTO> findEmpleados() {
-		return personaTransformer.transform(personaService.findByRolPersona(RolPersona.EMPLEADO));
+		return personaTransformer.transform(personaService.findByRolPersona(RolPersonaEnum.EMPLEADO.getRol()));
 	}
 
 	@Override

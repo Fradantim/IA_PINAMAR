@@ -3,15 +3,17 @@ package com.ia.tmi.iatmi.persistence.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorValue("FACTURA")
 public class Factura extends Movimiento{
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
 	private List<FacturaDetalle> facturaDetalles;
 	
 	public void addFacturaDetalle(FacturaDetalle facturaDetalle) {
@@ -19,6 +21,8 @@ public class Factura extends Movimiento{
 		facturaDetalles.add(facturaDetalle);
 		montoTotal+=facturaDetalle.getMontoParcial();
 	}
+	
+	public Factura() {}
 	
 	public Factura(Persona socio) {
 		super(socio);

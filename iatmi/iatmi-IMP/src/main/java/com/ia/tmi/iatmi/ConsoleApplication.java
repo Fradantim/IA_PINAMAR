@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.ia.tmi.iatmi.persistence.entities.Persona;
-import com.ia.tmi.iatmi.persistence.entities.Persona.RolPersona;
+import com.ia.tmi.iatmi.persistence.entities.RolPersona.RolPersonaEnum;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
 
 
@@ -36,7 +36,7 @@ public class ConsoleApplication implements CommandLineRunner{
 		System.out.println("TEST!");
 		Persona persona = new Persona("Franco", "T", "373", "a@a.com", "m", new Date());
 		
-		persona.addRol(RolPersona.SOCIO);
+		persona.addRol(RolPersonaEnum.SOCIO.getRol());
 		
 		persona = personaService.save(persona);
 		

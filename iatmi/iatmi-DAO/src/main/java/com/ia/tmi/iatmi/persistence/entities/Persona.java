@@ -5,15 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -21,11 +18,6 @@ import com.ia.tmi.iatmi.persistence.utils.DateAndCalendarUtil;
 
 @Entity
 public class Persona {
-
-	public enum RolPersona {
-		SOCIO, EMPLEADO;
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -60,10 +52,7 @@ public class Persona {
 	@ManyToOne
 	private TipoEmpleado tipoEmpleado;
 
-	@ElementCollection(targetClass = RolPersona.class)
-	@Enumerated(EnumType.STRING)
-	@CollectionTable(name = "PERSONA_ROL")
-	@Column
+	@ManyToMany
 	private Set<RolPersona> roles;
 
 	@Column
@@ -91,7 +80,7 @@ public class Persona {
 
 	public void addRol(RolPersona rol) {
 		if (roles == null)
-			roles = new HashSet<Persona.RolPersona>();
+			roles = new HashSet<RolPersona>();
 		roles.add(rol);
 	}
 
@@ -102,7 +91,7 @@ public class Persona {
 
 	public Boolean hasRol(RolPersona rol) {
 		if (roles != null)
-			roles.contains(rol);
+			return roles.contains(rol);
 		return false;
 	}
 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ia.tmi.iatmi.persistence.entities.Persona;
-import com.ia.tmi.iatmi.persistence.entities.Persona.RolPersona;
+import com.ia.tmi.iatmi.persistence.entities.RolPersona;
 import com.ia.tmi.iatmi.persistence.repository.PersonaRepository;
 
 @Service

@@ -16,18 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ia.tmi.iatmi.controller.MovimientoController;
-import com.ia.tmi.iatmi.controller.PaseController;
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.persistence.entities.Clase;
 import com.ia.tmi.iatmi.persistence.entities.MedioDePago;
 import com.ia.tmi.iatmi.persistence.entities.Pase;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
-import com.ia.tmi.iatmi.persistence.entities.Persona.RolPersona;
+import com.ia.tmi.iatmi.persistence.entities.RolPersona;
+import com.ia.tmi.iatmi.persistence.entities.RolPersona.RolPersonaEnum;
 import com.ia.tmi.iatmi.persistence.entities.TipoEmpleado;
 import com.ia.tmi.iatmi.persistence.service.ClaseService;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.PaseService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
+import com.ia.tmi.iatmi.persistence.service.RolPersonaService;
 import com.ia.tmi.iatmi.persistence.service.TipoEmpleadoService;
 
 @Component
@@ -46,6 +47,9 @@ public class StartUpControllerImpl implements InitializingBean {
 	private PersonaService personaService;
 	
 	@Autowired
+	private RolPersonaService rolPerService;
+	
+	@Autowired
 	private TipoEmpleadoService tipoEmpService;
 	
 	@Autowired
@@ -61,19 +65,36 @@ public class StartUpControllerImpl implements InitializingBean {
 		//testInsert();
 		Integer i=0;
 		try {
+			cachearRoles(++i);
 			cargarMediosDePago(++i);
 			cargarClases(++i);
 			cargarPases(++i);
 			cargaTipoEmpleado(++i);
-			//cargaPersonas(++i);
+			cargaPersonas(++i);
 		} catch (Exception e) {
 			logger.error("No se encontró un archivo!!!!"+e.getMessage());
-			e.printStackTrace();
+			//e.printStackTrace();
+			throw e;
 		}
 	}
 	
 	private BufferedReader getReader(String file) throws FileNotFoundException {
 		return new BufferedReader(new FileReader("/iatmi/data/"+file));
+	}
+	
+	private void cachearRoles(Integer orden) {
+		logger.info(orden+"> Cacheando roles.");
+		if(rolPerService.findAll().isEmpty()) {
+			logger.info(orden+"tengo que persistirlos.");
+			for(RolPersonaEnum rol : RolPersonaEnum.values()) {
+				rolPerService.save(new RolPersona(rol.name()));
+			}
+		}
+		
+		for(RolPersona rol : rolPerService.findAll()) {
+			RolPersonaEnum.valueOf(rol.getId()).setRol(rol);;
+		}
+		logger.info(orden+"< Fin Cacheando roles.");
 	}
 	
 	private void cargarMediosDePago(Integer orden) throws FileNotFoundException, IOException{
@@ -190,27 +211,27 @@ public class StartUpControllerImpl implements InitializingBean {
 		Persona p;
 		
 		p = new Persona("Juan", "Ster", "111", "j@s.com", "m", new Date());
-		p.addRol(RolPersona.SOCIO);
+		p.addRol(RolPersonaEnum.SOCIO.getRol());
 		personas.add(p);
 		
 		p = new Persona("Franco", "Timpone", "222", "f@t.com", "m", new Date());
-		p.addRol(RolPersona.EMPLEADO);
+		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(1).get()); //ojo estos hardcodeos
 		personas.add(p);
 		
 		p = new Persona("Alessandro", "Foglio", "333", "a@f.com", "m", new Date());
-		p.addRol(RolPersona.EMPLEADO);
-		p.addRol(RolPersona.SOCIO);
+		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
+		p.addRol(RolPersonaEnum.SOCIO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(2).get()); //ojo estos hardcodeos
 		personas.add(p);
 		
 		p = new Persona("Ezequiel", "Cufre", "444", "e@c.com", "m", new Date());
-		p.addRol(RolPersona.EMPLEADO);
+		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(3).get()); //ojo estos hardcodeos
 		personas.add(p);
 		
 		p = new Persona("Lisandro", "Rodriguez", "555", "l@r.com", "m", new Date());
-		p.addRol(RolPersona.SOCIO);
+		p.addRol(RolPersonaEnum.SOCIO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(3).get()); //ojo estos hardcodeos
 		personas.add(p);
 		
@@ -221,7 +242,8 @@ public class StartUpControllerImpl implements InitializingBean {
 		List<Pase> pases = paseService.findAll();
 		List<MedioDePago> mediosDePago = mdpService.findAll();
 		
-		for(Persona persona: personaService.findByRolPersona(RolPersona.SOCIO)) {
+		List<Persona> socios = personaService.findByRolPersona(RolPersonaEnum.SOCIO.getRol());
+		for(Persona persona: socios) {
 			personaController.asignarPase(persona.getId(), getRandomPaseFromList(pases).getId());
 			movController.pagarFactura(
 					movController.findBySocio(persona.getId()).get(0).getId(),
