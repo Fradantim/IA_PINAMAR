@@ -36,7 +36,8 @@ public class MovimientoEndpoint{
 	
 	@PostMapping(PATH)
 	public WSReturn pagar(@RequestBody(required = true) PagoFacturaRequest request){
-		movimientoController.pagarFactura(request.getIdFactura(),request.getIdMedioDePago());
+		movimientoController.pagarFactura(request.getIdFactura(),request.getIdMedioDePago(), request.getNroTarjeta(), 
+				request.getFechaVencimiento(), request.getCodSeguridad(), request.getDNI());
 		return WSReturn.OK("Pago grabado exitosamente.");
 	}
 }

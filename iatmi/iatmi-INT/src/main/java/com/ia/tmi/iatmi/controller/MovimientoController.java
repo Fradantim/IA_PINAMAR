@@ -9,5 +9,7 @@ public interface MovimientoController {
 	
 	public List<MovimientoDTO> findBySocio(Integer idSocio);
 	
+	public void pagarFactura(Integer idFactura, Integer idMedioDePago, String nroTarjeta, String fechaVencimiento, String codSeguridad, String DNI);
+	
 	public void pagarFactura(Integer idFactura, Integer idMedioDePago);
 }

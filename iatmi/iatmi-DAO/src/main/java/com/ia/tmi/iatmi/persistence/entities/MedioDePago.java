@@ -48,4 +48,12 @@ public class MedioDePago {
 	public void setEsTarjeta(Boolean esTarjeta) {
 		this.esTarjeta = esTarjeta;
 	}	
+	
+	public Boolean esTC() {
+		return getNombre().trim().toUpperCase().startsWith("TARJETA DE C");
+	}
+	
+	public Boolean esTD() {
+		return getNombre().trim().toUpperCase().startsWith("TARJETA DE D");
+	}
 }

@@ -14,11 +14,19 @@ import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.MovimientoService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
+import com.ia.tmi.iatmi.remoteEndpoint.BancariaRemoteEndpoint;
+import com.ia.tmi.iatmi.remoteEndpoint.EntidadCrediticiaRemoteEnpoint;
 import com.ia.tmi.iatmi.transformers.MovimientoTransformer;
 
 @Controller
 public class MovimientoControllerImpl implements MovimientoController{
 
+	@Autowired
+	private EntidadCrediticiaRemoteEnpoint entidadCrediticiaEndpoint;
+	
+	@Autowired
+	private BancariaRemoteEndpoint entidadBancariaEndpoint;
+	
 	@Autowired
 	private MovimientoService movService;
 	
@@ -44,9 +52,24 @@ public class MovimientoControllerImpl implements MovimientoController{
 
 	@Override
 	public void pagarFactura(Integer idFactura, Integer idMedioDePago) {
+		pagarFactura(idFactura, idMedioDePago, null, null, null, null);
+	}
+
+	@Override
+	public void pagarFactura(Integer idFactura, Integer idMedioDePago, String nroTarjeta, String fechaVencimiento,
+			String codSeguridad, String DNI) {
 		Factura factura = movService.findFacturaById(idFactura).get();
 		MedioDePago mdp = mdpService.findById(idMedioDePago).get();
 		Pago pago = new Pago(factura, mdp);
+		
+		if(mdp.esTC()) {
+			entidadCrediticiaEndpoint.registrarPago(pago, nroTarjeta, fechaVencimiento, codSeguridad, DNI);
+		}
+		
+		if(mdp.esTD()) {
+			entidadBancariaEndpoint.registrarPago(pago, nroTarjeta, fechaVencimiento, codSeguridad, DNI);
+		}
 		movService.save(pago);
+		
 	}	
 }
