@@ -84,17 +84,14 @@ public class Liquidacion {
 		logger.info("--> Cantidad de detalles: " + liquidacionDetalles.size());
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.toString());			
-			liquidacionDetalle.setMonto(liquidacionDetalle.getItem().calcularRemunerativo());
 			montoBruto = montoBruto + liquidacionDetalle.getItem().calcularRemunerativo();
 		}
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "+ liquidacionDetalle.getItem().getValor() );			
-			liquidacionDetalle.setMonto(liquidacionDetalle.getItem().calcularNoRemunerativo());
 			montoNoRemunarativo = liquidacionDetalle.getItem().calcularNoRemunerativo();
 		}
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "+ liquidacionDetalle.getItem().getValor() + " Valor  " + liquidacionDetalle.getItem().getTiposLiquidaciones().size());			
-			liquidacionDetalle.setMonto(liquidacionDetalle.getItem().calcularDescuento(montoBruto));
 			montoDescuento = liquidacionDetalle.getItem().calcularDescuento(montoBruto);
 		}
 

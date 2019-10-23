@@ -27,7 +27,7 @@ public class LiquidacionDetalle {
 		this.liquidacion = liquidacion;
 		this.item = item;
 		//monto = (item.isSueldoBasico()) ? montoReferencia : montoReferencia * item.getValor();
-		monto = 0F;
+		monto = (item== null)?0F:((item.getValor()==null)?0F:item.getValor());
 	}
 
 	public LiquidacionDetalle() {
