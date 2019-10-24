@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import com.ia.tmi.iatmi.config.CatalogoConfig;
 import com.ia.tmi.iatmi.controller.LiquidacionController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
+import com.ia.tmi.iatmi.exception.NoPoseeResultadoException;
 import com.ia.tmi.iatmi.persistence.entities.Liquidacion;
 import com.ia.tmi.iatmi.persistence.entities.LiquidacionItem;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
@@ -93,7 +94,7 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 						+ liquidacion.getFechaPago());
 			}
 		} else {
-			throw new NoSuchElementException(
+			throw new NoPoseeResultadoException(
 					"No se encontraron liquidacion a procesar por el anio: " + anio + " mes: " + mes);
 		}
 

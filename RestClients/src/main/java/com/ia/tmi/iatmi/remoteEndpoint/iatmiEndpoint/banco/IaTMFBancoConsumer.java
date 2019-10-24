@@ -17,9 +17,9 @@ public class IaTMFBancoConsumer extends EndpointConsumer{
 	public void transferenciaBancaria(String origenCBU, String destinoCBU, String amount) {
 
 		TransferenciaRequest request = new TransferenciaRequest(origenCBU, destinoCBU, amount);
-		WSReturn retorno = getRestTemplate().postForObject(transferenciaUrl+"/trasferir", request, WSReturn.class);
+		WSRemoteReturn retorno = getRestTemplate().postForObject(transferenciaUrl+"/trasferir", request, WSRemoteReturn.class);
 		
-		if(!retorno.getSuccessful()) {
+		if(!retorno.getSuccess()) {
 			throw new RemoteEndpointException(retorno.getMessage());
 		}
 	}
