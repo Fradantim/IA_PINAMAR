@@ -36,6 +36,10 @@ public class FicharPresentismoRequest {
 		this(fichero.getPersona().getCUIT(),type, new Date(),"");
 	}
 
+	public FicharPresentismoRequest(Fichero fichero, FicharPresentismoRequestType type, Date event) {
+		this(fichero.getPersona().getCUIT(), type, event, "");
+	}
+	
 	public String getCuitEmployee() {
 		return cuitEmployee;
 	}
