@@ -1,21 +1,20 @@
 package com.ia.tmi.iatmi.advice;
 
-import java.util.NoSuchElementException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.ia.tmi.iatmi.exception.NoPoseeResultadoException;
 import com.ia.tmi.iatmi.wsModel.WSReturn;
 
 public class NoPosseResultadoAdvice {
 
 	@SuppressWarnings("rawtypes")
 	@ResponseBody
-	@ExceptionHandler(NoSuchElementException.class)
+	@ExceptionHandler(NoPoseeResultadoException.class)
 	@ResponseStatus(HttpStatus.OK)
-	public WSReturn liquidacionNotFoundHandler(NoSuchElementException ex) {
+	public WSReturn liquidacionNotFoundHandler(NoPoseeResultadoException ex) {
 		return WSReturn.OK_FALSE(ex.getMessage());
 	}
 }

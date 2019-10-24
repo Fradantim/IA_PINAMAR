@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.ia.tmi.iatmi.exception.NoPoseeResultadoException;
 import com.ia.tmi.iatmi.exception.RemoteEndpointException;
 import com.ia.tmi.iatmi.persistence.entities.Pago;
 
@@ -33,7 +34,7 @@ public class BancariaRemoteEndpoint {
 			//necesito guardarme algun elemento de la respuesta?
 			;
 		} catch (Exception e) {
-			throw new RemoteEndpointException("Error al intentar enviar el pago al servicio remoto de Entidad Bancaria; "+e.getMessage()+"; "+e.getLocalizedMessage()+"; "+ExceptionUtils.getStackTrace(e));
+			throw new NoPoseeResultadoException("Error al intentar enviar el pago al servicio remoto de Entidad Bancaria; "+e.getMessage()+"; "+e.getLocalizedMessage()+"; "+ExceptionUtils.getStackTrace(e));
 		}
 	}
 }
