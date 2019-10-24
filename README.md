@@ -243,7 +243,7 @@ El sistema abarca las siguientes funciones:
 		"idFactura": Integer,
 		"idMedioDePago": Integer,
 		"nroTarjeta": String,
-		"fechaVencimiento": String ("MM/YY"),
+		"fechaVencimiento": String ("MM/YYYY"),
 		"codSeguridad": String,
 		"DNI": String
 	}
