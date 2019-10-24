@@ -17,7 +17,7 @@ public interface LiquidacionRepository extends JpaRepository<Liquidacion, Intege
 			+ " from  persona p where p.id not in (select l.empleado_id from liquidacion l where  year(l.fecha) = :anio and month(l.fecha) = :mes  ) and p.tipo_empleado_id IS NOT NULL", nativeQuery = true)
 	public List<Object[]> findAllLiquidacionPersona(@Param("anio") int anio, @Param("mes") int mes);
  
-	@Query(value = " select  p.id, p.apellido, p.cbu, p.nombre, l.id, l.monto_neto"
+	@Query(value = " select  p.id, p.apellido, p.cbu, p.nombre, l.id as idLiquidacion, l.monto_neto"
 			+ " from  persona p, liquidacion l where p.id = l.empleado_id  and year(l.fecha) = :anio and month(l.fecha) = :mes  and l.fecha_pago IS NULL", nativeQuery = true)
 	public List<Object[]> findNotPayLiquidacionPersona(@Param("anio") int anio, @Param("mes") int mes);
 }

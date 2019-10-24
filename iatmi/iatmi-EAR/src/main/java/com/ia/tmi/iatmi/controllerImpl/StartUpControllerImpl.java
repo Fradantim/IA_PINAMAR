@@ -224,35 +224,40 @@ public class StartUpControllerImpl implements InitializingBean {
 		
 		List<Persona> personas = new ArrayList<Persona>();
 		Persona p;
+
+		p = new Persona("Juan", "Ster", "111", "j@s.com", "Masculino", new Date());
 		
-		p = new Persona("Juan", "Ster", "111", "j@s.com", "m", new Date());
 		p.addRol(RolPersonaEnum.SOCIO.getRol());
 		personas.add(p);
 		
-		p = new Persona("Franco", "Timpone", "222", "f@t.com", "m", new Date());
+		p = new Persona("Franco", "Timpone", "222", "f@t.com", "Masculino", new Date());
 		p.setSueldoBasicoCostoHora(30000F);
 		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(1).get()); //ojo estos hardcodeos
+		p.setCUIT("20123456780");
 		personas.add(p);
 		
-		p = new Persona("Alessandro", "Foglio", "333", "a@f.com", "m", new Date());
+		p = new Persona("Alessandro", "Foglio", "333", "a@f.com", "Masculino", new Date());
 		p.setSueldoBasicoCostoHora(31000F);
 		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.addRol(RolPersonaEnum.SOCIO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(2).get()); //ojo estos hardcodeos
+		p.setCUIT("20234567891");		
 		personas.add(p);
 		
-		p = new Persona("Ezequiel", "Cufre", "444", "e@c.com", "m", new Date());
+		p = new Persona("Ezequiel", "Cufre", "444", "e@c.com", "Masculino", new Date());
 		p.setSueldoBasicoCostoHora(50F);
 		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(3).get()); //ojo estos hardcodeos
+		p.setCUIT("20876543219");
 		personas.add(p);
 		
-		p = new Persona("Lisandro", "Rodriguez", "555", "l@r.com", "m", new Date());
+		p = new Persona("Lisandro", "Rodriguez", "555", "l@r.com", "Masculino", new Date());
 		p.setSueldoBasicoCostoHora(50F);
 		p.addRol(RolPersonaEnum.SOCIO.getRol());
 		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setTipoEmpleado(tipoEmpService.findById(3).get()); //ojo estos hardcodeos
+		p.setCUIT("20222222332");
 		personas.add(p);
 		
 		for(Persona persona: personas) {

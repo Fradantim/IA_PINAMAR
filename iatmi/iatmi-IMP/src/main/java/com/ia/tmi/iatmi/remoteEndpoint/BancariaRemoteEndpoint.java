@@ -18,7 +18,7 @@ public class BancariaRemoteEndpoint {
 	public void depositarSueldos(String cbuEmpleado, String cuilEmpleado, String cbuEmpresa, String cuitEmpresa, float montoDepositar) {
 		try {
 			logger.info("-->  Invocar cliente bancario por deposito de sueldo.");
-			//TODO Deposita remoto de liquidacion
+			//TODO Deposita remoto de liquidacion"origenCBU": 13123321123, "destinoCBU": 12, "amount": 2500
 		} catch (Exception e) {
 			throw new RemoteEndpointException("Error al intentar depositar liquidacion al cuil del empleado:   "+ cuilEmpleado +e.getMessage()+"; "+e.getLocalizedMessage()+"; "+ExceptionUtils.getStackTrace(e));
 		}

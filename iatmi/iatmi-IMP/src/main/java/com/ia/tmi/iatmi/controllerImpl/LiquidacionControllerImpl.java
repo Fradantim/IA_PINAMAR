@@ -3,6 +3,7 @@ package com.ia.tmi.iatmi.controllerImpl;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -35,31 +36,32 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 
 	@Autowired
 	private CatalogoConfig catalogo;
-	
+
 	@Autowired
-	private BancariaRemoteEndpoint  entidadBancaria;
-	
+	private BancariaRemoteEndpoint entidadBancaria;
+
 	@Override
 	public List<PersonaDTO> findPersonaLiquidacionAnioMesAll(int anio, int mes) {
 		return personaTransformer.transform(liquidacionServices.findPersonaByLiquidacionAnioMesAll(anio, mes));
 	}
 
-	
 	private static final Logger logger = LoggerFactory.getLogger(LiquidacionControllerImpl.class);
-	
+
 	@Override
 	public void guardarLiquidacion(int idEmpleado, int anio, int mes) {
 		Optional<Persona> p = personaService.findById(idEmpleado);
 		Persona persona = p.get();
 
 		logger.info("--> Persona: " + persona.getId().toString());
-		
+
 		Liquidacion liquidacion = new Liquidacion(persona);
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(anio, mes-1, 20);
+		calendar.set(anio, mes - 1, 20);
 		liquidacion.setFecha(calendar.getTime());
 		for (LiquidacionItem items : persona.getTipoEmpleado().getLiquidacionItems()) {
-			logger.info("--> Items Id: " + items.getId() + " Tipo Persona:  " + persona.getTipoEmpleado().getDescripcion() + " Items: " + items.getValor() + " Tipos: " + items.getTiposLiquidaciones().size());
+			logger.info(
+					"--> Items Id: " + items.getId() + " Tipo Persona:  " + persona.getTipoEmpleado().getDescripcion()
+							+ " Items: " + items.getValor() + " Tipos: " + items.getTiposLiquidaciones().size());
 			liquidacion.addLiquidacionItem(items);
 		}
 		if (persona.getTipoEmpleado().getEsMensual())
@@ -71,18 +73,29 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 
 	@Override
 	public void depositarLiquidaciones(int anio, int mes) {
-			List<Liquidacion> liquidaciones = liquidacionServices.depositPersonByLiquidacion(anio, mes);
-			logger.info("--> Recupero las liquidaciones: " + liquidaciones.size());
-		    for (Liquidacion liquidacion : liquidaciones) {
-		    	logger.info("--> Depositar los siguientes sueldo por liquidacion:\nCBU empleado: " + liquidacion.getEmpleado().getCBU() + " Cuil Empleado: "+ liquidacion.getEmpleado().getCUIT()+ " CBU Gym: "+ catalogo.getCBU()+ " Cuil Entidad Gym: "+ catalogo.getCUIL() + " Deposito el Sueldo Neto: "+ liquidacion.getMontoNeto());
-		    	entidadBancaria.depositarSueldos(liquidacion.getEmpleado().getCBU(), liquidacion.getEmpleado().getCUIT(), catalogo.getCBU(), catalogo.getCUIL(), liquidacion.getMontoNeto());
-		    	logger.info("--> Deposito realizado");
-		    	Liquidacion liquidacionPaga = liquidacionServices.findById(liquidacion.getId());
-		    	logger.info("--> Liquidacion Pagada: " + liquidacion.getId() + " a entidad bancaria.");
-		    	liquidacionPaga.setFechaPago(new Date());
-		    	liquidacionServices.save(liquidacionPaga);
-		    	logger.info("--> Liquidacion cerrada: " + liquidacion.getId() + " fecha de pago: " + liquidacion.getFechaPago());
-		    }
-	}
+		List<Liquidacion> liquidaciones = liquidacionServices.depositPersonByLiquidacion(anio, mes);
+		logger.info("--> Recupero las liquidaciones: " + liquidaciones.size());
+		if (liquidaciones.size() > 0) {
+			for (Liquidacion liquidacion : liquidaciones) {
+				logger.info("--> Depositar los siguientes sueldo por liquidacion:\nCBU empleado: "
+						+ liquidacion.getEmpleado().getCBU() + " Cuil Empleado: " + liquidacion.getEmpleado().getCUIT()
+						+ " CBU Gym: " + catalogo.getCBU() + " Cuil Entidad Gym: " + catalogo.getCUIL()
+						+ " Deposito el Sueldo Neto: " + liquidacion.getMontoNeto());
+				entidadBancaria.depositarSueldos(liquidacion.getEmpleado().getCBU(),
+						liquidacion.getEmpleado().getCUIT(), catalogo.getCBU(), catalogo.getCUIL(),
+						liquidacion.getMontoNeto());
+				logger.info("--> Deposito realizado");
+				Liquidacion liquidacionPaga = liquidacionServices.findById(liquidacion.getId());
+				logger.info("--> Liquidacion Pagada: " + liquidacion.getId() + " a entidad bancaria.");
+				liquidacionPaga.setFechaPago(new Date());
+				liquidacionServices.save(liquidacionPaga);
+				logger.info("--> Liquidacion cerrada: " + liquidacion.getId() + " fecha de pago: "
+						+ liquidacion.getFechaPago());
+			}
+		} else {
+			throw new NoSuchElementException(
+					"No se encontraron liquidacion a procesar por el anio: " + anio + " mes: " + mes);
+		}
 
+	}
 }

@@ -85,7 +85,7 @@ public class LiquidacionService {
 		List<Persona> personas = new ArrayList<Persona>();
 		List<Object[]> rows = liquidacionRepo.findAllLiquidacionPersona(anio, mes);
 		for (Object[] objects : rows) {		
-			personas.add(Persona.toPersona(((objects[0] == null) ? null : (Integer) objects[0]),(String) objects[1],(String) objects[2],(String) objects[3],(Date)objects[4],(Date) objects[5],(String) objects[6],(String) objects[7], ((objects[8] == null) ? null : ((Double)objects[8]).floatValue()),((objects[9] == null) ? null : (Integer) objects[9]),((objects[10] == null) ? null : (Integer) objects[10])));
+			personas.add(Persona.toPersona(((objects[0] == null) ? null : (Integer) objects[0]),(String) objects[1],(String) objects[2],(String) objects[3],(Date)objects[4],(Date) objects[5],(String) objects[6],(String) objects[7], ((objects[8] == null) ? null : (Float)(objects[8])),((objects[9] == null) ? null : (Integer) objects[9]),((objects[10] == null) ? null : (Integer) objects[10])));
 		}
 		return personas;
 	}
