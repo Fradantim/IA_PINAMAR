@@ -10,5 +10,5 @@ public interface LiquidacionController {
 	
 	public void guardarLiquidacion(int idPesona,int anio, int mes);
 	
-	public void pagarLiquidaciones(int anio, int mes);
+	public void depositarLiquidaciones(int anio, int mes);
 }

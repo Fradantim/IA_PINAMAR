@@ -37,7 +37,7 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 	private CatalogoConfig catalogo;
 	
 	@Autowired
-	private BancariaRemoteEndpoint  depositarSueldo;
+	private BancariaRemoteEndpoint  entidadBancaria;
 	
 	@Override
 	public List<PersonaDTO> findPersonaLiquidacionAnioMesAll(int anio, int mes) {
@@ -70,13 +70,18 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 	}
 
 	@Override
-	public void pagarLiquidaciones(int anio, int mes) {
-			List<Liquidacion> liquidaciones = liquidacionServices.payPersonaByLiquidacion(anio, mes);
+	public void depositarLiquidaciones(int anio, int mes) {
+			List<Liquidacion> liquidaciones = liquidacionServices.depositPersonByLiquidacion(anio, mes);
+			logger.info("--> Recupero las liquidaciones: " + liquidaciones.size());
 		    for (Liquidacion liquidacion : liquidaciones) {
-				depositarSueldo.pagarLiquidacion(liquidacion.getEmpleado().getCBU(), liquidacion.getEmpleado().getCUIT(), catalogo.getCBU(), catalogo.getCUIL(), liquidacion.getMontoNeto());
-				Liquidacion liquidacionPaga = liquidacionServices.findById(liquidacion.getId());
-				liquidacionPaga.setFechaPago(new Date());
-				liquidacionServices.save(liquidacionPaga);
+		    	logger.info("--> Depositar los siguientes sueldo por liquidacion:\nCBU empleado: " + liquidacion.getEmpleado().getCBU() + " Cuil Empleado: "+ liquidacion.getEmpleado().getCUIT()+ " CBU Gym: "+ catalogo.getCBU()+ " Cuil Entidad Gym: "+ catalogo.getCUIL() + " Deposito el Sueldo Neto: "+ liquidacion.getMontoNeto());
+		    	entidadBancaria.depositarSueldos(liquidacion.getEmpleado().getCBU(), liquidacion.getEmpleado().getCUIT(), catalogo.getCBU(), catalogo.getCUIL(), liquidacion.getMontoNeto());
+		    	logger.info("--> Deposito realizado");
+		    	Liquidacion liquidacionPaga = liquidacionServices.findById(liquidacion.getId());
+		    	logger.info("--> Liquidacion Pagada: " + liquidacion.getId() + " a entidad bancaria.");
+		    	liquidacionPaga.setFechaPago(new Date());
+		    	liquidacionServices.save(liquidacionPaga);
+		    	logger.info("--> Liquidacion cerrada: " + liquidacion.getId() + " fecha de pago: " + liquidacion.getFechaPago());
 		    }
 	}
 
