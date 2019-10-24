@@ -239,7 +239,11 @@ El sistema abarca las siguientes funciones:
 ### PagoFacturaRequest
 	{
 		"idFactura": Integer,
-		"idMedioDePago": Integer
+		"idMedioDePago": Integer,
+		"nroTarjeta": String,
+		"fechaVencimiento": String ("MM/YY"),
+		"codSeguridad": String,
+		"DNI": String
 	}
 	
 ### AgregarPaseRequest
