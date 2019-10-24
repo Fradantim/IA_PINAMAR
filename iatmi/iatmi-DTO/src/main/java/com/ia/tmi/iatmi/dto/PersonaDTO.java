@@ -60,8 +60,8 @@ public class PersonaDTO {
 		this.sexo = sexo;
 		this.fechaNacimiento = fechaNacimiento;
 		this.fechaAlta = fechaAlta;
-		cbu = cbu;
-		cuit = cuit;
+		this.cbu = cbu;
+		this.cuit = cuit;
 		this.roles = roles;
 	}
 
