@@ -54,6 +54,9 @@ public class Persona {
 	
 	@Column
 	private String CBU;
+	
+	@Column
+	private String idSistemaPresentismo;
 
 	@ManyToOne
 	private Habilitacion habilitacion;
@@ -272,5 +275,13 @@ public class Persona {
 
 	public void setCBU(String cBU) {
 		CBU = cBU;
+	}
+	
+	public String getIdSistemaPresentismo() {
+		return idSistemaPresentismo;
+	}
+
+	public void setIdSistemaPresentismo(String idSistemaPresentismo) {
+		this.idSistemaPresentismo = idSistemaPresentismo;
 	}
 }

@@ -24,7 +24,7 @@ public class ConsumeIATMI implements CommandLineRunner{
 		//ficheroConsumer.ficharEgreso(24, "EMPLEADO");
 		//System.out.println("Fichado Egreso!");
 		
-		//ficheroConsumer.ficharEgreso(24, "EMPLEADO");
-		//System.out.println("Fichado Egreso!");
+		ficheroConsumer.ficharEgreso(24, "SOCIO");
+		System.out.println("Fichado Egreso!");
 	}	
 }
