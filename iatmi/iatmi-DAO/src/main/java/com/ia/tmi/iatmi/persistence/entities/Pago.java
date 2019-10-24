@@ -24,4 +24,7 @@ public class Pago extends Movimiento{
 	public Pago() {
 	}
 	
+	public Factura getFactura() {
+		return factura;
+	}
 }
