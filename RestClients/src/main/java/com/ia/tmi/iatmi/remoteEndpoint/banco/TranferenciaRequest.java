@@ -1,4 +1,4 @@
-package com.ia.tmi.iatmi.remoteEndpoint.iatmiEndpoint;
+package com.ia.tmi.iatmi.remoteEndpoint.banco;
 
 public class TranferenciaRequest {
 
