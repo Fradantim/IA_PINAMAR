@@ -16,11 +16,13 @@ import com.ia.tmi.iatmi.controller.LiquidacionController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
 import com.ia.tmi.iatmi.exception.NoPoseeResultadoException;
 import com.ia.tmi.iatmi.persistence.entities.Liquidacion;
+import com.ia.tmi.iatmi.persistence.entities.LiquidacionDetalle;
 import com.ia.tmi.iatmi.persistence.entities.LiquidacionItem;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.service.LiquidacionService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
 import com.ia.tmi.iatmi.remoteEndpoint.banco.BancariaRemoteEndpoint;
+import com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint.PresentismoFicheroConsumer;
 import com.ia.tmi.iatmi.transformers.PersonaTransformer;
 
 @Controller
@@ -40,6 +42,9 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 
 	@Autowired
 	private BancariaRemoteEndpoint entidadBancaria;
+	
+	@Autowired
+	private PresentismoFicheroConsumer presentismoFicheroConsumer;
 
 	@Override
 	public List<PersonaDTO> findPersonaLiquidacionAnioMesAll(int anio, int mes) {
@@ -68,7 +73,8 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 		if (persona.getTipoEmpleado().getEsMensual())
 			liquidacion.cacularLiquidacionMes();
 		else
-			liquidacion.cacularLiquidacionPorHora(mes);
+			//liquidacion.cacularLiquidacionPorHora(mes);
+			liquidacion.setMontoNeto(calcularLiquidacionPorHora(persona, mes, anio, liquidacion));
 		liquidacionServices.save(liquidacion);
 	}
 
@@ -120,5 +126,23 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 			throw new NoPoseeResultadoException(
 					"No se encontraron Empleados a procesar para pagar en el anio: " + anio + " mes: " + mes);
 		}
+	}
+	
+	private Float calcularLiquidacionPorHora(Persona p,  int mes, int anio,Liquidacion liquidacion) {
+		Calendar calendarDesde = Calendar.getInstance();
+		calendarDesde.set(anio, mes - 1, 1);
+		Calendar calendarHasta = Calendar.getInstance();
+		calendarHasta.set(anio, mes-1,28);
+		int horas = presentismoFicheroConsumer.getHs(p, calendarDesde.getTime(), calendarHasta.getTime());
+		logger.info("--> Consultar empleados por horas:\nEmpleado: Nombre: "+ p.getNombre() +  " calcular horas: " + horas);
+		float montoBruto = 0F;
+		logger.info("--> Consultar empleados por horas:\nEmpleado: Nombre: "+ p.getNombre() +  " liquidaciones detalle: " + ((liquidacion.getLiquidacionDetalles() == null)?null:liquidacion.getLiquidacionDetalles().size()));
+		if (liquidacion.getLiquidacionDetalles() != null)
+			for (LiquidacionDetalle liquidacionDetalle : liquidacion.getLiquidacionDetalles())
+				montoBruto = horas * liquidacionDetalle.getItem().calcularRemunerativo();
+		else if (liquidacion.getEmpleado() != null)
+			montoBruto = liquidacion.getEmpleado().getSueldoBasicoCostoHora();
+		logger.info("--> Consultar empleados por horas:\nEmpleado: Nombre: "+ p.getNombre() +  " monto por horas: " + montoBruto);
+		return montoBruto;
 	}
 }

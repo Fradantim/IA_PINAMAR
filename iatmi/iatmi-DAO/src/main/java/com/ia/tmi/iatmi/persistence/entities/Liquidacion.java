@@ -64,28 +64,28 @@ public class Liquidacion {
 	}
 
 	public void addLiquidacionItem(LiquidacionItem liquidacionItem) {
-		if (liquidacionDetalles == null)
-			liquidacionDetalles = new ArrayList<LiquidacionDetalle>();
+		if (getLiquidacionDetalles() == null)
+			setLiquidacionDetalles(new ArrayList<LiquidacionDetalle>());
 
 		LiquidacionDetalle liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, montoBruto);
-		liquidacionDetalles.add(liquidacionDetalle);
+		getLiquidacionDetalles().add(liquidacionDetalle);
 	}
 
 	public void cacularLiquidacionMes() {
 
 		montoBruto = montoBruto + getEmpleado().getSueldoBasicoCostoHora();
 		logger.info("--> monto bruto empleado: " + montoBruto + " Id empleado: " + getEmpleado().getId());
-		logger.info("--> Cantidad de detalles: " + liquidacionDetalles.size());
-		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
+		logger.info("--> Cantidad de detalles: " + getLiquidacionDetalles().size());
+		for (LiquidacionDetalle liquidacionDetalle : getLiquidacionDetalles()) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.toString());
 			montoBruto += liquidacionDetalle.getItem().calcularRemunerativo();
 		}
-		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
+		for (LiquidacionDetalle liquidacionDetalle : getLiquidacionDetalles()) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "
 					+ liquidacionDetalle.getItem().getValor());
 			montoNoRemunarativo +=  liquidacionDetalle.getItem().calcularNoRemunerativo();
 		}
-		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
+		for (LiquidacionDetalle liquidacionDetalle : getLiquidacionDetalles()) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "
 					+ liquidacionDetalle.getItem().getValor() + " Valor  "
 					+ liquidacionDetalle.getItem().getTiposLiquidaciones().size());
@@ -101,8 +101,8 @@ public class Liquidacion {
 
 	public void cacularLiquidacionPorHora(int mes) {
 		int horas = getEmpleado().calcularHorasPorFichada(mes);
-		if (liquidacionDetalles != null)
-			for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles)
+		if (getLiquidacionDetalles() != null)
+			for (LiquidacionDetalle liquidacionDetalle : getLiquidacionDetalles())
 				montoBruto = horas * liquidacionDetalle.getItem().calcularRemunerativo();
 		else if (this.getEmpleado() != null)
 			montoBruto = getEmpleado().getSueldoBasicoCostoHora();
@@ -154,5 +154,13 @@ public class Liquidacion {
 
 	public void setEmpleado(Persona empleado) {
 		this.empleado = empleado;
+	}
+
+	public List<LiquidacionDetalle> getLiquidacionDetalles() {
+		return liquidacionDetalles;
+	}
+
+	public void setLiquidacionDetalles(List<LiquidacionDetalle> liquidacionDetalles) {
+		this.liquidacionDetalles = liquidacionDetalles;
 	}
 }
