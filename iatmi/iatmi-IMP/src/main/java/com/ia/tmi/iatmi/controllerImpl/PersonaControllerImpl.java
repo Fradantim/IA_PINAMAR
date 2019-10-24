@@ -26,6 +26,7 @@ import com.ia.tmi.iatmi.persistence.service.HabilitacionService;
 import com.ia.tmi.iatmi.persistence.service.PaseService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
 import com.ia.tmi.iatmi.persistence.service.TipoEmpleadoService;
+import com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint.PresentismoFicheroConsumer;
 import com.ia.tmi.iatmi.transformers.FacturaTransformer;
 import com.ia.tmi.iatmi.transformers.FichaMedicaTransformerFromDTO;
 import com.ia.tmi.iatmi.transformers.PersonaTransformer;
@@ -33,6 +34,9 @@ import com.ia.tmi.iatmi.transformers.PersonaTransformerFromDTO;
 
 @Controller
 public class PersonaControllerImpl implements PersonaController{
+	
+	@Autowired
+	private PresentismoFicheroConsumer presentismoConsumer;
 	
 	@Autowired
 	private PersonaService personaService;
@@ -88,7 +92,7 @@ public class PersonaControllerImpl implements PersonaController{
 		
 		evaluarNuevoEmpleado(persona);
 		
-		//TODO enviar nuevo empleado a presentismo
+		presentismoConsumer.altaEmpleado(p);
 		p = personaService.save(p);
 
 		return personaTransformer.transform(p);

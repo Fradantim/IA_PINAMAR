@@ -247,6 +247,7 @@ public class Persona {
 		this.fichadas = fichadas;
 	}
 
+	@Deprecated
 	public int calcularHorasPorFichada(int mes) {
 		int horas = 0;
 		if (mes > 13 || mes < 1)
