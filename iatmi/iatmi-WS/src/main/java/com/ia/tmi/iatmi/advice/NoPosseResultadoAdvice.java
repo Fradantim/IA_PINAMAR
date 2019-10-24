@@ -14,8 +14,8 @@ public class NoPosseResultadoAdvice {
 	@SuppressWarnings("rawtypes")
 	@ResponseBody
 	@ExceptionHandler(NoSuchElementException.class)
-	@ResponseStatus(HttpStatus.ACCEPTED)
+	@ResponseStatus(HttpStatus.OK)
 	public WSReturn liquidacionNotFoundHandler(NoSuchElementException ex) {
-		return WSReturn.ERROR(ex.getMessage());
+		return WSReturn.OK_FALSE(ex.getMessage());
 	}
 }

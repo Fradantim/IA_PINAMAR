@@ -33,6 +33,11 @@ public class WSReturn <T> {
 		return new WSReturn(message, false);
 	}
 	
+	@SuppressWarnings("rawtypes")
+	public static WSReturn OK_FALSE(String message) {
+		return new WSReturn(message, false);
+	}
+	
 	public String getMessage() {
 		return message;
 	}
