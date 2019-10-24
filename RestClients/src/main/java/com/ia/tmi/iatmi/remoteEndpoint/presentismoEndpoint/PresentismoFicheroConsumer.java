@@ -34,7 +34,7 @@ public class PresentismoFicheroConsumer extends EndpointConsumer {
 	
 	private final static DateFormat GET_REPORTE_DATE_FORMATER= new SimpleDateFormat("yyyy-mm-dd");
 	
-	private static final Logger logger = LoggerFactory.getLogger(PresentismoFicheroConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(EndpointConsumer.class);
 	
 	public void altaEmpleado(Persona persona) {
 		CrearEmpleadoPresentismoRequest request = new CrearEmpleadoPresentismoRequest(persona, CUIL, EmpleadoPresentismoTypeEnum.MENSUAL);
@@ -58,7 +58,7 @@ public class PresentismoFicheroConsumer extends EndpointConsumer {
 		FicharPresentismoRequest request = new FicharPresentismoRequest(fichero, type);
 		logger.debug("Enviando "+ type +" a sistema de presentismo: "+request);
 		
-		FicharPresentismoResponse response = getRestTemplate().postForObject(crearEmpleadoUrl, request, FicharPresentismoResponse.class);
+		FicharPresentismoResponse response = getRestTemplate().postForObject(ficharUrl, request, FicharPresentismoResponse.class);
 		
 		logger.debug("Respuesta recibida: "+ response);
 	}
@@ -95,13 +95,13 @@ public class PresentismoFicheroConsumer extends EndpointConsumer {
 		//url += "?employeeId={employeeId}&from={from}&to={to}";
 		
 		url = replaceTagInUrl(url, employeeIdTag, persona.getIdSistemaPresentismo());
-		url = replaceTagInUrl(url, fromTag, GET_REPORTE_DATE_FORMATER.format(fechaDesde));
-		url = replaceTagInUrl(url, toTag, GET_REPORTE_DATE_FORMATER.format(fechaHasta));
+		url = replaceTagInUrl(url, fromTag, fechaDesde.toInstant().toString());
+		url = replaceTagInUrl(url, toTag, fechaHasta.toInstant().toString());
 				
 		return url;
 	}
 	
 	private String replaceTagInUrl(String url, String tag, String value) {
-		return url.replaceAll("{"+tag+"}", value);
+		return url.replace("{"+tag+"}", value);
 	}
 }

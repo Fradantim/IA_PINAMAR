@@ -4,16 +4,24 @@ public class FicharPresentismoResponse {
 
 	private Integer id;
 	private String employee;
-	private Integer[] input;
-	private String output;
+	private String[] input;
+	private String[] output;
 	private Boolean holiday;
 	
 	FicharPresentismoResponse() { }
 
 	@Override
 	public String toString() {
-		return "CrearEmpleadoPresentismoResponse [id=" + id + ", employee=" + employee + ", input=" + input
+		return "FicharPresentismoResponse [id=" + id + ", employee=" + employee + ", input=" + input
 				+ ", output=" + output + ", holiday=" + holiday + "]";
+	}
+	
+	public FicharPresentismoResponse(Integer id, String employee, String[] input, String[] output, Boolean holiday) {
+		this.id = id;
+		this.employee = employee;
+		this.input = input;
+		this.output = output;
+		this.holiday = holiday;
 	}
 
 	public Integer getId() {
@@ -32,19 +40,19 @@ public class FicharPresentismoResponse {
 		this.employee = employee;
 	}
 
-	public Integer[] getInput() {
+	public String[] getInput() {
 		return input;
 	}
 
-	public void setInput(Integer[] input) {
+	public void setInput(String[] input) {
 		this.input = input;
 	}
 
-	public String getOutput() {
+	public String[] getOutput() {
 		return output;
 	}
 
-	public void setOutput(String output) {
+	public void setOutput(String[] output) {
 		this.output = output;
 	}
 
