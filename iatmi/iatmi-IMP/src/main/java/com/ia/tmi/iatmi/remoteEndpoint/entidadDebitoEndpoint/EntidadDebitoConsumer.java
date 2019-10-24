@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.ia.tmi.iatmi.persistence.entities.Pago;
 import com.ia.tmi.iatmi.remoteEndpoint.EndpointConsumer;
-import com.ia.tmi.iatmi.remoteEndpoint.entidadCreditoEndpoint.Cuota;
 
 @Service
 public class EntidadDebitoConsumer extends EndpointConsumer{
@@ -24,8 +23,9 @@ public class EntidadDebitoConsumer extends EndpointConsumer{
 		EntidadDebitoPagarRequest request = new EntidadDebitoPagarRequest(pago, debitCardNumber, securityCode, expirationMonth, expirationYear, CBU);
 		logger.debug("Enviando pago con TD a sistema Ente Debito Banco: "+request);
 		
-		Cuota[] response = getRestTemplate().postForObject(pagarUrl, request, Cuota[].class);
-		logger.debug("Respuesta recibida: "+ response);
+		//TODO 0!! HACER TEST DE COBRO CON TD
+		getRestTemplate().postForObject(pagarUrl, request, Object.class);
+		logger.debug("Respuesta recibida: "+ null);
 	}
 	
 }
