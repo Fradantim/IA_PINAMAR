@@ -35,16 +35,16 @@ public class ConsumePresentismo implements CommandLineRunner{
 		Date fechaIngreso, fechaEgreso;
 		Fichero fichero ;
 		
-		fechaIngreso = new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191022 090000");
-		fechaEgreso = new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191022 180000");
+		fechaIngreso = new SimpleDateFormat("yyyyMMdd HHmmss").parse("20191022 090000");
+		fechaEgreso =  new SimpleDateFormat("yyyyMMdd HHmmss").parse("20191022 180000");
 		
 		fichero = new Fichero(persona, fechaIngreso , fechaEgreso);
 		
 		presentismoConsumer.ficharIngreso(fichero);
 		presentismoConsumer.ficharEgreso(fichero);
 		
-		fechaIngreso = new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191023 090000");
-		fechaEgreso = new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191023 180000");
+		fechaIngreso = new SimpleDateFormat("yyyyMMdd HHmmss").parse("20191023 090000");
+		fechaEgreso = new SimpleDateFormat("yyyyMMdd HHmmss").parse("20191023 180000");
 		
 		fichero = new Fichero(persona, fechaIngreso , fechaEgreso);
 		
@@ -52,9 +52,7 @@ public class ConsumePresentismo implements CommandLineRunner{
 		presentismoConsumer.ficharEgreso(fichero);
 		
 		presentismoConsumer.getHs(persona,
-				new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191001 090000"),
-				new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191230 180000"));
-		
-		
+				new SimpleDateFormat("yyyyMMdd").parse("20191001"),
+				new SimpleDateFormat("yyyyMMdd").parse("20191230"));
 	}		
 }

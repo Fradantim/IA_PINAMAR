@@ -1,7 +1,5 @@
 package com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -32,8 +30,6 @@ public class PresentismoFicheroConsumer extends EndpointConsumer {
 	@Value("${iatmi.CUIL}")
 	private String CUIL;
 	
-	private final static DateFormat GET_REPORTE_DATE_FORMATER= new SimpleDateFormat("yyyy-mm-dd");
-	
 	private static final Logger logger = LoggerFactory.getLogger(EndpointConsumer.class);
 	
 	public void altaEmpleado(Persona persona) {
@@ -47,15 +43,15 @@ public class PresentismoFicheroConsumer extends EndpointConsumer {
 	}
 	
 	public void ficharIngreso(Fichero fichero) {
-		fichar(fichero, FicharPresentismoRequestType.INGRESO);
+		fichar(fichero, FicharPresentismoRequestType.INGRESO, fichero.getFechaIngreso());
 	}
 	
 	public void ficharEgreso(Fichero fichero) {
-		fichar(fichero, FicharPresentismoRequestType.EGRESO);
+		fichar(fichero, FicharPresentismoRequestType.EGRESO, fichero.getFechaEgreso());
 	}
 	
-	public void fichar(Fichero fichero, FicharPresentismoRequestType type) {
-		FicharPresentismoRequest request = new FicharPresentismoRequest(fichero, type);
+	public void fichar(Fichero fichero, FicharPresentismoRequestType type, Date fecha) {
+		FicharPresentismoRequest request = new FicharPresentismoRequest(fichero, type, fecha);
 		logger.debug("Enviando "+ type +" a sistema de presentismo: "+request);
 		
 		FicharPresentismoResponse response = getRestTemplate().postForObject(ficharUrl, request, FicharPresentismoResponse.class);
@@ -63,15 +59,13 @@ public class PresentismoFicheroConsumer extends EndpointConsumer {
 		logger.debug("Respuesta recibida: "+ response);
 	}
 	
-	public void getHs(Persona persona, Date fechaDesde, Date fechaHasta) {
+	public Integer getHs(Persona persona, Date fechaDesde, Date fechaHasta) {
 		logger.debug("Pidierndo reportes de Persona "+ persona +" a sistema de presentismo");
-		
-		String url = getHsUrl(persona, fechaDesde, fechaHasta);
-		
-		//TODO mapear respuesta
-		Object response = getRestTemplate().getForObject(getHsUrl(persona, fechaDesde, fechaHasta), Object.class);
+				
+		GerHsPresentismoResponse response = getRestTemplate().getForObject(getHsUrl(persona, fechaDesde, fechaHasta), GerHsPresentismoResponse.class);
 		
 		logger.debug("Respuesta recibida: "+ response);
+		return response.getTotalHours();
 	}
 	
 	private String getHsUrl(Persona persona, Date fechaDesde, Date fechaHasta) {
@@ -92,11 +86,10 @@ public class PresentismoFicheroConsumer extends EndpointConsumer {
 				url+=tags.get(i)+"={"+tags.get(i)+"}";
 			}
 		}
-		//url += "?employeeId={employeeId}&from={from}&to={to}";
 		
-		url = replaceTagInUrl(url, employeeIdTag, persona.getIdSistemaPresentismo());
-		url = replaceTagInUrl(url, fromTag, fechaDesde.toInstant().toString());
-		url = replaceTagInUrl(url, toTag, fechaHasta.toInstant().toString());
+		url = replaceTagInUrl(url, employeeIdTag, persona.getCUIT()); //en employeeId va el cuit...
+		url = replaceTagInUrl(url, fromTag, fechaDesde.toInstant().toString().substring(0,10));
+		url = replaceTagInUrl(url, toTag, fechaHasta.toInstant().toString().substring(0,10));
 				
 		return url;
 	}
