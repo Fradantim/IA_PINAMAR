@@ -84,8 +84,6 @@ public class PersonaControllerImpl implements PersonaController{
 		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setSueldoBasicoCostoHora(sueldoBasicoCostoHora);
 		p.setTipoEmpleado(tipoEmpleadoService.findById(idTipoEmpleado).get());
-		p.setCBU(persona.getCBU());
-		p.setCUIT(persona.getCUIT());
 		
 		evaluarNuevoEmpleado(persona);
 		
@@ -97,11 +95,11 @@ public class PersonaControllerImpl implements PersonaController{
 	
 	private void evaluarNuevoEmpleado(PersonaDTO p) {
 		String errores ="";
-		if(p.getCBU()== null || p.getCBU().length()!=22 || !isInteger(p.getCBU()) ) {
+		if(p.getCbu()== null || p.getCbu().length()!=22 || !isInteger(p.getCbu()) ) {
 			errores += "El CBU es obligatorio y debe poseer 22 digitos numéricos. ";
 		}
 		
-		if(p.getCUIT()== null || p.getCUIT().length()!=11 || !isInteger(p.getCUIT()) ) {
+		if(p.getCuit()== null || p.getCuit().length()!=11 || !isInteger(p.getCuit()) ) {
 			errores += "El CUIT es obligatorio y debe poseer 11 digitos numéricos. ";
 		}
 		
@@ -112,7 +110,7 @@ public class PersonaControllerImpl implements PersonaController{
 	
 	private Boolean isInteger(String s) {
 		try {
-			Integer.parseInt(s);
+			//Long.parseLong(s); //roto ?
 		} catch (IllegalArgumentException e) {
 			return false;
 		}

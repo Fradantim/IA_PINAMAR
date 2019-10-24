@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.ia.tmi.iatmi.persistence.entities.Fichero;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
+import com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint.FicharPresentismoRequest.FicharPresentismoRequestType;
 
 @Service
 public class PresentismoFicheroConsumer {
@@ -32,21 +34,15 @@ public class PresentismoFicheroConsumer {
 		persona.setIdSistemaPresentismo(response.getId().toString());
 	}
 	
-	public void ficharIngreso(Persona persona, String idRol) {
+	public void ficharIngreso(Fichero fichero) {
+		FicharPresentismoRequest request = new FicharPresentismoRequest(fichero, FicharPresentismoRequestType.INGRESO);
+		//FicharPresentismoResponse response = = new RestTemplate().postForObject(crearEmpleadoUrl, request, CrearEmpleadoPresentismoResponse.class);
+	}
+	
+	public void ficharEgreso(Fichero fichero, String idRol) {
 		
 	}
 	
-	public void ficharIngreso(Persona persona, String idRol, String date) {
-		
-	}
-	
-	public void ficharEgreso(Persona persona, String idRol) {
-		
-	}
-	
-	public void ficharEgreso(Persona persona, String idRol, String date) {
-		
-	}
 	
 	public void getHs(Persona persona) {
 		

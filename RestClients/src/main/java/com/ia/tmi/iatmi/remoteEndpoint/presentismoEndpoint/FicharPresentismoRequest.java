@@ -2,7 +2,7 @@ package com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint;
 
 import java.util.Date;
 
-import com.ia.tmi.iatmi.persistence.entities.Persona;
+import com.ia.tmi.iatmi.persistence.entities.Fichero;
 
 public class FicharPresentismoRequest {
 
@@ -24,16 +24,16 @@ public class FicharPresentismoRequest {
 		this.note = note;
 	}
 	
-	public FicharPresentismoRequest(Persona persona, FicharPresentismoRequestType type, Date event, String note) {
-		this(persona.getIdSistemaPresentismo(),type,event,note);
+	public FicharPresentismoRequest(Fichero fichero, FicharPresentismoRequestType type, Date event, String note) {
+		this(fichero.getPersona().getIdSistemaPresentismo(),type,event,note);
 	}
 	
-	public FicharPresentismoRequest(Persona persona, FicharPresentismoRequestType type, String note) {
-		this(persona.getIdSistemaPresentismo(),type, new Date(),note);
+	public FicharPresentismoRequest(Fichero fichero, FicharPresentismoRequestType type, String note) {
+		this(fichero.getPersona().getIdSistemaPresentismo(),type, new Date(),note);
 	}
 	
-	public FicharPresentismoRequest(Persona persona, FicharPresentismoRequestType type) {
-		this(persona.getIdSistemaPresentismo(),type, new Date(),"");
+	public FicharPresentismoRequest(Fichero fichero, FicharPresentismoRequestType type) {
+		this(fichero.getPersona().getIdSistemaPresentismo(),type, new Date(),"");
 	}
 
 	public String getIdEmployee() {

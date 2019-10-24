@@ -23,7 +23,9 @@ public class PersonaDTO {
 	
 	private Date fechaAlta;
 	
-	private String CBU, CUIT;
+	private String cbu;
+	
+	private String cuit;
 	
 	private List<String> roles;
 
@@ -47,6 +49,22 @@ public class PersonaDTO {
 		this.fechaAlta = fechaAlta;
 	}
 	
+	public PersonaDTO(Integer id, String nombre, String apellido, String dni, String email, String sexo,
+			Date fechaNacimiento, Date fechaAlta, String cbu, String cuit, List<String> roles) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.dni = dni;
+		this.email = email;
+		this.sexo = sexo;
+		this.fechaNacimiento = fechaNacimiento;
+		this.fechaAlta = fechaAlta;
+		cbu = cbu;
+		cuit = cuit;
+		this.roles = roles;
+	}
+
 	public void addRol(String rol) {
 		if (roles == null) roles = new ArrayList<String>();
 		roles.add(rol);
@@ -129,19 +147,19 @@ public class PersonaDTO {
 		this.id = id;
 	}
 
-	public String getCBU() {
-		return CBU;
+	public String getCbu() {
+		return cbu;
 	}
 
-	public void setCBU(String cBU) {
-		CBU = cBU;
+	public void setCbu(String cbu) {
+		this.cbu = cbu;
 	}
 
-	public String getCUIT() {
-		return CUIT;
+	public String getCuit() {
+		return cuit;
 	}
 
-	public void setCUIT(String cUIT) {
-		CUIT = cUIT;
+	public void setCuit(String cuit) {
+		this.cuit = cuit;
 	}
 }

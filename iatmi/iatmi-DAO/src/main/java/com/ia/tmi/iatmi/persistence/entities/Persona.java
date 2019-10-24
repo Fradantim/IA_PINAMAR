@@ -86,6 +86,18 @@ public class Persona {
 		this.fechaNacimiento = fechaNacimiento;
 		this.fechaAlta = new Date();
 	}
+	
+	public Persona(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento, String CUIT, String CBU) {
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.dni = dni;
+		this.email = email;
+		this.sexo = sexo;
+		this.fechaNacimiento = fechaNacimiento;
+		this.fechaAlta = new Date();
+		this.CBU=CBU;
+		this.CUIT=CUIT;
+	}
 
 	public Persona(String nombre, String apellido, String dni, String email, String sexo, Date fechaNacimiento,
 			Float sueldoBasicoCostoHora, String CBU, String CUIT) {

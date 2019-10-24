@@ -3,17 +3,19 @@ package com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint;
 public class CrearEmpleadoPresentismoResponse {
 
 	private Integer id;
-	private String employee;
-	private Integer[] input;
-	private String output;
-	private Boolean holiday;
+	private String cuit,name;
 	
-	CrearEmpleadoPresentismoResponse() { }
+	public CrearEmpleadoPresentismoResponse() {}
 
+	public CrearEmpleadoPresentismoResponse(Integer id, String cuit, String name) {
+		this.id = id;
+		this.cuit = cuit;
+		this.name = name;
+	}
+	
 	@Override
 	public String toString() {
-		return "CrearEmpleadoPresentismoResponse [id=" + id + ", employee=" + employee + ", input=" + input
-				+ ", output=" + output + ", holiday=" + holiday + "]";
+		return "CrearEmpleadoPresentismoResponse [id=" + id + ", cuit=" + cuit + ", name=" + name + "]";
 	}
 
 	public Integer getId() {
@@ -24,35 +26,19 @@ public class CrearEmpleadoPresentismoResponse {
 		this.id = id;
 	}
 
-	public String getEmployee() {
-		return employee;
+	public String getCuit() {
+		return cuit;
 	}
 
-	public void setEmployee(String employee) {
-		this.employee = employee;
+	public void setCuit(String cuit) {
+		this.cuit = cuit;
 	}
 
-	public Integer[] getInput() {
-		return input;
+	public String getName() {
+		return name;
 	}
 
-	public void setInput(Integer[] input) {
-		this.input = input;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public String getOutput() {
-		return output;
-	}
-
-	public void setOutput(String output) {
-		this.output = output;
-	}
-
-	public Boolean getHoliday() {
-		return holiday;
-	}
-
-	public void setHoliday(Boolean holiday) {
-		this.holiday = holiday;
-	}	
 }

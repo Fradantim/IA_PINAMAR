@@ -17,6 +17,6 @@ public class PersonaTransformerFromDTO extends Transformer<PersonaDTO, Persona> 
 	@Override
 	public Persona transform(PersonaDTO element) {
 		return new Persona(element.getNombre(), element.getApellido(), element.getDni(),
-				element.getEmail(), element.getSexo(), element.getFechaNacimiento());
+				element.getEmail(), element.getSexo(), element.getFechaNacimiento(), element.getCuit(), element.getCbu());
 	}
 }

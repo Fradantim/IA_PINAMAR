@@ -23,9 +23,8 @@ public class Fichero {
 		this.setActivo(true);
 	}
 	
-	public Fichero(Persona persona, Date date) {
+	public Fichero(Persona persona) {
 		this.persona=persona;
-		this.fechaIngreso=new Date();
 		this.setActivo(true);
 	}
 	
