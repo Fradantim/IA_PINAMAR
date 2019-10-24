@@ -14,18 +14,10 @@ import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.MovimientoService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
-import com.ia.tmi.iatmi.remoteEndpoint.EntidadCrediticiaRemoteEnpoint;
-import com.ia.tmi.iatmi.remoteEndpoint.banco.BancariaRemoteEndpoint;
 import com.ia.tmi.iatmi.transformers.MovimientoTransformer;
 
 @Controller
 public class MovimientoControllerImpl implements MovimientoController{
-
-	@Autowired
-	private EntidadCrediticiaRemoteEnpoint entidadCrediticiaEndpoint;
-	
-	@Autowired
-	private BancariaRemoteEndpoint entidadBancariaEndpoint;
 	
 	@Autowired
 	private MovimientoService movService;
@@ -63,11 +55,11 @@ public class MovimientoControllerImpl implements MovimientoController{
 		Pago pago = new Pago(factura, mdp);
 		
 		if(mdp.esTC()) {
-			entidadCrediticiaEndpoint.registrarPago(pago, nroTarjeta, fechaVencimiento, codSeguridad, DNI);
+			//TODO ACA
 		}
 		
 		if(mdp.esTD()) {
-			entidadBancariaEndpoint.registrarPago(pago, nroTarjeta, fechaVencimiento, codSeguridad, DNI);
+			//TODO ACA
 		}
 		movService.save(pago);
 		
