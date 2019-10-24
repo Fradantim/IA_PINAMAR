@@ -1,4 +1,4 @@
-package com.ia.tmi.iatmi.remoteEndpoint.banco;
+package com.ia.tmi.iatmi.remoteEndpoint.iatmiEndpoint.banco;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,14 +8,14 @@ import com.ia.tmi.iatmi.exception.RemoteEndpointException;
 import com.ia.tmi.iatmi.remoteEndpoint.iatmiEndpoint.WSReturn;
 
 @Service
-public class IaTMFBancarioConsumer {
+public class IaTMFBancoConsumer {
 
-	@Value("${iatmi.fichero.transferencia.url}")
+	@Value("${iatmi.banco.transferencia.url}")
 	private String transferenciaUrl;
 	
 	public void transferenciaBancaria(String origenCBU, String destinoCBU, String amount) {
 
-		TranferenciaRequest request = new TranferenciaRequest(origenCBU, destinoCBU, amount);
+		TransferenciaRequest request = new TransferenciaRequest(origenCBU, destinoCBU, amount);
 		WSReturn retorno = new RestTemplate().postForObject(transferenciaUrl, request, WSReturn.class);
 		
 		if(!retorno.getSuccessful()) {
