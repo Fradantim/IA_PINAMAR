@@ -35,13 +35,13 @@ public class LiquidacionEndpoint {
 		return new WSReturn<List<PersonaDTO>>("Busqueda OK.", liquidacionController.findPersonaLiquidacionAnioMesAll(anio, mes));
 	}
 	
-	@PatchMapping(PATH+"/pagar")
+	@PatchMapping(PATH)
 	public WSReturn pagarLiquidaciones(@RequestBody(required=true) LiquidacionRequest request) {
 		liquidacionController.depositarLiquidaciones(request.getAnio(), request.getMes());
 		return WSReturn.OK("Sueldos Pagos Exitosamente!!!");
 	}
 
-	@GetMapping(PATH)
+	@GetMapping(PATH+"/pagar")
 	public WSReturn<List<PersonaDTO>> getByEmpleadoByPayMesAnio(@RequestParam(required = true) Integer mes,
 			@RequestParam(required = true) Integer anio) {
 		return new WSReturn<List<PersonaDTO>>("Busqueda OK.", liquidacionController.getPersonasAPagar(anio, mes));
