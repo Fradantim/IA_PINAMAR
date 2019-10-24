@@ -2,6 +2,7 @@ package com.ia.tmi.iatmi.controllerImpl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -95,11 +96,11 @@ public class PersonaControllerImpl implements PersonaController{
 	
 	private void evaluarNuevoEmpleado(PersonaDTO p) {
 		String errores ="";
-		if(p.getCbu()== null || p.getCbu().length()!=22 || !isInteger(p.getCbu()) ) {
+		if(p.getCbu()== null || p.getCbu().length()!=22 || !isNumber(p.getCbu()) ) {
 			errores += "El CBU es obligatorio y debe poseer 22 digitos numéricos. ";
 		}
 		
-		if(p.getCuit()== null || p.getCuit().length()!=11 || !isInteger(p.getCuit()) ) {
+		if(p.getCuit()== null || p.getCuit().length()!=11 || !isNumber(p.getCuit()) ) {
 			errores += "El CUIT es obligatorio y debe poseer 11 digitos numéricos. ";
 		}
 		
@@ -108,13 +109,11 @@ public class PersonaControllerImpl implements PersonaController{
 		}
 	}
 	
-	private Boolean isInteger(String s) {
-		try {
-			//Long.parseLong(s); //roto ?
-		} catch (IllegalArgumentException e) {
-			return false;
-		}
-		return true;
+	private final static Pattern NUMBER_PATTERN = Pattern.compile("[0-9].*");
+	
+	private Boolean isNumber(String s) {
+		Boolean res = NUMBER_PATTERN.matcher(s).matches();
+		return res;
 	}
 
 	@Override
