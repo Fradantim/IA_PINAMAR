@@ -1,17 +1,17 @@
-package com.ia.tmi.iatmi.remoteEndpoint.banco;
+package com.ia.tmi.iatmi.remoteEndpoint.iatmiEndpoint.banco;
 
-public class TranferenciaRequest {
+public class TransferenciaRequest {
 
 	private String origenCBU;
 	private String destinoCBU;
 	private String amount;
 
-	public TranferenciaRequest() {
+	public TransferenciaRequest() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public TranferenciaRequest(String origenCBU, String destinoCBU, String amount) {
+	public TransferenciaRequest(String origenCBU, String destinoCBU, String amount) {
 		super();
 		this.origenCBU = origenCBU;
 		this.destinoCBU = destinoCBU;
@@ -42,4 +42,11 @@ public class TranferenciaRequest {
 		this.amount = amount;
 	}
 
+	@Override
+	public String toString() {
+		return "TransferenciaRequest [origenCBU=" + origenCBU + ", destinoCBU=" + destinoCBU + ", amount=" + amount
+				+ "]";
+	}
+
+	
 }
