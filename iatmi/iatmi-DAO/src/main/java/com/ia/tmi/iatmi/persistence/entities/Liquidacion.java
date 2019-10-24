@@ -26,7 +26,7 @@ public class Liquidacion {
 
 	@Column
 	private Date fecha;
-	
+
 	@Column
 	private Date fechaPago;
 
@@ -68,17 +68,6 @@ public class Liquidacion {
 			liquidacionDetalles = new ArrayList<LiquidacionDetalle>();
 
 		LiquidacionDetalle liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, montoBruto);
-
-		// if (liquidacionItem.getValor() >= 0) {
-		// liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem,
-		// empleado.getSueldoBasicoCostoHora());
-		// montoBruto += liquidacionDetalle.getMonto();
-		// } else {
-		// liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem,
-		// montoBruto);
-		// }
-		// montoNeto += liquidacionDetalle.getMonto(); +
-
 		liquidacionDetalles.add(liquidacionDetalle);
 	}
 
@@ -89,18 +78,18 @@ public class Liquidacion {
 		logger.info("--> Cantidad de detalles: " + liquidacionDetalles.size());
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.toString());
-			montoBruto = montoBruto + liquidacionDetalle.getItem().calcularRemunerativo();
+			montoBruto += liquidacionDetalle.getItem().calcularRemunerativo();
 		}
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "
 					+ liquidacionDetalle.getItem().getValor());
-			montoNoRemunarativo = montoNoRemunarativo + liquidacionDetalle.getItem().calcularNoRemunerativo();
+			montoNoRemunarativo +=  liquidacionDetalle.getItem().calcularNoRemunerativo();
 		}
 		for (LiquidacionDetalle liquidacionDetalle : liquidacionDetalles) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "
 					+ liquidacionDetalle.getItem().getValor() + " Valor  "
 					+ liquidacionDetalle.getItem().getTiposLiquidaciones().size());
-			montoDescuento = montoDescuento + liquidacionDetalle.getItem().calcularDescuento(montoBruto);
+			montoDescuento += liquidacionDetalle.getItem().calcularDescuento(montoBruto);
 		}
 
 		logger.info("--> montoBruto: " + montoBruto);

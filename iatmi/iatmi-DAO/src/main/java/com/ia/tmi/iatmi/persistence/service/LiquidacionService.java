@@ -75,6 +75,12 @@ public class LiquidacionService {
 		return liquidacionItemRepo.save(item);
 	}
 
+	/**
+	 * buscar persona que no tiene realizada la liquidacion por mes y anio.
+	 * @param anio
+	 * @param mes
+	 * @return personas sin liquidacion
+	 */
 	public List<Persona> findPersonaByLiquidacionAnioMesAll(int anio, int mes) {
 		List<Persona> personas = new ArrayList<Persona>();
 		List<Object[]> rows = liquidacionRepo.findAllLiquidacionPersona(anio, mes);
@@ -83,11 +89,17 @@ public class LiquidacionService {
 		}
 		return personas;
 	}
-	public List<Liquidacion> payPersonaByLiquidacion(int anio, int mes){
+	/**
+	 * cargar liquidacion por empleado
+	 * @param anio
+	 * @param mes
+	 * @return liquidacion de depositar
+	 */
+	public List<Liquidacion> depositPersonByLiquidacion(int anio, int mes){
 		List<Liquidacion> liquidacionPagar= new ArrayList<Liquidacion>();
 		List<Object[]> rows = liquidacionRepo.findNotPayLiquidacionPersona(anio, mes);
 		for (Object[] objects : rows) {	
-			logger.info(objects.toString());
+			logger.info("Objetos: "+ objects.toString());
 			Persona persona = new Persona();
 			persona.setId(((objects[0] == null) ? null : (Integer) objects[0]));
 			persona.setApellido((String) objects[1]);
@@ -98,6 +110,7 @@ public class LiquidacionService {
 			liquidacion.setMontoNeto((objects[5] == null) ? null : ((Float)objects[5]));
 			liquidacion.setEmpleado(persona);
 			liquidacionPagar.add(liquidacion);
+			logger.info("Liquidacion cargada: "+ liquidacion.getId());
 		}
 		return liquidacionPagar;
 	}

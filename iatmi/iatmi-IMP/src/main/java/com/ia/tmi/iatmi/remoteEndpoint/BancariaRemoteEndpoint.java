@@ -1,6 +1,8 @@
 package com.ia.tmi.iatmi.remoteEndpoint;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ia.tmi.iatmi.exception.RemoteEndpointException;
@@ -9,15 +11,16 @@ import com.ia.tmi.iatmi.persistence.entities.Pago;
 @Service
 public class BancariaRemoteEndpoint {
 
+	private static final Logger logger = LoggerFactory.getLogger(BancariaRemoteEndpoint.class);
 	/**
-	 * Envia la informacion del empleado al endpoint de presentismo para registrar un ingreso
+	 *  Depositar liquidacion por empleado del mes y anio solicitado.
 	 */
-	public void pagarLiquidacion(String cbuEmpleado, String cuil, String cbuEmpresa, String cuitEmpresa, float montoDepositar) {
+	public void depositarSueldos(String cbuEmpleado, String cuilEmpleado, String cbuEmpresa, String cuitEmpresa, float montoDepositar) {
 		try {
+			logger.info("-->  Invocar cliente bancario por deposito de sueldo.");
 			//TODO Deposita remoto de liquidacion
-			;
 		} catch (Exception e) {
-			throw new RemoteEndpointException("Error al intentar depositar liquidacion al cuil del empleado:   "+ cbuEmpleado +e.getMessage()+"; "+e.getLocalizedMessage()+"; "+ExceptionUtils.getStackTrace(e));
+			throw new RemoteEndpointException("Error al intentar depositar liquidacion al cuil del empleado:   "+ cuilEmpleado +e.getMessage()+"; "+e.getLocalizedMessage()+"; "+ExceptionUtils.getStackTrace(e));
 		}
 	}
 	
