@@ -96,9 +96,12 @@ public class PersonaControllerImpl implements PersonaController{
 	
 	private void evaluarNuevoEmpleado(PersonaDTO p) {
 		String errores ="";
+		/*
+		EL BANCO GUARDO CBU COMO LONG, NO LE ENTRAN MAS DE 16 / 17 DIGITOS....
 		if(p.getCbu()== null || p.getCbu().length()!=22 || !isNumber(p.getCbu()) ) {
 			errores += "El CBU es obligatorio y debe poseer 22 digitos numéricos. ";
 		}
+		*/
 		
 		if(p.getCuit()== null || p.getCuit().length()!=11 || !isNumber(p.getCuit()) ) {
 			errores += "El CUIT es obligatorio y debe poseer 11 digitos numéricos. ";

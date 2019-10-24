@@ -15,21 +15,22 @@ import com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint.PresentismoFicheroCon
 
 @SpringBootApplication
 @ComponentScan("com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint")
-public class ConsumeIPresentismo implements CommandLineRunner{
+public class ConsumePresentismo implements CommandLineRunner{
 	
 	@Autowired
 	private PresentismoFicheroConsumer presentismoConsumer;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(ConsumeIPresentismo.class, args).close();;
+		SpringApplication.run(ConsumePresentismo.class, args).close();;
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
 		String date= new SimpleDateFormat("dd HHmmSS").format(new Date());
-		Persona persona = new Persona("Franco", "GIM MOCK TEST "+date, "", "", "", null, 0F, "", "20374330897");
+		String cuit = "20"+date.replaceAll(" ", "")+"7";
+		Persona persona = new Persona("Franco", "GIM MOCK TEST "+date, "", "", "", null, 0F, "", cuit);
 		
-		//presentismoConsumer.altaEmpleado(persona);		
+		presentismoConsumer.altaEmpleado(persona);		
 		
 		Date fechaIngreso, fechaEgreso;
 		Fichero fichero ;
@@ -39,19 +40,15 @@ public class ConsumeIPresentismo implements CommandLineRunner{
 		
 		fichero = new Fichero(persona, fechaIngreso , fechaEgreso);
 		
-		//presentismoConsumer.ficharIngreso(fichero);
-		//presentismoConsumer.ficharEgreso(fichero);
+		presentismoConsumer.ficharIngreso(fichero);
+		presentismoConsumer.ficharEgreso(fichero);
 		
 		fechaIngreso = new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191023 090000");
 		fechaEgreso = new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191023 180000");
 		
 		fichero = new Fichero(persona, fechaIngreso , fechaEgreso);
-		presentismoConsumer.getHs(persona);
-		System.out.println("FIN -!!!");
-		
-	}	
-		//ficheroConsumer.ficharEgreso(24, "EMPLEADO");
-		//System.out.println("Fichado Egreso!");
-	
-	
+		presentismoConsumer.getHs(persona,
+				new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191001 090000"),
+				new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191230 180000"));		
+	}		
 }

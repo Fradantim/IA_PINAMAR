@@ -10,11 +10,14 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.DefaultResponseErrorHandler;
+import org.springframework.web.client.ResponseErrorHandler;
 
-public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
+public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor, ResponseErrorHandler {
 
     final static Logger log = LoggerFactory.getLogger(LoggingRequestInterceptor.class);
-
+    private ResponseErrorHandler errorHandler = new DefaultResponseErrorHandler();
+    
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         traceRequest(request, body);
@@ -49,4 +52,14 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
         log.debug("=======================response end=================================================");
     }
 
+	@Override
+	public boolean hasError(ClientHttpResponse response) throws IOException {
+		return errorHandler.hasError(response);
+	}
+
+	@Override
+	public void handleError(ClientHttpResponse response) throws IOException {
+		traceResponse(response);
+		errorHandler.handleError(response);
+	}
 }
