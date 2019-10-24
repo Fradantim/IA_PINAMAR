@@ -12,7 +12,9 @@ public abstract class EndpointConsumer {
 
 	protected RestTemplate getRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+		LoggingRequestInterceptor interceptor = new LoggingRequestInterceptor();
 		restTemplate.setInterceptors(Arrays.asList(new LoggingRequestInterceptor()));
+		restTemplate.setErrorHandler(interceptor);
 		return restTemplate;
 	}
 }

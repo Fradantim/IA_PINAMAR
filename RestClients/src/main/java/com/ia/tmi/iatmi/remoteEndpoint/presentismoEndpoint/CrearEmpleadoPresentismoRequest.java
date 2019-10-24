@@ -3,26 +3,29 @@ package com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
 
 public class CrearEmpleadoPresentismoRequest {
+	
+	public enum EmpleadoPresentismoTypeEnum{
+		 DIARIO, SEMANAL, QUINCENAL, MENSUAL;
+	}
 
 	private String cuit;
-	private String clienteCuit;
+	private String clientCuit;
 	private String firstName;
 	private String lastName;
-	
+	private String type;
+
 	public CrearEmpleadoPresentismoRequest() {}
 
-	public CrearEmpleadoPresentismoRequest(String cuit, String clienteCuit, String firstName, String lastName) {
+	public CrearEmpleadoPresentismoRequest(String cuit, String clienteCuit, String firstName, String lastName, EmpleadoPresentismoTypeEnum type) {
 		this.cuit = cuit;
-		this.clienteCuit = clienteCuit;
+		this.clientCuit = clienteCuit;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.type = type.name();
 	}
 	
-	public CrearEmpleadoPresentismoRequest(Persona persona, String CUIT) {
-		this.cuit = persona.getCUIT();
-		this.clienteCuit = CUIT;
-		this.firstName = persona.getNombre();
-		this.lastName = persona.getApellido();
+	public CrearEmpleadoPresentismoRequest(Persona persona, String CUIT, EmpleadoPresentismoTypeEnum type) {
+		this(persona.getCUIT(),CUIT, persona.getNombre(), persona.getApellido(), type);
 	}
 
 	public String getCuit() {
@@ -33,12 +36,12 @@ public class CrearEmpleadoPresentismoRequest {
 		this.cuit = cuit;
 	}
 
-	public String getClienteCuit() {
-		return clienteCuit;
+	public String getClientCuit() {
+		return clientCuit;
 	}
 
-	public void setClienteCuit(String clienteCuit) {
-		this.clienteCuit = clienteCuit;
+	public void setClientCuit(String clienteCuit) {
+		this.clientCuit = clienteCuit;
 	}
 
 	public String getFirstName() {
@@ -56,10 +59,18 @@ public class CrearEmpleadoPresentismoRequest {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	@Override
 	public String toString() {
-		return "CrearEmpleadoPresentismoRequest [cuit=" + cuit + ", clienteCuit=" + clienteCuit + ", firstName="
-				+ firstName + ", lastName=" + lastName + "]";
-	}
+		return "CrearEmpleadoPresentismoRequest [cuit=" + cuit + ", clientCuit=" + clientCuit + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", type=" + type + "]";
+	}	
 }
