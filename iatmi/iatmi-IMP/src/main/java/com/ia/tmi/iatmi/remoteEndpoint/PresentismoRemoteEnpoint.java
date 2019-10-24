@@ -12,6 +12,18 @@ public class PresentismoRemoteEnpoint {
 	/**
 	 * Envia la informacion del empleado al endpoint de presentismo para registrar un ingreso
 	 */
+	public void registrarEmpleado(Persona empleado) {
+		try {
+			//TODO fichado remoto de ingreso
+			;
+		} catch (Exception e) {
+			throw new RemoteEndpointException("Error al intentar registrar un empleado contra el servicio remoto de Presentismo; "+e.getMessage()+"; "+e.getLocalizedMessage()+"; "+ExceptionUtils.getStackTrace(e));
+		}
+	}
+	
+	/**
+	 * Envia la informacion del empleado al endpoint de presentismo para registrar un ingreso
+	 */
 	public void registrarIngreso(Persona empleado) {
 		try {
 			//TODO fichado remoto de ingreso

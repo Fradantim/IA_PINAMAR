@@ -4,7 +4,7 @@ public class PagoFacturaRequest {
 	private Integer idFactura;
 	private Integer idMedioDePago;
 	private String nroTarjeta;
-	private String fechaVencimiento;
+	private String fechaVencimiento; // MM/YY
 	private String codSeguridad;
 	private String DNI;
 		
