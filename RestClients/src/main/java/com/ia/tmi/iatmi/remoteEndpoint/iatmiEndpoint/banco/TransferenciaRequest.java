@@ -11,6 +11,12 @@ public class TransferenciaRequest {
 		// TODO Auto-generated constructor stub
 	}
 
+	public TransferenciaRequest(String origenCBU, String destinoCBU) {
+		super();
+		this.origenCBU = origenCBU;
+		this.destinoCBU = destinoCBU;
+	}
+
 	public TransferenciaRequest(String origenCBU, String destinoCBU, String amount) {
 		super();
 		this.origenCBU = origenCBU;
@@ -48,5 +54,4 @@ public class TransferenciaRequest {
 				+ "]";
 	}
 
-	
 }

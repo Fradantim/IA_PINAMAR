@@ -45,15 +45,11 @@ public class TransferenciaMock {
 	
 	public List<TransferenciaRequest> cargarTransferenciasARealizar(){
 		List<TransferenciaRequest> requests = new ArrayList<TransferenciaRequest>();
-		int empleados = 0;
 		for (String cbuEmpleado : getCbuEmpleados()) {
-			TransferenciaRequest request = new TransferenciaRequest();
-			request.setOrigenCBU(this.getCbuEntidad());
-			request.setDestinoCBU(cbuEmpleado);
+			TransferenciaRequest request = new TransferenciaRequest(this.getCbuEntidad(),cbuEmpleado);
 			requests.add(request);
-			empleados ++;
 		}
-		for (int i = 0; i < empleados; i++) {
+		for (int i = 0; i < requests.size(); i++) {
 			requests.get(i).setAmount(getSueldosEmpleados().get(i));
 		}
 		return requests;
