@@ -81,14 +81,15 @@ public class PersonaControllerImpl implements PersonaController{
 	@Override
 	public PersonaDTO altaEmpleado(PersonaDTO persona, Float sueldoBasicoCostoHora, Integer idTipoEmpleado) {
 		Persona p = personaTransFromDTO.transform(persona);
-		evaluarNuevoEmpleado(persona);
 		p.addRol(RolPersonaEnum.EMPLEADO.getRol());
 		p.setSueldoBasicoCostoHora(sueldoBasicoCostoHora);
-		
 		p.setTipoEmpleado(tipoEmpleadoService.findById(idTipoEmpleado).get());
 		p.setCBU(persona.getCBU());
 		p.setCUIT(persona.getCUIT());
 		
+		evaluarNuevoEmpleado(persona);
+		
+		//TODO enviar nuevo empleado a presentismo
 		p = personaService.save(p);
 
 		return personaTransformer.transform(p);

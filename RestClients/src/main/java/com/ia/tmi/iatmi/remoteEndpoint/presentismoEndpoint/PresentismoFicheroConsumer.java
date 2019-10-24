@@ -36,7 +36,15 @@ public class PresentismoFicheroConsumer {
 		
 	}
 	
+	public void ficharIngreso(Persona persona, String idRol, String date) {
+		
+	}
+	
 	public void ficharEgreso(Persona persona, String idRol) {
+		
+	}
+	
+	public void ficharEgreso(Persona persona, String idRol, String date) {
 		
 	}
 	
