@@ -10,38 +10,38 @@ public class FicharPresentismoRequest {
 		INGRESO,EGRESO
 	}
 	
-	private String idEmployee;
+	private String cuitEmployee;
 	private String type;
-	private Date event;
+	private String event;
 	private String note;
 	
 	public FicharPresentismoRequest() { }
 	
-	public FicharPresentismoRequest(String idEmployee, FicharPresentismoRequestType type, Date event, String note) {
-		this.idEmployee = idEmployee;
+	public FicharPresentismoRequest(String cuitEmployee, FicharPresentismoRequestType type, Date event, String note) {
+		this.cuitEmployee = cuitEmployee;
 		this.type = type.name();
-		this.event = event;
+		this.event = event.toInstant().toString();
 		this.note = note;
 	}
 	
 	public FicharPresentismoRequest(Fichero fichero, FicharPresentismoRequestType type, Date event, String note) {
-		this(fichero.getPersona().getIdSistemaPresentismo(),type,event,note);
+		this(fichero.getPersona().getCUIT(),type,event,note);
 	}
 	
 	public FicharPresentismoRequest(Fichero fichero, FicharPresentismoRequestType type, String note) {
-		this(fichero.getPersona().getIdSistemaPresentismo(),type, new Date(),note);
+		this(fichero.getPersona().getCUIT(),type, new Date(),note);
 	}
 	
 	public FicharPresentismoRequest(Fichero fichero, FicharPresentismoRequestType type) {
-		this(fichero.getPersona().getIdSistemaPresentismo(),type, new Date(),"");
+		this(fichero.getPersona().getCUIT(),type, new Date(),"");
 	}
 
-	public String getIdEmployee() {
-		return idEmployee;
+	public String getCuitEmployee() {
+		return cuitEmployee;
 	}
 
-	public void setIdEmployee(String idEmployee) {
-		this.idEmployee = idEmployee;
+	public void setCuitEmployee(String cuitEmployee) {
+		this.cuitEmployee = cuitEmployee;
 	}
 
 	public String getType() {
@@ -52,11 +52,11 @@ public class FicharPresentismoRequest {
 		this.type = type;
 	}
 
-	public Date getEvent() {
+	public String getEvent() {
 		return event;
 	}
 
-	public void setEvent(Date event) {
+	public void setEvent(String event) {
 		this.event = event;
 	}
 
@@ -70,7 +70,7 @@ public class FicharPresentismoRequest {
 
 	@Override
 	public String toString() {
-		return "FicharPresentismoRequest [idEmployee=" + idEmployee + ", type=" + type + ", event=" + event + ", note="
+		return "FicharPresentismoRequest [cuitEmployee=" + cuitEmployee + ", type=" + type + ", event=" + event + ", note="
 				+ note + "]";
 	}
 }

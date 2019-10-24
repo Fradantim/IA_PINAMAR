@@ -26,10 +26,10 @@ public class ConsumePresentismo implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		String date= new SimpleDateFormat("dd HHmmSS").format(new Date());
+		String date= new SimpleDateFormat("dd HHmmss").format(new Date());
 		String cuit = "20"+date.replaceAll(" ", "")+"7";
 		Persona persona = new Persona("Franco", "GIM MOCK TEST "+date, "", "", "", null, 0F, "", cuit);
-		
+	
 		presentismoConsumer.altaEmpleado(persona);		
 		
 		Date fechaIngreso, fechaEgreso;
@@ -47,8 +47,14 @@ public class ConsumePresentismo implements CommandLineRunner{
 		fechaEgreso = new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191023 180000");
 		
 		fichero = new Fichero(persona, fechaIngreso , fechaEgreso);
+		
+		presentismoConsumer.ficharIngreso(fichero);
+		presentismoConsumer.ficharEgreso(fichero);
+		
 		presentismoConsumer.getHs(persona,
 				new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191001 090000"),
-				new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191230 180000"));		
+				new SimpleDateFormat("yyyyMMdd HHmmSS").parse("20191230 180000"));
+		
+		
 	}		
 }
