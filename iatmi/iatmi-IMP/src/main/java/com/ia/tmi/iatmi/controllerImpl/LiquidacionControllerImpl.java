@@ -1,9 +1,9 @@
 package com.ia.tmi.iatmi.controllerImpl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ import com.ia.tmi.iatmi.persistence.entities.LiquidacionItem;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.service.LiquidacionService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
-import com.ia.tmi.iatmi.remoteEndpoint.BancariaRemoteEndpoint;
+import com.ia.tmi.iatmi.remoteEndpoint.banco.BancariaRemoteEndpoint;
 import com.ia.tmi.iatmi.transformers.PersonaTransformer;
 
 @Controller
@@ -95,8 +95,30 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 			}
 		} else {
 			throw new NoPoseeResultadoException(
-					"No se encontraron liquidacion a procesar por el anio: " + anio + " mes: " + mes);
+					"No se encontraron liquidacion a procesar en el anio: " + anio + " mes: " + mes);
 		}
 
+	}
+
+	@Override
+	public List<PersonaDTO> getPersonasAPagar(int anio, int mes) {
+		List<PersonaDTO> dtos = new ArrayList<PersonaDTO>();
+		List<Persona> personas = liquidacionServices.getPersonByNotPay(anio, mes);
+		logger.info("--> Recupero las Personas: " + personas.size());
+		if (personas.size() > 0) {
+			for (Persona persona : personas) {
+				logger.info("--> Consultar empleados por pagar:\nEmpleado: Apellido: "+ persona.getApellido() + " Nombre: " + persona.getNombre()  );
+				PersonaDTO dto = new PersonaDTO();
+				dto.setApellido(persona.getApellido());
+				dto.setNombre(persona.getNombre());
+				dto.setCbu(persona.getCBU());
+				dto.setId(persona.getId());
+				dtos.add(dto);
+			}
+			return dtos;
+		} else {
+			throw new NoPoseeResultadoException(
+					"No se encontraron Empleados a procesar para pagar en el anio: " + anio + " mes: " + mes);
+		}
 	}
 }

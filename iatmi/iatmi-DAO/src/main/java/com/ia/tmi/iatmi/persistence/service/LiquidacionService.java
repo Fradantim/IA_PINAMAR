@@ -114,4 +114,26 @@ public class LiquidacionService {
 		}
 		return liquidacionPagar;
 	}
+	
+	/**
+	 * cargar liquidacion por empleado
+	 * @param anio
+	 * @param mes
+	 * @return liquidacion de depositar
+	 */
+	public List<Persona> getPersonByNotPay(int anio, int mes){
+		List<Persona> personasAPagar= new ArrayList<Persona>();
+		List<Object[]> rows = liquidacionRepo.findNotPayLiquidacionPersona(anio, mes);
+		for (Object[] objects : rows) {	
+			logger.info("Objetos: "+ objects.toString());
+			Persona persona = new Persona();
+			persona.setId(((objects[0] == null) ? null : (Integer) objects[0]));
+			persona.setApellido((String) objects[1]);
+			persona.setCBU((String) objects[2]);
+			persona.setNombre((String) objects[3]);
+			personasAPagar.add(persona);
+		}
+		return personasAPagar;
+	}
+	
 }

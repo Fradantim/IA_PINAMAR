@@ -11,4 +11,6 @@ public interface LiquidacionController {
 	public void guardarLiquidacion(int idPesona,int anio, int mes);
 	
 	public void depositarLiquidaciones(int anio, int mes);
+	
+	public List<PersonaDTO> getPersonasAPagar(int anio, int mes);
 }

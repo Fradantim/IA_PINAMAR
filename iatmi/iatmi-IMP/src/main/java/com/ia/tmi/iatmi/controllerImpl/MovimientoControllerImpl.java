@@ -14,8 +14,8 @@ import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.MovimientoService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
-import com.ia.tmi.iatmi.remoteEndpoint.BancariaRemoteEndpoint;
 import com.ia.tmi.iatmi.remoteEndpoint.EntidadCrediticiaRemoteEnpoint;
+import com.ia.tmi.iatmi.remoteEndpoint.banco.BancariaRemoteEndpoint;
 import com.ia.tmi.iatmi.transformers.MovimientoTransformer;
 
 @Controller
