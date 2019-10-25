@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.ia.tmi.iatmi.exception.RemoteEndpointException;
 import com.ia.tmi.iatmi.persistence.entities.Fichero;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.remoteEndpoint.EndpointConsumer;
@@ -33,13 +34,17 @@ public class PresentismoFicheroConsumer extends EndpointConsumer {
 	private static final Logger logger = LoggerFactory.getLogger(EndpointConsumer.class);
 	
 	public void altaEmpleado(Persona persona) {
-		CrearEmpleadoPresentismoRequest request = new CrearEmpleadoPresentismoRequest(persona, CUIL, EmpleadoPresentismoTypeEnum.MENSUAL);
-		logger.debug("Enviando alta de Empleado a sistema de presentismo: "+request);
-		
-		CrearEmpleadoPresentismoResponse response = getRestTemplate().postForObject(crearEmpleadoUrl, request, CrearEmpleadoPresentismoResponse.class);
-		logger.debug("Respuesta recibida: "+ response);
-		
-		persona.setIdSistemaPresentismo(response.getId().toString());
+		try {
+			CrearEmpleadoPresentismoRequest request = new CrearEmpleadoPresentismoRequest(persona, CUIL, EmpleadoPresentismoTypeEnum.MENSUAL);
+			logger.debug("Enviando alta de Empleado a sistema de presentismo: "+request);
+			
+			CrearEmpleadoPresentismoResponse response = getRestTemplate().postForObject(crearEmpleadoUrl, request, CrearEmpleadoPresentismoResponse.class);
+			logger.debug("Respuesta recibida: "+ response);
+			
+			persona.setIdSistemaPresentismo(response.getId().toString());
+		} catch (Exception e) {
+			throw new RemoteEndpointException("Error de comunicacion al consumir el servicio de Presentismo. "+e.getMessage());
+		}
 	}
 	
 	public void ficharIngreso(Fichero fichero) {
@@ -51,21 +56,29 @@ public class PresentismoFicheroConsumer extends EndpointConsumer {
 	}
 	
 	public void fichar(Fichero fichero, FicharPresentismoRequestType type, Date fecha) {
-		FicharPresentismoRequest request = new FicharPresentismoRequest(fichero, type, fecha);
-		logger.debug("Enviando "+ type +" a sistema de presentismo: "+request);
-		
-		FicharPresentismoResponse response = getRestTemplate().postForObject(ficharUrl, request, FicharPresentismoResponse.class);
-		
-		logger.debug("Respuesta recibida: "+ response);
+		try {
+			FicharPresentismoRequest request = new FicharPresentismoRequest(fichero, type, fecha);
+			logger.debug("Enviando "+ type +" a sistema de presentismo: "+request);
+			
+			FicharPresentismoResponse response = getRestTemplate().postForObject(ficharUrl, request, FicharPresentismoResponse.class);
+			
+			logger.debug("Respuesta recibida: "+ response);
+		} catch (Exception e) {
+			throw new RemoteEndpointException("Error de comunicacion al consumir el servicio de Presentismo. "+e.getMessage());
+		}
 	}
 	
 	public Integer getHs(Persona persona, Date fechaDesde, Date fechaHasta) {
-		logger.debug("Pidierndo reportes de Persona "+ persona +" a sistema de presentismo");
-				
-		GerHsPresentismoResponse response = getRestTemplate().getForObject(getHsUrl(persona, fechaDesde, fechaHasta), GerHsPresentismoResponse.class);
-		
-		logger.debug("Respuesta recibida: "+ response);
-		return response.getTotalHours();
+		try {
+			logger.debug("Pidierndo reportes de Persona "+ persona +" a sistema de presentismo");
+					
+			GerHsPresentismoResponse response = getRestTemplate().getForObject(getHsUrl(persona, fechaDesde, fechaHasta), GerHsPresentismoResponse.class);
+			
+			logger.debug("Respuesta recibida: "+ response);
+			return response.getTotalHours();
+		} catch (Exception e) {
+			throw new RemoteEndpointException("Error de comunicacion al consumir el servicio de Presentismo. "+e.getMessage());
+		}
 	}
 	
 	private String getHsUrl(Persona persona, Date fechaDesde, Date fechaHasta) {

@@ -33,7 +33,7 @@ public class ConsumeEnteDebito implements CommandLineRunner{
 		String cuit = "20"+date.replaceAll(" ", "")+"7";
 		Persona persona = new Persona("Franco", "GIM MOCK TEST "+date, "", "", "", null, 0F, "", cuit);
 	
-		Pase pase = new Pase(30, "MENSUAL", 1000F);
+		Pase pase = new Pase(30, "MENSUAL", 10F);
 		
 		Factura factura = new Factura(persona);
 		
@@ -43,10 +43,10 @@ public class ConsumeEnteDebito implements CommandLineRunner{
 		
 		Pago pago = new Pago(factura);
 		
-		String cardNumber = "12134141241421241";
-		String expirationDateMonth = "11";
-		String expirationDateYear = "2020";
-		String securityCode = "9";
+		String cardNumber = "2018180353113356";
+		String expirationDateMonth = "10";
+		String expirationDateYear = "2029";
+		String securityCode = "366";
 		
 		entDebConsumer.pagarFactura(pago, cardNumber, expirationDateMonth, expirationDateYear, securityCode);
 	}		
