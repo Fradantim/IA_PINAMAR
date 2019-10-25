@@ -142,11 +142,8 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 		if(horas == 0)
 			throw new NoPoseeResultadoException("No tiene horas cargadas para liquidas el empleado: " + p.getNombre());
 		float montoBruto = 0F;
-		logger.info("--> Consultar empleados por horas:\nEmpleado: Nombre: "+ p.getNombre() +  " liquidaciones detalle: " + ((liquidacion.getLiquidacionDetalles() == null)?null:liquidacion.getLiquidacionDetalles().size()));
-		if (liquidacion.getLiquidacionDetalles() != null)
-			for (LiquidacionDetalle liquidacionDetalle : liquidacion.getLiquidacionDetalles())
-				montoBruto = horas * liquidacionDetalle.getItem().calcularRemunerativo();
-		else if (liquidacion.getEmpleado() != null)
+		logger.info("--> Consultar empleados por horas:\nEmpleado: Tiene empleado la liquidacion: "+ ((liquidacion.getEmpleado() == null)?"No":"SI"));
+		if (liquidacion.getEmpleado() != null)
 			montoBruto = horas * liquidacion.getEmpleado().getSueldoBasicoCostoHora();
 		logger.info("--> Consultar empleados por horas:\nEmpleado: Nombre: "+ p.getNombre() +  " monto por horas: " + montoBruto);
 		return montoBruto;
