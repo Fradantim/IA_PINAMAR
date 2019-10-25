@@ -28,7 +28,7 @@ public class EntidadDebitoConsumer extends EndpointConsumer{
 			EntidadDebitoPagarResponse response = getRestTemplate().postForObject(pagarUrl, request, EntidadDebitoPagarResponse.class);
 			logger.debug("Respuesta recibida: "+ response);
 		} catch (Exception e) {
-			throw new RemoteEndpointException("Error de comunicacion al consumir el servicio del Banco. "+e.getMessage());
+			throw new RemoteEndpointException("Error en el pago. Error de comunicacion al consumir el servicio del Banco. ");
 		}
 	}
 }

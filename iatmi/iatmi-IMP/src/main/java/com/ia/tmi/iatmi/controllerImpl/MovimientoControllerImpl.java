@@ -7,10 +7,13 @@ import org.springframework.stereotype.Controller;
 
 import com.ia.tmi.iatmi.controller.MovimientoController;
 import com.ia.tmi.iatmi.dto.MovimientoDTO;
+import com.ia.tmi.iatmi.exception.RemoteEndpointException;
 import com.ia.tmi.iatmi.persistence.entities.Factura;
+import com.ia.tmi.iatmi.persistence.entities.Habilitacion;
 import com.ia.tmi.iatmi.persistence.entities.MedioDePago;
 import com.ia.tmi.iatmi.persistence.entities.Pago;
 import com.ia.tmi.iatmi.persistence.entities.Persona;
+import com.ia.tmi.iatmi.persistence.service.HabilitacionService;
 import com.ia.tmi.iatmi.persistence.service.MedioDePagoService;
 import com.ia.tmi.iatmi.persistence.service.MovimientoService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
@@ -39,6 +42,9 @@ public class MovimientoControllerImpl implements MovimientoController{
 	@Autowired
 	private MovimientoTransformer movTransformer;
 	
+	@Autowired
+	private HabilitacionService habService;
+	
 	@Override
 	public List<MovimientoDTO> findAll() {
 		return movTransformer.transform(movService.findAll());
@@ -57,16 +63,30 @@ public class MovimientoControllerImpl implements MovimientoController{
 		MedioDePago mdp = mdpService.findById(idMedioDePago).get();
 		Pago pago = new Pago(factura, mdp);
 		
-		if(mdp.esTC()) {
-			entidadCred.pagarFactura(pago, nroTarjeta, DNI, fechaVencimiento, codSeguridad);
+		try {
+			if(mdp.esTC()) {
+				entidadCred.pagarFactura(pago, nroTarjeta, DNI, fechaVencimiento, codSeguridad);
+			}
+			
+			if(mdp.esTD()) {
+				String mes = fechaVencimiento.substring(0,2);
+				String year = fechaVencimiento.substring(3,4);
+				entidadDeb.pagarFactura(pago, nroTarjeta, mes, year, codSeguridad);
+			}
+		}catch (RemoteEndpointException e) {
+			factura.getPersona().getHabilitacion();
+			Persona persona = factura.getPersona();
+			//Habilitacion hab = persona.getHabilitacion();
+			persona.setHabilitacion(null);
+			personaService.save(persona);
+			//habService.delete(hab);			
+			movService.delete(factura);
+			
+			throw e;
 		}
 		
-		if(mdp.esTD()) {
-			String mes = fechaVencimiento.substring(0,2);
-			String year = fechaVencimiento.substring(3,4);
-			entidadDeb.pagarFactura(pago, nroTarjeta, mes, year, codSeguridad);
-		}
 		movService.save(pago);
-		
 	}	
+	
+	
 }

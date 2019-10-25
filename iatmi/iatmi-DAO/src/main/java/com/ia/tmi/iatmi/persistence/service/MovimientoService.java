@@ -35,4 +35,8 @@ public class MovimientoService {
 	public Optional<Factura> findFacturaById(Integer id) {
 		return facturaRepo.findById(id);
 	}
+	
+	public void delete(Factura factura) {
+		facturaRepo.delete(factura);
+	}
 }

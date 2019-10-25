@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 @DiscriminatorValue("FACTURA")
 public class Factura extends Movimiento{
 	
-	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<FacturaDetalle> facturaDetalles;
 	
 	public void addFacturaDetalle(FacturaDetalle facturaDetalle) {

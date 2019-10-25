@@ -29,7 +29,7 @@ public class EntidadCreditoConsumer extends EndpointConsumer{
 			Cuota[] response = getRestTemplate().postForObject(pagarUrl, request, Cuota[].class);
 			logger.debug("Respuesta recibida: "+ response);
 		} catch (Exception e) {
-			throw new RemoteEndpointException("Error de comunicacion al consumir el servicio del Ente Crediticio. "+e.getMessage());
+			throw new RemoteEndpointException("Fallo el pago. Error de comunicacion al consumir el servicio del Ente Crediticio. ");
 		}
 	}
 }
