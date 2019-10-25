@@ -164,7 +164,7 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 					liquidacionPaga.setFechaPago(fechaPago);
 					liquidacionServices.save(liquidacionPaga);
 					logger.info("--> Liquidacion cerrada: " + liquidacion.getId() + " fecha de pago: "
-							+ liquidacion.getFechaPago());
+							+ liquidacionPaga.getFechaPago());
 				}
 			}
 		} else {
