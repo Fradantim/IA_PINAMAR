@@ -73,9 +73,11 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 		}
 		if (persona.getTipoEmpleado().getEsMensual())
 			liquidacion.cacularLiquidacionMes();
-		else
+		else {
 			//liquidacion.cacularLiquidacionPorHora(mes);
 			liquidacion.setMontoNeto(calcularLiquidacionPorHora(persona, mes, anio, liquidacion));
+			liquidacion.setMontoBruto(liquidacion.getMontoNeto());
+		}
 		liquidacionServices.save(liquidacion);
 	}
 
@@ -134,8 +136,11 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 		calendarDesde.set(anio, mes - 1, 1);
 		Calendar calendarHasta = Calendar.getInstance();
 		calendarHasta.set(anio, mes-1,28);
+		logger.info("--> Consultar empleados por horas:\nEmpleado: Nombre: "+ p.getNombre() +  " calcular horas desde : " + calendarDesde.getTime()+  " calcular horas hasta : " + calendarHasta.getTime());
 		int horas = presentismoFicheroConsumer.getHs(p, calendarDesde.getTime(), calendarHasta.getTime());
 		logger.info("--> Consultar empleados por horas:\nEmpleado: Nombre: "+ p.getNombre() +  " calcular horas: " + horas);
+		if(horas == 0)
+			throw new NoPoseeResultadoException("No tiene horas cargadas para liquidas el empleado: " + p.getNombre());
 		float montoBruto = 0F;
 		logger.info("--> Consultar empleados por horas:\nEmpleado: Nombre: "+ p.getNombre() +  " liquidaciones detalle: " + ((liquidacion.getLiquidacionDetalles() == null)?null:liquidacion.getLiquidacionDetalles().size()));
 		if (liquidacion.getLiquidacionDetalles() != null)

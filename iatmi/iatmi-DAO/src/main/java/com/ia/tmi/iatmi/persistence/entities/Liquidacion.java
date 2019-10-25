@@ -52,7 +52,7 @@ public class Liquidacion {
 		this.setEmpleado(empleado);
 		setFecha(new Date());
 		setMontoNeto(0F);
-		montoBruto = 0F;
+		setMontoBruto(0F);
 		montoDescuento = 0F;
 		montoNoRemunarativo = 0F;
 		setFechaPago(null);
@@ -67,18 +67,18 @@ public class Liquidacion {
 		if (getLiquidacionDetalles() == null)
 			setLiquidacionDetalles(new ArrayList<LiquidacionDetalle>());
 
-		LiquidacionDetalle liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, montoBruto);
+		LiquidacionDetalle liquidacionDetalle = new LiquidacionDetalle(this, liquidacionItem, getMontoBruto());
 		getLiquidacionDetalles().add(liquidacionDetalle);
 	}
 
 	public void cacularLiquidacionMes() {
 
-		montoBruto = montoBruto + getEmpleado().getSueldoBasicoCostoHora();
-		logger.info("--> monto bruto empleado: " + montoBruto + " Id empleado: " + getEmpleado().getId());
+		setMontoBruto(getMontoBruto() + getEmpleado().getSueldoBasicoCostoHora());
+		logger.info("--> monto bruto empleado: " + getMontoBruto() + " Id empleado: " + getEmpleado().getId());
 		logger.info("--> Cantidad de detalles: " + getLiquidacionDetalles().size());
 		for (LiquidacionDetalle liquidacionDetalle : getLiquidacionDetalles()) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.toString());
-			montoBruto += liquidacionDetalle.getItem().calcularRemunerativo();
+			setMontoBruto(getMontoBruto() + liquidacionDetalle.getItem().calcularRemunerativo());
 		}
 		for (LiquidacionDetalle liquidacionDetalle : getLiquidacionDetalles()) {
 			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "
@@ -89,13 +89,13 @@ public class Liquidacion {
 			logger.info("--> items del detalle: " + liquidacionDetalle.getItem().getDescripcion() + " Valor: "
 					+ liquidacionDetalle.getItem().getValor() + " Valor  "
 					+ liquidacionDetalle.getItem().getTiposLiquidaciones().size());
-			montoDescuento += liquidacionDetalle.getItem().calcularDescuento(montoBruto);
+			montoDescuento += liquidacionDetalle.getItem().calcularDescuento(getMontoBruto());
 		}
 
-		logger.info("--> montoBruto: " + montoBruto);
+		logger.info("--> montoBruto: " + getMontoBruto());
 		logger.info("--> montoNoRemunarativo: " + montoNoRemunarativo);
 		logger.info("--> montoDescuento: " + montoDescuento);
-		setMontoNeto(montoBruto + montoNoRemunarativo - montoDescuento);
+		setMontoNeto(getMontoBruto() + montoNoRemunarativo - montoDescuento);
 		logger.info("--> montoNeto: " + getMontoNeto());
 	}
 
@@ -103,9 +103,9 @@ public class Liquidacion {
 		int horas = getEmpleado().calcularHorasPorFichada(mes);
 		if (getLiquidacionDetalles() != null)
 			for (LiquidacionDetalle liquidacionDetalle : getLiquidacionDetalles())
-				montoBruto = horas * liquidacionDetalle.getItem().calcularRemunerativo();
+				setMontoBruto(horas * liquidacionDetalle.getItem().calcularRemunerativo());
 		else if (this.getEmpleado() != null)
-			montoBruto = getEmpleado().getSueldoBasicoCostoHora();
+			setMontoBruto(getEmpleado().getSueldoBasicoCostoHora());
 	}
 
 	public Float getMontoDescuento() {
@@ -162,5 +162,13 @@ public class Liquidacion {
 
 	public void setLiquidacionDetalles(List<LiquidacionDetalle> liquidacionDetalles) {
 		this.liquidacionDetalles = liquidacionDetalles;
+	}
+
+	public Float getMontoBruto() {
+		return montoBruto;
+	}
+
+	public void setMontoBruto(Float montoBruto) {
+		this.montoBruto = montoBruto;
 	}
 }
