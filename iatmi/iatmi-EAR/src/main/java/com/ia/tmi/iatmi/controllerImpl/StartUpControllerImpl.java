@@ -278,7 +278,7 @@ public class StartUpControllerImpl implements InitializingBean {
 			personaController.asignarPase(persona.getId(), getRandomPaseFromList(pases).getId());
 			movController.pagarFactura(
 					movController.findBySocio(persona.getId()).get(0).getId(),
-					getRandomMDPFromList(mediosDePago).getId()
+					getRandomMDPFromList(mediosDePago).getId(),null,null,null,null
 					);//ojo estos hardcodeos
 		}
 		

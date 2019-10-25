@@ -51,11 +51,6 @@ public class MovimientoControllerImpl implements MovimientoController{
 	}
 
 	@Override
-	public void pagarFactura(Integer idFactura, Integer idMedioDePago) {
-		pagarFactura(idFactura, idMedioDePago, null, null, null, null);
-	}
-
-	@Override
 	public void pagarFactura(Integer idFactura, Integer idMedioDePago, String nroTarjeta, String fechaVencimiento,
 			String codSeguridad, String DNI) {
 		Factura factura = movService.findFacturaById(idFactura).get();
