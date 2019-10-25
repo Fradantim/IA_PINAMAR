@@ -22,6 +22,7 @@ import com.ia.tmi.iatmi.persistence.entities.Persona;
 import com.ia.tmi.iatmi.persistence.service.LiquidacionService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
 import com.ia.tmi.iatmi.remoteEndpoint.banco.BancariaRemoteEndpoint;
+import com.ia.tmi.iatmi.remoteEndpoint.banco.OrigenTranferencia;
 import com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint.PresentismoFicheroConsumer;
 import com.ia.tmi.iatmi.transformers.PersonaTransformer;
 
@@ -141,8 +142,46 @@ public class LiquidacionControllerImpl implements LiquidacionController {
 			for (LiquidacionDetalle liquidacionDetalle : liquidacion.getLiquidacionDetalles())
 				montoBruto = horas * liquidacionDetalle.getItem().calcularRemunerativo();
 		else if (liquidacion.getEmpleado() != null)
-			montoBruto = liquidacion.getEmpleado().getSueldoBasicoCostoHora();
+			montoBruto = horas * liquidacion.getEmpleado().getSueldoBasicoCostoHora();
 		logger.info("--> Consultar empleados por horas:\nEmpleado: Nombre: "+ p.getNombre() +  " monto por horas: " + montoBruto);
 		return montoBruto;
 	}
+
+	@Override
+	public void depositarNominaDeLiquidaciones(int anio, int mes) {
+		List<Liquidacion> liquidaciones = liquidacionServices.depositPersonByLiquidacion(anio, mes);
+		logger.info("--> Recupero las liquidaciones: " + liquidaciones.size());
+		if (liquidaciones.size() > 0) {
+			entidadBancaria.depositarTodosLosSueldos(catalogo.getCBU(), convertLiquidacionToOrigenesTransferencia(liquidaciones));
+			logger.info("--> Depositos realizados");
+			Date fechaPago = new Date();
+			for (Liquidacion liquidacion : liquidaciones) {
+				if(liquidacion.getId() != 0) {					
+					Liquidacion liquidacionPaga = liquidacionServices.findById(liquidacion.getId());
+					logger.info("--> Liquidacion Pagada: " + liquidacion.getId() + " a entidad bancaria.");
+					liquidacionPaga.setFechaPago(fechaPago);
+					liquidacionServices.save(liquidacionPaga);
+					logger.info("--> Liquidacion cerrada: " + liquidacion.getId() + " fecha de pago: "
+							+ liquidacion.getFechaPago());
+				}
+			}
+		} else {
+			throw new NoPoseeResultadoException(
+					"No se encontraron liquidacion a procesar en el anio: " + anio + " mes: " + mes);
+		}
+		
+	}
+	
+	private static List<OrigenTranferencia> convertLiquidacionToOrigenesTransferencia(List<Liquidacion> liquidaciones){
+		List<OrigenTranferencia> origenesTranferencias = new ArrayList<OrigenTranferencia>(); 
+		for (Liquidacion liquidacion : liquidaciones) {
+			if(liquidacion.getEmpleado() != null) {
+				logger.info("--> Liquidacion a depositar: " + liquidacion.getId() + " CBU Empleado: " + liquidacion.getEmpleado().getCBU() + " Monto a depositar por sueldo: " + liquidacion.getMontoNeto());
+				OrigenTranferencia origenTranferencia = new OrigenTranferencia(liquidacion.getEmpleado().getCBU(), String.valueOf(liquidacion.getMontoNeto()));
+				origenesTranferencias.add(origenTranferencia);
+			}
+		}
+		return origenesTranferencias;
+	}
+	
 }

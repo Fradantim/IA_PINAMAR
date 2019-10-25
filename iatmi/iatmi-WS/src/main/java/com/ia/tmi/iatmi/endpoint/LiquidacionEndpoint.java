@@ -40,6 +40,12 @@ public class LiquidacionEndpoint {
 		liquidacionController.depositarLiquidaciones(request.getAnio(), request.getMes());
 		return WSReturn.OK("Sueldos Pagos Exitosamente!!!");
 	}
+	
+	@PatchMapping(PATH+"/nominas")
+	public WSReturn pagarNominaDeLiquidaciones(@RequestBody(required=true) LiquidacionRequest request) {
+		liquidacionController.depositarNominaDeLiquidaciones(request.getAnio(), request.getMes());
+		return WSReturn.OK("Sueldos Pagos Nominas exitosamente!!!");
+	}
 
 	@GetMapping(PATH+"/pagar")
 	public WSReturn<List<PersonaDTO>> getByEmpleadoByPayMesAnio(@RequestParam(required = true) Integer mes,

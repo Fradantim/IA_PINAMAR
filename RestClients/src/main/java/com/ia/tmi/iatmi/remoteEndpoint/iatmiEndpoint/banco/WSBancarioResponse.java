@@ -1,6 +1,6 @@
-package com.ia.tmi.iatmi.remoteEndpoint.banco;
+package com.ia.tmi.iatmi.remoteEndpoint.iatmiEndpoint.banco;
 
-public class WSBancoReturn <T>{
+public class WSBancarioResponse <T>{
 
 	private String message;
 	
@@ -8,32 +8,32 @@ public class WSBancoReturn <T>{
 
 	private T content;
 	
-	public WSBancoReturn() {
+	public WSBancarioResponse() {
 	}
 
-	public WSBancoReturn(String message, T content) {
+	public WSBancarioResponse(String message, T content) {
 		this.message = message;
 		this.success = true;
 		this.content = content;
 	}
 
-	public WSBancoReturn(String message, Boolean success) {
+	public WSBancarioResponse(String message, Boolean success) {
 		this.message = message;
 		this.success = success;
 	}
 
-	public WSBancoReturn(String message) {
+	public WSBancarioResponse(String message) {
 		this(message, true);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static WSBancoReturn OK(String message) {
-		return new WSBancoReturn(message);
+	public static WSBancarioResponse OK(String message) {
+		return new WSBancarioResponse(message);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static WSBancoReturn ERROR(String message) {
-		return new WSBancoReturn(message, false);
+	public static WSBancarioResponse ERROR(String message) {
+		return new WSBancarioResponse(message, false);
 	}
 
 	public String getMessage() {
@@ -59,6 +59,10 @@ public class WSBancoReturn <T>{
 	public void setContent(T content) {
 		this.content = content;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "WSBancarioResponse [message=" + message + ", success=" + success + "]";
+	}
 	
 }

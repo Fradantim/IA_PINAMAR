@@ -13,4 +13,6 @@ public interface LiquidacionController {
 	public void depositarLiquidaciones(int anio, int mes);
 	
 	public List<PersonaDTO> getPersonasAPagar(int anio, int mes);
+	
+	public void depositarNominaDeLiquidaciones(int anio, int mes);
 }

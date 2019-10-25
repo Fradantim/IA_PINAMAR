@@ -1,5 +1,7 @@
 package com.ia.tmi.iatmi.remoteEndpoint.banco;
 
+import java.util.List;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,7 @@ public class BancariaRemoteEndpoint extends EndpointConsumer{
 	private String bancoUrl;
 	
 	private static String PATH_TRANSFERENCIA = "/Banco/trasferir";
+	private static String PATH_DEPOSITAR = "/Banco/pagar/varios";
 	
 	/**
 	 *  Depositar liquidacion por empleado del mes y anio solicitado.
@@ -29,13 +32,30 @@ public class BancariaRemoteEndpoint extends EndpointConsumer{
 			logger.info("-->  Invocar cliente bancario por deposito de sueldo.");
 			//TODO Deposita remoto de liquidacion"origenCBU": 13123321123, "destinoCBU": 12, "amount": 2500
 			TransferenciaRequest request = new TransferenciaRequest(cbuEmpresa, cbuEmpleado, String.valueOf(montoDepositar) );
-			WSBancoReturn retorno = getRestTemplate().postForObject(bancoUrl+PATH_TRANSFERENCIA, request, WSBancoReturn.class);
+			WSBancarioResponse retorno = getRestTemplate().postForObject(bancoUrl+PATH_TRANSFERENCIA, request, WSBancarioResponse.class);
 			
 			if(!retorno.getSuccess()) {
 				throw new RemoteEndpointException(retorno.getMessage());
 			}
 		} catch (Exception e) {
 			throw new RemoteEndpointException("Error al intentar depositar liquidacion al cuil del empleado:   "+ cuilEmpleado +e.getMessage()+"; "+e.getLocalizedMessage()+"; "+ExceptionUtils.getStackTrace(e));
+		}
+	}
+	
+	/**
+	 *  Depositar liquidacion por empleado del mes y anio solicitado de una nomina
+	 */
+	public void depositarTodosLosSueldos(String cbuDestino, List<OrigenTranferencia> origenes) {
+		try {
+			logger.info("-->  Invocar clientes bancario por deposito de sueldo. CBU Destino: " + cbuDestino);
+			DespositarSueldosRequest request = new DespositarSueldosRequest(cbuDestino, origenes);
+			WSDespositarResponse retorno = getRestTemplate().postForObject(bancoUrl+PATH_DEPOSITAR, request, WSDespositarResponse.class);		
+			logger.info("-->  Respuesta clientes bancario por deposito de sueldo. CBU Destino: " + retorno.toString());
+			if(!retorno.getSuccess()) {
+				throw new RemoteEndpointException(retorno.toStringListMsj());
+			}
+		} catch (Exception e) {
+			throw new RemoteEndpointException("Error al intentar depositar liquidacion por nomina:   "+ cbuDestino +e.getMessage()+"; "+e.getLocalizedMessage()+"; "+ExceptionUtils.getStackTrace(e));
 		}
 	}
 	
