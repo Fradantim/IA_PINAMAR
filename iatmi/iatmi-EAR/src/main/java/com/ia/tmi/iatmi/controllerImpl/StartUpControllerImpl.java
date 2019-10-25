@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import com.ia.tmi.iatmi.controller.MovimientoController;
 import com.ia.tmi.iatmi.controller.PersonaController;
 import com.ia.tmi.iatmi.dto.PersonaDTO;
 import com.ia.tmi.iatmi.persistence.entities.Clase;
+import com.ia.tmi.iatmi.persistence.entities.Fichero;
 import com.ia.tmi.iatmi.persistence.entities.LiquidacionItem;
 import com.ia.tmi.iatmi.persistence.entities.MedioDePago;
 import com.ia.tmi.iatmi.persistence.entities.Pase;
@@ -38,10 +40,14 @@ import com.ia.tmi.iatmi.persistence.service.PaseService;
 import com.ia.tmi.iatmi.persistence.service.PersonaService;
 import com.ia.tmi.iatmi.persistence.service.RolPersonaService;
 import com.ia.tmi.iatmi.persistence.service.TipoEmpleadoService;
+import com.ia.tmi.iatmi.remoteEndpoint.presentismoEndpoint.PresentismoFicheroConsumer;
 
 @Component
 public class StartUpControllerImpl implements InitializingBean {
 
+	@Autowired
+	private PresentismoFicheroConsumer presentismoConsumer;
+	
 	@Autowired
 	private MedioDePagoService mdpService;
 
@@ -79,15 +85,15 @@ public class StartUpControllerImpl implements InitializingBean {
 		Integer i = 0;
 		try {
 			cachearRoles(++i);
-			cargarMediosDePago(++i);
-			cargarClases(++i);
-			cargarPases(++i);
-			cargaTipoEmpleado(++i);
-			cargaPersonas(++i);
-			cargaTipoLiquidacion();
-			actualizarMediosDePago(++i);
+			//cargarMediosDePago(++i);
+			//cargarClases(++i);
+			//cargarPases(++i);
+			//cargaTipoEmpleado(++i);
+			//cargaPersonas(++i);
+			//cargaTipoLiquidacion();
+			//actualizarMediosDePago(++i);
+			//cargarFicherosRemoto(++i);
 		} catch (Exception e) {
-			logger.error("No se encontró un archivo!!!!"+e.getMessage());
 			//e.printStackTrace();
 			throw e;
 		}
@@ -428,5 +434,36 @@ public class StartUpControllerImpl implements InitializingBean {
 		logger.info("No estan actualizados, los actualizo.");
 		
 		logger.info("< Fin actualizacion Medios de Pago. ");
+	}
+	
+	@Deprecated
+	private void cargarFicherosRemoto(Integer orden) {
+		//ATENTI!!! CORRERLO UNA SOLA VEZ!!!
+		//USARLO SOLO SI PRESENTISMO LIMPIA LA BBDD
+		logger.info(orden+" > Cargando Ficheros al sistma de Presentismo.");
+		LocalDate start = LocalDate.of(2019, 9, 1);
+		LocalDate end = start.plusDays(50);
+		
+		for(Persona persona: personaService.findAll()) {
+			if(persona.hasRol(RolPersonaEnum.EMPLEADO.getRol())) {
+				logger.info("-+-+-+-+--+-+-+-+-+-+-+-+-+-+-+-+-++-+-+");
+				logger.info("Alta empleado:"+persona.getId());
+				presentismoConsumer.altaEmpleado(persona);
+				logger.info("-+-+-+-+--+-+-+-+-+-+-+-+-+-+-+-+-++-+-+");		
+				for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+					if(!date.getDayOfWeek().equals(DayOfWeek.SATURDAY) 
+							&& !date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+						Date ingreso = Date.from( date.atTime(9, 0).atZone( ZoneId.systemDefault()).toInstant());
+						Date egreso = Date.from( date.atTime(18, 0).atZone( ZoneId.systemDefault()).toInstant());
+						Fichero fichero = new Fichero(persona, RolPersonaEnum.EMPLEADO.getRol());
+						fichero.setFechaIngreso(ingreso);
+						fichero.setFechaEgreso(egreso);
+						presentismoConsumer.ficharIngreso(fichero);
+						presentismoConsumer.ficharEgreso(fichero);
+					}
+				}
+			}
+		}		
+		logger.info("< Fin carga Ficheros en sistema de Presentismo. " + ficheroService.findAll().size() + " elementos cargados.");
 	}
 }
