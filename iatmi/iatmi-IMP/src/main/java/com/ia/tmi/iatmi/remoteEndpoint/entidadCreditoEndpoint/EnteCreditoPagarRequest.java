@@ -16,7 +16,7 @@ public class EnteCreditoPagarRequest {
 	
 	public EnteCreditoPagarRequest(Pago pago, String cardNumber, String customerId, String bussinesId, String expirationDate,
 			String securityCode) {
-		this(cardNumber, customerId, bussinesId, expirationDate, securityCode, pago.getMontoTotal(), 1);
+		this(cardNumber, customerId, bussinesId, expirationDate, securityCode, -pago.getMontoTotal(), 1);
 	}
 	
 	public EnteCreditoPagarRequest(String cardNumber, String customerId, String businessId, String expirationDate,
