@@ -6,7 +6,7 @@ public class PagoFacturaRequest {
 	private String nroTarjeta;
 	private String fechaVencimiento; // MM/YY
 	private String codSeguridad;
-	private String DNI;
+	private String dni;
 		
 	public PagoFacturaRequest() { }
 
@@ -16,12 +16,12 @@ public class PagoFacturaRequest {
 	}
 
 	public PagoFacturaRequest(Integer idFactura, Integer idMedioDePago, String nroTarjeta, String fechaVencimiento,
-			String codSeguridad, String DNI) {
+			String codSeguridad, String dni) {
 		this(idFactura,idMedioDePago);
 		this.nroTarjeta = nroTarjeta;
 		this.fechaVencimiento = fechaVencimiento;
 		this.codSeguridad = codSeguridad;
-		this.DNI = DNI;
+		this.dni = dni;
 	}
 
 	public Integer getIdFactura() {
@@ -64,11 +64,11 @@ public class PagoFacturaRequest {
 		this.codSeguridad = codSeguridad;
 	}
 
-	public String getDNI() {
-		return DNI;
+	public String getDni() {
+		return dni;
 	}
 
-	public void setDNI(String dNI) {
-		DNI = dNI;
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 }

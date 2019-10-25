@@ -11,16 +11,17 @@ public class EnteCreditoPagarRequest {
 	private String securityCode;
 	private Float price;
 	private Integer Payments;
+	private String description;
 	
 	public EnteCreditoPagarRequest() { }
 	
 	public EnteCreditoPagarRequest(Pago pago, String cardNumber, String customerId, String bussinesId, String expirationDate,
 			String securityCode) {
-		this(cardNumber, customerId, bussinesId, expirationDate, securityCode, pago.getMontoTotal(), 1);
+		this(cardNumber, customerId, bussinesId, expirationDate, securityCode, -pago.getMontoTotal(), 1, "Pago al gimnasio, factura "+pago.getFactura().getId());
 	}
 	
 	public EnteCreditoPagarRequest(String cardNumber, String customerId, String businessId, String expirationDate,
-			String securityCode, Float price, Integer Payments) {
+			String securityCode, Float price, Integer Payments, String description) {
 		this.cardNumber = cardNumber;
 		this.customerId = customerId;
 		this.businessId = businessId;
@@ -28,13 +29,22 @@ public class EnteCreditoPagarRequest {
 		this.securityCode = securityCode;
 		this.price = price;
 		this.Payments = Payments ;
+		this.description=description;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "EnteCreditoPagarRequest [cardNumber=" + cardNumber + ", customerId=" + customerId + ", businessId="
 				+ businessId + ", expirationDate=" + expirationDate + ", securityCode=" + securityCode + ", price="
-				+ price + ", Payments=" + Payments + "]";
+				+ price + ", Payments=" + Payments + ", description=" + description + "]";
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getCardNumber() {

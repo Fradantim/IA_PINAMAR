@@ -16,7 +16,7 @@ public class EntidadDebitoPagarRequest {
 	
 	public EntidadDebitoPagarRequest(Pago pago, String debitCardNumber, String securityCode, String expirationMonth,
 			String expirationYear, String cbu) {
-		this(debitCardNumber, securityCode, expirationMonth, expirationYear, pago.getMontoTotal(), cbu, "Pago al gimnasio, factura "+pago.getFactura().getId());
+		this(debitCardNumber, securityCode, expirationMonth, expirationYear, -pago.getMontoTotal(), cbu, "Pago al gimnasio, factura "+pago.getFactura().getId());
 	}
 	
 	public EntidadDebitoPagarRequest(String debitCardNumber, String securityCode, String expirationMonth,
